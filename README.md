@@ -1,1 +1,1 @@
-# SimplestTicTacToe
+# SimplestBimaru
