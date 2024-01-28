@@ -17,6 +17,13 @@ html {
   cursor: pointer;
 }
 
+.label {
+  font-family: Arial;
+  font-weight: lighter;
+  font-size: 16;
+  user-select: none;
+}
+
 .cell {
   fill: #fff;
   stroke: #000;
