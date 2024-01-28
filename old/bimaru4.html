@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bimaru SVG Generator</title>
+    <style>
+      svg {
+        background-color: #eee;
+      }
+
+      .cell {
+        fill: #fff;
+        stroke: #000;
+      }
+
+      .water {
+        fill: #3498db; /* Blau für Wasserzellen */
+      }
+
+      .ship {
+        fill: #3498db;
+        stroke: #2980b9;
+        stroke-width: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Funktion zum Erstellen eines Bimaru-Spielfelds als SVG
+      function generateBimaruSVG(rows, cols, shipsPerRow, shipsPerCol) {
+        const cellSize = 40;
+        const svgWidth = cols * cellSize;
+        const svgHeight = rows * cellSize;
+
+        // SVG-Element erstellen
+        const svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
+        svg.setAttribute("width", svgWidth);
+        svg.setAttribute("height", svgHeight);
+
+        // Hintergrund erstellen
+        const background = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "rect"
+        );
+        background.setAttribute("width", "100%");
+        background.setAttribute("height", "100%");
+        background.setAttribute("fill", "#eee");
+        svg.appendChild(background);
+
+        // Spielfeld mit Schiffen generieren
+        const bimaruField = generateBimaruField(
+          rows,
+          cols,
+          shipsPerRow,
+          shipsPerCol
+        );
+
+        // Zellen und Schiffe erstellen
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const cell = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "rect"
+            );
+            cell.setAttribute(
+              "class",
+              bimaruField[row][col] === 1 ? "ship" : "cell"
+            );
+            cell.setAttribute("width", cellSize);
+            cell.setAttribute("height", cellSize);
+            cell.setAttribute("x", col * cellSize);
+            cell.setAttribute("y", row * cellSize);
+
+            // Abgerundete Ecken nur für Schiffe
+            if (bimaruField[row][col] === 1) {
+              cell.setAttribute("rx", 10);
+              cell.setAttribute("ry", 10);
+            }
+
+            svg.appendChild(cell);
+          }
+        }
+
+        // SVG zum Dokument hinzufügen
+        document.body.appendChild(svg);
+      }
+
+      // Funktion zum Generieren des Spielfelds mit Schiffen
+      function generateBimaruField(rows, cols, shipsPerRow, shipsPerCol) {
+        const field = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+        // Schiffe pro Zeile platzieren
+        for (let row = 0; row < rows; row++) {
+          let count = 0;
+          while (count < shipsPerRow) {
+            const col = Math.floor(Math.random() * cols);
+            if (field[row][col] === 0) {
+              field[row][col] = 1;
+              count++;
+            }
+          }
+        }
+
+        // Schiffe pro Spalte platzieren
+        for (let col = 0; col < cols; col++) {
+          let count = 0;
+          while (count < shipsPerCol) {
+            const row = Math.floor(Math.random() * rows);
+            if (field[row][col] === 0) {
+              field[row][col] = 1;
+              count++;
+            }
+          }
+        }
+
+        return field;
+      }
+
+      // Beispiel: Bimaru-Spielfeld mit 2 Schiffen pro Zeile und 3 Schiffen pro Spalte erstellen
+      generateBimaruSVG(8, 8, 2, 3);
+    </script>
+  </body>
+</html>
