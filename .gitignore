@@ -1,4 +1,8 @@
 
 .vscode/
 temp/
-
+node_modules/
+cs/
+java/
+test - Copy/
+test_/
