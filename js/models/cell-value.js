@@ -59,18 +59,18 @@ export class CellValue {
 
   isShip() {
     return (
-      this.name != empty.name &&
-      this.name != water.name &&
-      this.name != outer.name
+      this.name != CellValue.empty.name &&
+      this.name != CellValue.water.name &&
+      this.name != CellValue.outer.name
     );
   }
 
   isEmpty() {
-    return this.name == empty.name;
+    return this.name == CellValue.empty.name;
   }
 
   isWater() {
-    return this.name == water.name || this.name == outer.name;
+    return this.name == CellValue.water.name || this.name == CellValue.outer.name;
   }
 
   isSameAs(value) {
@@ -79,5 +79,9 @@ export class CellValue {
 
   asText() {
     return `$(getSymbol())`;
+  }
+
+  toString() {
+    return this.asText();
   }
 }

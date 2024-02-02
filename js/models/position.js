@@ -39,6 +39,10 @@ export class Position {
     return this.x + "|" + this.y;
   }
 
+  toString() {
+    return this.asText();
+  }
+
   changeTo(x, y) {
     this.x = x;
     this.y = y;

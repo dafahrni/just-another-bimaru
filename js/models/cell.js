@@ -28,6 +28,10 @@ export class Cell {
     return this.value.getSymbol() + " (" + this.pos.asText() + ")";
   }
 
+  toString() {
+    return this.asText();
+  }
+
   static isHorizontal(cells) {
     if (cells.length <= 0) return false;
 
@@ -78,7 +82,7 @@ export class Cell {
     } else if (isShip()) {
       this.value = CellValue.empty;
     } else {
-      throw new IllegalStateException("Unexpected value: " + this.value);
+      throw new Error("Unexpected value: " + this.value);
     }
 
     return true;
@@ -89,15 +93,15 @@ export class Cell {
   }
 
   isShip() {
-    return this.getValue().isShip();
+    return this.value.isShip();
   }
 
   isWater() {
-    return this.getValue().isWater();
+    return this.value.isWater();
   }
 
   isEmpty() {
-    return this.getValue().isEmpty();
+    return this.value.isEmpty();
   }
 
   getX() {
@@ -108,13 +112,13 @@ export class Cell {
     return this.pos.getY();
   }
 
-  static getNeighbors(field) {
+  getNeighbors(field) {
     // a b c
     // h . d
     // g f e
-    let cells = new Cell[4 + 4]();
-    let corners = getCorners(field);
-    let sides = getSides(field);
+    let cells = [];
+    let corners = this.getCorners(field);
+    let sides = this.getSides(field);
     for (let i = 0; i < 4; i++) {
       cells[2 * i] = corners[i];
       cells[2 * i + 1] = sides[i];
@@ -122,15 +126,15 @@ export class Cell {
     return cells;
   }
 
-  static getCorners(field) {
+  getCorners(field) {
     // a   c
     //   .
     // g   e
     return [
-      field.getCell(x - 1, y - 1), // a
-      field.getCell(x + 1, y - 1), // c
-      field.getCell(x + 1, y + 1), // e
-      field.getCell(x - 1, y + 1), // g
+      field.getCell(this.x - 1, this.y - 1), // a
+      field.getCell(this.x + 1, this.y - 1), // c
+      field.getCell(this.x + 1, this.y + 1), // e
+      field.getCell(this.x - 1, this.y + 1), // g
     ];
   }
 
@@ -139,65 +143,59 @@ export class Cell {
     // h . d
     //   f
     return [
-      Cell.getNorth(field), // b
-      Cell.getEast(field), // d
-      Cell.getSouth(field), // f
-      Cell.getWest(field), // h
+      this.getNorth(field), // b
+      this.getEast(field), // d
+      this.getSouth(field), // f
+      this.getWest(field), // h
     ];
   }
 
-  static setNorth(field, value) {
-    let cell = Cell.getNorth(field);
+  setNorth(field, value) {
+    let cell = this.getNorth(field);
     this.setCell(cell, value);
   }
 
-  static setEast(field, value) {
-    let cell = Cell.getEast(field);
+  setEast(field, value) {
+    let cell = this.getEast(field);
     this.setCell(cell, value);
   }
 
-  static setSouth(field, value) {
-    let cell = Cell.getSouth(field);
+  setSouth(field, value) {
+    let cell = this.getSouth(field);
     this.setCell(cell, value);
   }
 
-  static setWest(field, value) {
-    let cell = Cell.getWest(field);
-    this.setCell(cell, value);
+  setWest(field, value) {
+    let cell = this.getWest(field);
+    cell.setValue(value);
   }
 
-  static setCell(cell, value) {
-    if (cell != null && cell.getValue() == CellValue.empty) {
-      cell.setValue(value);
-    }
-  }
-
-  static getNorth(field) {
+  getNorth(field) {
     //   b
     //   .
     //
-    return field.getCell(x + 0, y - 1); // b
+    return field.getCell(this.x + 0, this.y - 1); // b
   }
 
-  static getEast(field) {
+  getEast(field) {
     //
     //   . d
     //
-    return field.getCell(x + 1, y - 0); // d
+    return field.getCell(this.x + 1, this.y - 0); // d
   }
 
-  static getSouth(field) {
+  getSouth(field) {
     //
     //   .
     //   f
-    return field.getCell(x + 0, y + 1); // f
+    return field.getCell(this.x + 0, this.y + 1); // f
   }
 
-  static getWest(field) {
+  getWest(field) {
     //
     // h .
     //
-    return field.getCell(x - 1, y + 0); // h
+    return field.getCell(this.x - 1, this.y + 0); // h
   }
 
   getIsFix() {
@@ -205,7 +203,7 @@ export class Cell {
   }
 
   asSymbol() {
-    return this.getValue().getSymbol();
+    return this.value.getSymbol();
   }
 
   getDirtyFlag() {
