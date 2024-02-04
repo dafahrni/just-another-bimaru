@@ -1,22 +1,23 @@
 export class ShipSet {
+
+  static parse(text) {
+    let shipInfos = Array.from(text.split(","));
+    let ships = [];
+    for (let i = 0; i < shipInfos.length; i++) {
+      let splits = shipInfos[i].split("|");
+      let shipSize = parseInt(splits[0]);
+      let shipAmount = parseInt(splits[1]);
+      ships.push(new ShipSet(shipSize, shipAmount));
+    }
+    return ships;
+  }
+
   constructor(shipSize, shipAmount) {
     this.size = shipSize;
     this.targetAmount = shipAmount;
     this.currentAmount = 0;
   }
-
-  static parse(text) {
-    let shipInfos = text.split(",");
-    let ships = new ShipSet[shipInfos.length]();
-    for (let i = 0; i < shipInfos.length; i++) {
-      let splits = shipInfos[i].split("\\|");
-      let shipSize = Integer.parseInt(splits[0]);
-      let shipAmount = Integer.parseInt(splits[1]);
-      ships[i] = new ShipSet(shipSize, shipAmount);
-    }
-    return ships;
-  }
-
+  
   getSize() {
     return this.size;
   }
@@ -41,8 +42,7 @@ export class ShipSet {
     if (this.currentAmount < this.targetAmount) {
       this.currentAmount++;
     }
-    // TODO probably un-comment the following line
-    // throw new Exception("amount cannot be increased");
+    throw new Error("Amount cannot be increased.");
   }
 
   resetAmount() {

@@ -1,5 +1,7 @@
 import { GameDefinition } from "./game-definition.js";
 import { RestorePoint } from "./restore-point.js";
+import { SolverResult } from "./solver-result.js";
+import { Field } from "./field.js";
 
 export class Solver {
   static default() {
@@ -44,7 +46,7 @@ export class Solver {
     }
 
     let result = new SolverResult();
-    result.add(field);
+    result.push(field);
     return result;
   }
 
@@ -57,11 +59,12 @@ export class Solver {
   }
 
   static setDeterminedCells(field) {
+    let statistics = field.getShipStatistics();
     do {
       field.resetDirtyFlags();
       Solver.setEmptyCellsOfAllFullLinesToWater(field);
       Solver.setPossibleBlockParts(field);
-      field.updateShipStatistics();
+      statistics.update(field);
     } while (field.isDirty());
   }
 
@@ -70,7 +73,8 @@ export class Solver {
   }
 
   static setPossibleBlockParts(field) {
-    field.getShipBlocks().foreach((block) => {
+    let blocks = field.getShipBlocks();
+    Array.from(blocks).forEach((block) => {
       block.setCornersToWater();
       block.setCenterWhenShipHasDirection();
       block.setSidesWhenShipHasDirection();

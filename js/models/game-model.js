@@ -1,8 +1,11 @@
+import { Field } from "./field.js";
+
 export class GameModel {
   constructor(rowShipCount, colShipCount) {
     this.rowShipCount = rowShipCount;
     this.colShipCount = colShipCount;
-    this.cells = Array.from({ length: this.size }, () => new Cell());
+    this.field = Field.from(this.rows, this.cols)
+    this.cells = this.field.getCells();
   }
 
   get rows() {
@@ -81,27 +84,5 @@ export class GameModel {
       return false;
     }
     return true;
-  }
-}
-
-class Cell {
-  constructor() {
-    this.val = "_";
-  }
-
-  get isEmpty() {
-    return this.value === "_";
-  }
-
-  get value() {
-    return this.val;
-  }
-
-  reset() {
-    this.val = "_";
-  }
-
-  toString() {
-    return `value: ${this.value}, isEmpty: ${this.isEmpty}`;
   }
 }

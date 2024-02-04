@@ -33,8 +33,8 @@ export class ShipCell extends CellBase {
 
   toggle() {
     const ch = this.tile.getAttribute("ch");
-    //const sequence = ["_", "~", "."];
-    const sequence = ["_", "~", ".", "^", ">", "v", "<", "□", "o"];
+    const sequence = ["_", "~", "."];
+    //const sequence = ["_", "~", ".", "^", ">", "v", "<", "□", "o"];
     let i = (sequence.indexOf(ch) + 1) % sequence.length;
     this.selectCellType(sequence[i]);
   }

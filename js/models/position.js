@@ -14,21 +14,24 @@ export class Position {
   goLeft() {
     this.x--;
   }
+
   goRight() {
     this.x++;
   }
+
   goUp() {
     this.y--;
   }
+
   goDown() {
     this.y++;
   }
 
-  equals(o) {
+  isSameAs(o) {
     if (this == o) return true;
-    if (o == null || this.getClass() != o.getClass()) return false;
+    if (o == null || !(o instanceof Position)) return false;
     let position = o;
-    return equals(this.x, position.x) && equals(this.y, position.y);
+    return this.x == position.x && this.y == position.y;
   }
 
   getCopy() {

@@ -1,4 +1,6 @@
 import { Cell } from "./cell.js";
+import { CellLine } from "./cell-line.js";
+import { CellValue } from "./cell-value.js";
 import { CellBlock } from "./cell-block.js";
 import { Position } from "./position.js";
 import { Labels } from "./labels.js";
@@ -6,43 +8,44 @@ import { ShipStatistics } from "./ship-statistics.js";
 
 export class Field {
   static parse(text) {
-    let lines = text.replace(" ", "").split("\n");
+    let lines = text.replace(/ /g, "").split("\n");
     let sizeY = lines.length - 1;
     let lastLine = lines[sizeY];
-    let sizeX = lastLine.length();
-    let colLabels = new let[sizeX]();
-    let rowLabels = new let[sizeY]();
+    let sizeX = lastLine.length;
+    let colLabels = Array(sizeX);
+    let rowLabels = Array(sizeY);
     let labels = new Labels(colLabels, rowLabels);
     let field = new Field(labels);
     for (let x = 0; x < sizeX; x++) {
-      colLabels[x] = int.parse("" + lastLine.charAt(x));
+      colLabels[x] = parseInt("" + lastLine[x]);
     }
     for (let y = 0; y < sizeY; y++) {
       let row = lines[y];
-      let line = row.split("\\|");
-      rowLabels[y] = int.parse(line[0]);
+      let line = row.split("|");
+      rowLabels[y] = parseInt(line[0]);
       for (let x = 0; x < sizeX; x++) {
-        let symbol = line[1].charAt(x);
-        field.setCellValue(x, y, symbol);
+        let symbol = line[1][x];
+        let value = CellValue.from(symbol);
+        field.setCellValue(x, y, value);
       }
     }
     return field;
   }
 
   static from(sizeX, sizeY) {
-    return Field(new Labels(new let[sizeX](), new let[sizeY]()));
+    return new Field(new Labels(Array(sizeX), Array(sizeY)));
   }
 
   constructor(labels) {
     this.shipStatistics = ShipStatistics.createDefault();
-    this.sizeX = labels.getSizeX();
-    this.sizeY = labels.getSizeY();
+    this.sizeX = labels.sizeX;
+    this.sizeY = labels.sizeY;
     this.labels = labels;
     this.cells = [];
 
-    for (let y = 0; y < sizeY; y++) {
-      for (let x = 0; x < sizeX; x++) {
-        this.cells.add(new Cell(new Position(x, y)));
+    for (let y = 0; y < this.sizeY; y++) {
+      for (let x = 0; x < this.sizeX; x++) {
+        this.cells.push(new Cell(new Position(x, y)));
       }
     }
   }
@@ -59,16 +62,11 @@ export class Field {
   }
 
   getCellValue(x, y) {
-    return this.getCell(new Position(x, y)).getValue();
+    return this.getCell(x, y).getValue();
   }
 
   getLabels() {
     return this.labels;
-  }
-
-  setCellValue(x, y, symbol) {
-    const cell = this.getCell(new Position(x, y));
-    cell.setValue(symbol);
   }
 
   setFixCellValue(x, y, value) {
@@ -86,39 +84,13 @@ export class Field {
   }
 
   getCell(x, y) {
-    let pos = new Position(x, y);
-    return this.cells
-      .filter((c) => c.getPos().equals(pos))
-      .findFirst()
-      .orElse(Cell.outer());
-  }
-
-  static updateShipStatistics(shipStatistics, cells) {
-    // this only works for default ShipStatus objects (i.e. 1:4, 2:3, 3:2, 4:1)
-    // TODO make this work for any kind of ShipStatus (e.g. 2:1, 3-6:2, 7:1)
-    shipStatistics.resetAmountOfSize(1);
-    shipStatistics.resetAmountOfSize(2);
-    shipStatistics.resetAmountOfSize(3);
-    shipStatistics.resetAmountOfSize(4);
-
-    cells.forEach((cell) => {
-      if (cell.asSymbol() == "o") shipStatistics.incrementAmountOfSize(1);
-
-      let block = new CellBlock(cell, this);
-      if (block.symbolsToTheEastAre("<>") || block.symbolsToTheSouthAre("^v"))
-        shipStatistics.incrementAmountOfSize(2);
-      if (block.symbolsToTheEastAre("<□>") || block.symbolsToTheSouthAre("^□v"))
-        shipStatistics.incrementAmountOfSize(3);
-      if (
-        block.symbolsToTheEastAre("<□□>") ||
-        block.symbolsToTheSouthAre("^□□v")
-      )
-        shipStatistics.incrementAmountOfSize(4);
-    });
-  }
-
-  getShipStatistics() {
-    return this.shipStatistics;
+    const pos = new Position(x, y);
+    const matchingCells = this.cells.filter((c) => c.getPos().isSameAs(pos));
+    if (matchingCells.length > 0) {
+      return matchingCells[0];
+    } else {
+      return Cell.outer();
+    }
   }
 
   asTextWithCheckMarks() {
@@ -155,37 +127,39 @@ export class Field {
   }
 
   getRow(y) {
-    let cells = new Cell[this.sizeX]();
-    for (let x = 0; x < cells.length; x++) {
-      cells[x] = this.getCell(new Position(x, y));
+    let cells = [];
+    for (let x = 0; x < this.sizeX; x++) {
+      const cell = this.getCell(x, y);
+      cells.push(cell);
     }
     return new CellLine(this.labels.ofRow(y), cells);
   }
 
   getCol(x) {
-    let cells = new Cell[this.sizeY]();
-    for (let y = 0; y < cells.length; y++) {
-      cells[y] = this.getCell(new Position(x, y));
+    let cells = [];
+    for (let y = 0; y < this.sizeY; y++) {
+      const cell = this.getCell(x, y);
+      cells.push(cell);
     }
-    return new CellLine(labels.ofCol(x), cells);
+    return new CellLine(this.labels.ofCol(x), cells);
   }
 
   getSizeX() {
-    return this.labels.getSizeX();
+    return this.labels.sizeX;
   }
 
   getSizeY() {
-    return this.labels.getSizeY();
+    return this.labels.sizeY;
   }
 
   getCells() {
-    return this.cells.toArray(new Cell[this.cells.size()]());
+    return this.cells;
   }
 
   getShipBlocks() {
     return this.cells
       .filter((cell) => cell.isShip())
-      .map((cell) => new CellBlock(cell, this));
+      .map((cell) => CellBlock.from(cell, this));
   }
 
   isDirty() {
@@ -206,5 +180,41 @@ export class Field {
 
   solutionFound() {
     return this.shipStatistics.noMoreShipsToPlace();
+  }
+
+  getShipStatistics() {
+    return this.shipStatistics;
+  }
+
+  symbolsToTheEastAre(cell, symbols) {
+    let easternSymbols = this.symbolsToTheEast(cell, symbols.length);
+    return easternSymbols == symbols;
+  }
+
+  symbolsToTheSouthAre(cell, symbols) {
+    let southernSymbols = this.symbolsToTheSouth(cell, symbols.length);
+    return southernSymbols == symbols;
+  }
+
+  symbolsToTheEast(cell, quantity) {
+    const x = cell.getX();
+    const y = cell.getY();
+    let symbols = "" + cell.asSymbol();
+    for (let i = 1; i < quantity; i++) {
+      const nextCell = this.getCell(x + i, y);
+      symbols += nextCell.asSymbol();
+    }
+    return symbols;
+  }
+
+  symbolsToTheSouth(cell, quantity) {
+    const x = cell.getX();
+    const y = cell.getY();
+    let symbols = "" + cell.asSymbol();
+    for (let i = 1; i < quantity; i++) {
+      const nextCell = this.getCell(x, y + i);
+      symbols += nextCell.asSymbol();
+    }
+    return symbols;
   }
 }

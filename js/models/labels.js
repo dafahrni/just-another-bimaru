@@ -1,4 +1,4 @@
-class Labels {
+export class Labels {
   constructor(colLabels, rowLabels) {
     this.colLabels = colLabels;
     this.rowLabels = rowLabels;
@@ -20,11 +20,11 @@ class Labels {
     return this.rowLabels[y];
   }
 
-  getSizeX() {
+  get sizeX() {
     return this.colLabels.length;
   }
 
-  getSizeY() {
+  get sizeY() {
     return this.rowLabels.length;
   }
 }

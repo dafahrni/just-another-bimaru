@@ -13,14 +13,16 @@ export class CellLine {
   }
 
   static parse(text) {
-    let line = text.replace(/\s/g, "").split("|");
+    let line = text.replace(/ /g, "").split("|");
     let label = parseInt(line[0]);
     let cellValues = line[1];
-    let sizeX = cellValues.length;
-    let cells = Array.from({ length: sizeX }, () => ({}));
-    for (let x = 0; x < sizeX; x++) {
+    let size = cellValues.length;
+    let cells = [];
+    for (let x = 0; x < size; x++) {
       let symbol = cellValues[x];
-      cells[x] = Cell.from(x, 0, symbol);
+      let pos = new Position(x, 0);
+      let value = CellValue.from(symbol);
+      cells.push(new Cell(pos, value));
     }
     return new CellLine(label, cells);
   }
@@ -28,6 +30,10 @@ export class CellLine {
   constructor(targetAmount, cells) {
     this.targetAmount = targetAmount;
     this.cells = cells;
+  }
+
+  get size() {
+    return this.cells.length;
   }
 
   getTargetAmount() {
