@@ -42,9 +42,12 @@ export class ShipStatistics {
 
   getSizeOfBiggestShipToPlace() {
     this.shipSets.sort(set => set.getSize()).reverse();
-    Array.from(this.shipSets).forEach((set) => {
-      if (set.moreShipsLeft()) return set.getSize();
-    });
+    for (let i = 0; i < this.shipSets.length; i++) {
+      const set = this.shipSets[i];
+      if (set.moreShipsLeft()) {
+        return set.getSize();
+      }
+    }
     return -1;
   }
 
@@ -61,7 +64,8 @@ export class ShipStatistics {
     this.resetAmountOfSize(4);
 
     Array.from(field.getCells()).forEach((cell) => {
-      if (cell.asSymbol() == "o") this.incrementAmountOfSize(1);
+      if (cell.asSymbol() == "o") 
+        this.incrementAmountOfSize(1);
       if (
         field.symbolsToTheEastAre(cell, "<>") ||
         field.symbolsToTheSouthAre(cell, "^v")

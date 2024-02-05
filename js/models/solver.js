@@ -59,65 +59,15 @@ export class Solver {
   }
 
   static setDeterminedCells(field) {
-    let statistics = field.getShipStatistics();
     do {
       field.resetDirtyFlags();
-      Solver.setEmptyCellsOfAllFullLinesToWater(field);
-      Solver.setPossibleBlockParts(field);
-      statistics.update(field);
+      field.setEmptyCellsOfAllFullLinesToWater();
+      field.setPossibleBlockParts();
+      field.updateStatistics();
     } while (field.isDirty());
   }
 
   static placeShip(slot) {
     slot.getCells().foreach((cell) => cell.setValue("s"));
-  }
-
-  static setPossibleBlockParts(field) {
-    let blocks = field.getShipBlocks();
-    Array.from(blocks).forEach((block) => {
-      block.setCornersToWater();
-      block.setCenterWhenShipHasDirection();
-      block.setSidesWhenShipHasDirection();
-    });
-  }
-
-  static getSlotsOfSize(size, field) {
-    let slots = [];
-    getSlotsOfAllNoneWaterCells(size, field).foreach((slot) => {
-      newSlots = Array.from(slot.split(size));
-      slots.addAll(newSlots);
-    });
-    return slots;
-  }
-
-  static getSlotsOfAllNoneWaterCells(size, field) {
-    let slots = [];
-    for (let y = 0; y < field.getSizeY(); y++) {
-      let row = field.getRow(y);
-      if (row.getAmountLeft() >= size) slots.addAll(row.findSlots());
-    }
-    for (let x = 0; x < field.getSizeX(); x++) {
-      let col = field.getCol(x);
-      if (col.getAmountLeft() >= size) slots.addAll(col.findSlots());
-    }
-    return slots;
-  }
-
-  static setEmptyCellsOfAllFullLinesToWater(field) {
-    // iterate rows
-    for (let y = 0; y < field.getSizeY(); y++) {
-      let line = field.getRow(y);
-      if (line.isFull() && line.hasEmptyCells()) {
-        Solver.changeEmptyToWater(line);
-      }
-    }
-
-    // iterate columns
-    for (let x = 0; x < field.getSizeX(); x++) {
-      let line = field.getCol(x);
-      if (line.isFull() && line.hasEmptyCells()) {
-        line.changeEmptyToWater();
-      }
-    }
   }
 }

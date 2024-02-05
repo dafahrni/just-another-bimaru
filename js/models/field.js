@@ -34,18 +34,18 @@ export class Field {
   }
 
   static default() {
-    const game = GameDefinition.default()
+    const game = GameDefinition.default();
     const field = new Field(game.getLabels());
     field.setPredefinedCells(game.getPredefinedCells());
     return field;
   }
 
   static from(sizeX, sizeY) {
-     return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
+    return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
   }
 
   constructor(labels) {
-    this.shipStatistics = ShipStatistics.createDefault();
+    this.statistics = ShipStatistics.createDefault();
     this.sizeX = labels.sizeX;
     this.sizeY = labels.sizeY;
     this.labels = labels;
@@ -65,12 +65,13 @@ export class Field {
     });
   }
 
-  initShips(status) {
-    this.shipStatistics = status;
+  initStatistics(statistics) {
+    this.statistics = statistics;
   }
 
   getCellValue(x, y) {
-    return this.getCell(x, y).getValue();
+    const cell = this.getCell(x, y);
+    return cell.getValue();
   }
 
   getLabels() {
@@ -183,15 +184,19 @@ export class Field {
   }
 
   getSizeOfBiggestShipToPlace() {
-    return this.shipStatistics.getSizeOfBiggestShipToPlace();
+    return this.statistics.getSizeOfBiggestShipToPlace();
   }
 
   solutionFound() {
-    return !this.shipStatistics.moreShipsToPlace();
+    return !this.statistics.moreShipsToPlace();
   }
 
-  getShipStatistics() {
-    return this.shipStatistics;
+  getStatistics() {
+    return this.statistics;
+  }
+
+  updateStatistics() {
+    return this.statistics.update(this);
   }
 
   symbolsToTheEastAre(cell, symbols) {
@@ -224,5 +229,55 @@ export class Field {
       symbols += nextCell.asSymbol();
     }
     return symbols;
+  }
+
+  setPossibleBlockParts() {
+    let blocks = this.getShipBlocks();
+    Array.from(blocks).forEach((block) => {
+      block.setCornersToWater();
+      block.setCenterWhenShipHasDirection();
+      block.setSidesWhenShipHasDirection();
+    });
+  }
+
+  getSlotsOfSize(size) {
+    let slots = [];
+    let slotsNoneWater = this.getSlotsOfAllNoneWaterCells(size);
+    slotsNoneWater.forEach((slot) => {
+      newSlots = Array.from(slot.split(size));
+      slots.addAll(newSlots);
+    });
+    return slots;
+  }
+
+  getSlotsOfAllNoneWaterCells(size) {
+    let slots = [];
+    for (let y = 0; y < this.sizeY; y++) {
+      let row = this.getRow(y);
+      if (row.getAmountLeft() >= size) slots.addAll(row.findSlots());
+    }
+    for (let x = 0; x < this.sizeX; x++) {
+      let col = field.getCol(x);
+      if (col.getAmountLeft() >= size) slots.addAll(col.findSlots());
+    }
+    return slots;
+  }
+
+  setEmptyCellsOfAllFullLinesToWater() {
+    // iterate rows
+    for (let y = 0; y < this.sizeY; y++) {
+      let line = this.getRow(y);
+      if (line.isFull() && line.hasEmptyCells()) {
+        line.changeEmptyToWater();
+      }
+    }
+
+    // iterate columns
+    for (let x = 0; x < this.sizeX; x++) {
+      let line = this.getCol(x);
+      if (line.isFull() && line.hasEmptyCells()) {
+        line.changeEmptyToWater();
+      }
+    }
   }
 }

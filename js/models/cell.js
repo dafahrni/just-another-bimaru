@@ -1,5 +1,6 @@
 import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
+import { CellBlock } from "./cell-block.js";
 
 export class Cell {
   static outer() {
@@ -7,10 +8,8 @@ export class Cell {
   }
 
   constructor(pos, value = CellValue.empty) {
-    if (!pos)
-      throw new Error("Argument 'pos' must not be null!");
-    if (!value)
-      throw new Error("Argument 'value' must not be null!");
+    if (!pos) throw new Error("Argument 'pos' must not be null!");
+    if (!value) throw new Error("Argument 'value' must not be null!");
     this.x = pos.getX();
     this.y = pos.getY();
     this.pos = pos;
@@ -55,15 +54,17 @@ export class Cell {
   }
 
   setValue(value) {
+    // used for object creation in Field class, unit testing, solver ...
     if (this.isFix) return;
     if (this.value.isSameAs(CellValue.outer)) return;
     if (this.value.isSameAs(value)) return;
-        
+    
     this.value = value;
     this.isDirty = true;
   }
 
   tryChangeValue() {
+    // used for player of the game
     if (this.isFix) return false;
 
     if (this.isEmpty()) {
@@ -75,6 +76,10 @@ export class Cell {
     } else {
       throw new Error("Unexpected value: " + this.value);
     }
+
+    // TODO: move the following lines to the caller of this method
+    //field.setPossibleBlockParts();
+    //field.updateStatistics();
 
     return true;
   }
