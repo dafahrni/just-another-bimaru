@@ -1,55 +1,55 @@
 import { Field } from "./field.js";
+import { Labels } from "./labels.js";
 
 export class GameModel {
-  constructor(rowShipCount, colShipCount) {
-    this.rowShipCount = rowShipCount;
-    this.colShipCount = colShipCount;
-    this.field = Field.from(this.rows, this.cols)
+  constructor() {
+    const rowShipCount = [1, 2, 1, 0, 1, 2];
+    const colShipCount = [3, 0, 1, 0, 0, 1];
+    this.labels = new Labels(
+      rowShipCount,
+      colShipCount,
+    );
+    this.field = new Field(this.labels)
     this.cells = this.field.getCells();
   }
 
   get rows() {
-    return this.rowShipCount.length;
+    return this.rowLabels.length;
   }
 
   get rowLabels() {
-    return this.rowShipCount;
+    return this.labels.ofRows();
   }
 
   get cols() {
-    return this.colShipCount.length;
+    return this.colLabels.length;
   }
 
   get colLabels() {
-    return this.colShipCount;
+    return this.labels.ofCols();
   }
 
   get size() {
-    return this.rows * this.cols;
+    return this.cells.length;
   }
 
-  readCell(index) {
+  readCellValue(index) {
     return this.isValid(index) ? this.cells[index].value : "!";
   }
 
   changeCell(index) {
-    if (!this.isValid(index)) {
+    if (!this.isValid(index))
       return false;
-    }
+
     const cell = this.cells[index];
-    if (!cell.isEmpty) {
+    if (!cell.isEmpty)
       return false;
-    }
+    
+    if (!cell.tryChangeValue())
+      return false;
+
     console.info(this.asText);
     return true;
-  }
-
-  toggle() {
-    const ch = this.tile.getAttribute("ch");
-    //const sequence = ["_", "~", "."];
-    const sequence = ["_", "~", ".", "^", ">", "v", "<", "□", "o"];
-    let i = (sequence.indexOf(ch) + 1) % sequence.length;
-    this.selectCellType(sequence[i]);
   }
 
   resetCells() {
@@ -66,14 +66,7 @@ export class GameModel {
   }
 
   get asText() {
-    let text = "";
-    let count = 0;
-    for (const cell of this.cells) {
-      count++;
-      text += cell.value;
-      text = count % this.side == 0 ? text + "\n" : text + " ";
-    }
-    return text.slice(0, -1);
+    return this.field.asText();
   }
 
   isValid(index) {

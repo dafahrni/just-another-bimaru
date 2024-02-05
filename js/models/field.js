@@ -33,7 +33,7 @@ export class Field {
   }
 
   static from(sizeX, sizeY) {
-    return new Field(new Labels(Array(sizeX), Array(sizeY)));
+    return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
   }
 
   constructor(labels) {

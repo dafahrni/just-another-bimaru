@@ -11,32 +11,7 @@ export class ShipCell extends CellBase {
     this.cell.setAttribute("height", this.size);
     this.tile.appendChild(this.cell);
 
-    this.cell.addEventListener("click", (event) => this.cellClickHandler(event));
-
-    this.tile.setAttribute("ch", "_");
-    this.selectCellType("_");
-  }
-
-  cellClickHandler(event) {
-    const cell = event.target;
-    if (!cell.classList.contains("cell")) {
-      return;
-    }
-
-    const tile = cell.parentNode;
-    if (!tile.classList.contains("tile")) {
-      return;
-    }
-
-    this.toggle();
-  }
-
-  toggle() {
-    const ch = this.tile.getAttribute("ch");
-    const sequence = ["_", "~", "."];
-    //const sequence = ["_", "~", ".", "^", ">", "v", "<", "□", "o"];
-    let i = (sequence.indexOf(ch) + 1) % sequence.length;
-    this.selectCellType(sequence[i]);
+    this.selectCellType(".");
   }
 
   selectCellType(ch) {
@@ -66,19 +41,17 @@ export class ShipCell extends CellBase {
       case "o":
         this.appendSubmarine();
         break;
-      case ".":
+      case "s":
         this.appendDot();
         break;
       case "~":
         part = this.createWater();
         this.tile.appendChild(part);
         break;
-      case "_":
+      case ".":
       default:
         break;
     }
-
-    this.tile.setAttribute("ch", ch);
 
     // Grösse anpassen
     Array.from(this.tile.children)

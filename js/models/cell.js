@@ -68,9 +68,9 @@ export class Cell {
 
     if (this.isEmpty()) {
       this.value = CellValue.water;
-    } else if (isWater()) {
+    } else if (this.isWater()) {
       this.value = CellValue.ship;
-    } else if (isShip()) {
+    } else if (this.isShip()) {
       this.value = CellValue.empty;
     } else {
       throw new Error("Unexpected value: " + this.value);

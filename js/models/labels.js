@@ -4,7 +4,7 @@ export class Labels {
     this.rowLabels = rowLabels;
   }
 
-  ofColums() {
+  ofCols() {
     return this.colLabels;
   }
 

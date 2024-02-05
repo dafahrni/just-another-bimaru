@@ -4,6 +4,7 @@ import { CellLabel } from "./cell-label.js";
 export class Bimaru {
   constructor(model) {
     this.model = model;
+    this.cells = [];
     this.tiles = [];
     this.selectedTile = null;
     this.notifySelectionChanged = null;
@@ -33,19 +34,20 @@ export class Bimaru {
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        const tile = new ShipCell().tile;
-        grid.appendChild(tile);
-        this.tiles.push(tile);
+        const cell = new ShipCell();
+        grid.appendChild(cell.tile);
+        this.tiles.push(cell.tile)
+        this.cells.push(cell);
       }
       const shipCount = this.model.rowLabels[row];
-      const label = new CellLabel(shipCount).tile;
-      grid.appendChild(label);
+      const label = new CellLabel(shipCount);
+      grid.appendChild(label.tile);
     }
 
     for (let col = 0; col < cols; col++) {
       const shipCount = this.model.colLabels[col];
-      const label = new CellLabel(shipCount).tile;
-      grid.appendChild(label);
+      const label = new CellLabel(shipCount);
+      grid.appendChild(label.tile);
     }
   }
 
@@ -65,8 +67,12 @@ export class Bimaru {
 
   update(tile) {
     const index = this.tiles.indexOf(tile);
-    const value = this.model.readCell(index);
-    //const svg = this.generateSvg(value);
-    //tile.replaceChild(svg, tile.firstChild);
+    const value = this.model.readCellValue(index);
+    const ch = value.getSymbol();
+    const cell = this.cells[index];
+    if (cell instanceof ShipCell)
+      cell.selectCellType(ch);
+    else
+      throw new Error("Tile must be of type 'ShipCell'!");
   }
 }
