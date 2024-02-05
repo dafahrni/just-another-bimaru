@@ -17,6 +17,10 @@ export class GameView {
   main() {
   }
 
+  bindLabelClick(handler) {
+    this.board.bindLabelClick(handler);
+  }
+
   bindSelectionChanged(handler) {
     this.board.bindSelectionChanged(handler);
   }
@@ -26,6 +30,11 @@ export class GameView {
   }
 
   updateBoard() {
+    this.playSound("clack");
+    this.board.updateAll();
+  }
+
+  updateTile() {
     this.playSound("click");
     this.board.updateSelectedTile();
   }

@@ -112,4 +112,12 @@ export class CellLine {
     slots.push(newSlot);
     return slots;
   }
+
+  changeEmptyToWater() {
+    this.cells.forEach((cell) => {
+      if (cell.isEmpty()) {
+        cell.setValue(CellValue.water);
+      }
+    });
+  }
 }

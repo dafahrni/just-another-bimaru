@@ -7,6 +7,7 @@ const view = new GameView(model);
 const controller = new GameController(model, view);
 controller.run();
 
+// TODO: change chip type according to placed water
 // TODO: implement consistent naming (avoid different names for basically the same thing!)
 //       - e.g. Grid, Field, Board, Bimaru
 //       - e.g. Tile, Parent, Cell, CellElement, ShipCell

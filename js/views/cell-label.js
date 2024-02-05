@@ -21,6 +21,7 @@ export class CellLabel extends CellBase {
     text.setAttribute("x", centerX - 2);
     text.setAttribute("y", centerY - 2);
     text.setAttribute("font-size", textHeight);
+    text.setAttribute("pointer-events", "none");
 
     this.tile.appendChild(text);
 

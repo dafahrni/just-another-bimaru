@@ -1,5 +1,6 @@
 import { Field } from "./field.js";
 import { Labels } from "./labels.js";
+import { CellLine } from "./cell-line.js";
 
 export class GameModel {
   constructor() {
@@ -35,6 +36,18 @@ export class GameModel {
 
   readCellValue(index) {
     return this.isValid(index) ? this.cells[index].value : "!";
+  }
+
+  fillLineWithWater(index) {
+    const sizeX = this.labels.sizeX;
+    const sizeY = this.labels.sizeY;
+    if (index < 0 || index >= sizeX+sizeY) 
+      return;
+
+    const line = index < sizeY
+      ? this.field.getRow(index)
+      : this.field.getCol(index - sizeY);
+    line.changeEmptyToWater();
   }
 
   changeCell(index) {

@@ -3,11 +3,17 @@ export class GameController {
     this.model = model;
     this.view = view;
     this.view.bindSelectionChanged((i) => this.nextMove(i));
+    this.view.bindLabelClick((i) => this.fillLineWithWater(i));
+  }
+
+  fillLineWithWater(index) {
+    this.model.fillLineWithWater(index);
+    this.view.updateBoard();
   }
 
   nextMove(index) {
     if (this.model.changeCell(index)) {
-      this.view.updateBoard();
+      this.view.updateTile();
     } else {
       this.view.wrongMove();
       return;

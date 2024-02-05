@@ -116,16 +116,8 @@ export class Solver {
     for (let x = 0; x < field.getSizeX(); x++) {
       let line = field.getCol(x);
       if (line.isFull() && line.hasEmptyCells()) {
-        Solver.changeEmptyToWater(line);
+        line.changeEmptyToWater();
       }
     }
-  }
-
-  static changeEmptyToWater(line) {
-    line.getCells().foreach((cell) => {
-      if (cell.isEmpty()) {
-        cell.setValue(CellValue.water);
-      }
-    });
   }
 }
