@@ -1,16 +1,10 @@
 import { Field } from "./field.js";
 import { Labels } from "./labels.js";
-import { CellLine } from "./cell-line.js";
 
 export class GameModel {
   constructor() {
-    const rowShipCount = [1, 2, 1, 0, 1, 2];
-    const colShipCount = [3, 0, 1, 0, 0, 1];
-    this.labels = new Labels(
-      rowShipCount,
-      colShipCount,
-    );
-    this.field = new Field(this.labels)
+    this.field = Field.default();
+    this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
   }
 
@@ -34,8 +28,8 @@ export class GameModel {
     return this.cells.length;
   }
 
-  readCellValue(index) {
-    return this.isValid(index) ? this.cells[index].value : "!";
+  readCell(index) {
+    return this.isValid(index) ? this.cells[index] : "!";
   }
 
   fillLineWithWater(index) {
@@ -71,7 +65,7 @@ export class GameModel {
   }
   
   checkForWinner() {
-    return false;
+    return this.field.solutionFound();
   }
 
   toString() {

@@ -1,7 +1,13 @@
 export class Labels {
-  constructor(colLabels, rowLabels) {
-    this.colLabels = colLabels;
+  static default() {
+    const rowShipCount = [5, 1, 3, 1, 4, 1, 2, 3];
+    const colShipCount = [2, 3, 2, 3, 4, 2, 2, 2];
+    return new Labels(rowShipCount, colShipCount);
+  }
+
+  constructor(rowLabels, colLabels) {
     this.rowLabels = rowLabels;
+    this.colLabels = colLabels;
   }
 
   ofCols() {

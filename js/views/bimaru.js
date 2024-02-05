@@ -88,12 +88,18 @@ export class Bimaru {
 
   update(tile) {
     const index = this.tiles.indexOf(tile);
-    const value = this.model.readCellValue(index);
-    const ch = value.getSymbol();
-    const cell = this.cells[index];
-    if (cell instanceof ShipCell)
-      cell.selectCellType(ch);
-    else
+    const shipCell = this.cells[index];
+    if (!(shipCell instanceof ShipCell))    
       throw new Error("Tile must be of type 'ShipCell'!");
+
+    // read from model
+    const cell = this.model.readCell(index);
+    const value = cell.getValue();
+    const ch = value.getSymbol();
+    const isFix = cell.getIsFix();
+
+    // write to view
+    shipCell.selectCellType(ch);
+    shipCell.setFix(isFix);
   }
 }

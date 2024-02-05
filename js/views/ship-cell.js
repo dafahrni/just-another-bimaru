@@ -59,6 +59,13 @@ export class ShipCell extends CellBase {
       .forEach((child) => this.scale(child));
   }
 
+  setFix(fix) {
+    if (fix)
+      this.tile.classList.add("semi-transparent");
+    else
+      this.tile.classList.remove("semi-transparent");
+  }
+
   createShipPart(type) {
     const part = document.createElementNS(this.svgNamespace, type);
     part.setAttribute("class", "ship");

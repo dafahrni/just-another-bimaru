@@ -41,7 +41,7 @@ export class ShipStatistics {
   }
 
   getSizeOfBiggestShipToPlace() {
-    Array.sort(shipSets, ShipSet.getSize).reversed();
+    this.shipSets.sort(set => set.getSize()).reverse();
     Array.from(this.shipSets).forEach((set) => {
       if (set.moreShipsLeft()) return set.getSize();
     });

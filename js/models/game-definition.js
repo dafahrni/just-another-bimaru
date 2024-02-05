@@ -1,21 +1,33 @@
 import { Cell } from "./cell.js";
 import { CellValue } from "./cell-value.js";
 import { Labels } from "./labels.js";
+import { Position } from "./position.js";
 import { ShipStatistics } from "./ship-statistics.js";
 
 export class GameDefinition {
-  static default() {
-    return new GameDefinition(
+  static default(index = 0) {
+    return [
+      new GameDefinition(
       new Labels(
+        [5, 1, 3, 1, 4, 1, 2, 3],
+        [2, 3, 2, 3, 4, 2, 2, 2],
+      ),
+      [
+        new Cell(new Position(7, 1), CellValue.single),
+        new Cell(new Position(4, 3), CellValue.center),
+      ]
+    ),
+    new GameDefinition(
+      new Labels(
+        [1, 2, 3, 3, 0, 4, 1, 3, 2, 1],
         [1, 6, 1, 1, 2, 0, 3, 1, 3, 2],
-        [1, 2, 3, 3, 0, 4, 1, 3, 2, 1]
       ),
       [
         new Cell(new Position(8, 3), CellValue.center),
         new Cell(new Position(1, 7), CellValue.north),
         new Cell(new Position(8, 8), CellValue.south),
       ]
-    );
+    )][index];
   }
 
   static create() {

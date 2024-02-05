@@ -1,6 +1,6 @@
 export class CellBase {
 
-  constructor(factor = 0.8) {
+  constructor(factor = 0.4) {
     this.svgNamespace = "http://www.w3.org/2000/svg";
     this.factor = factor;
     this.size = factor * 100;

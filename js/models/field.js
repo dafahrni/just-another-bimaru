@@ -5,6 +5,7 @@ import { CellBlock } from "./cell-block.js";
 import { Position } from "./position.js";
 import { Labels } from "./labels.js";
 import { ShipStatistics } from "./ship-statistics.js";
+import { GameDefinition } from "./game-definition.js";
 
 export class Field {
   static parse(text) {
@@ -32,8 +33,15 @@ export class Field {
     return field;
   }
 
+  static default() {
+    const game = GameDefinition.default()
+    const field = new Field(game.getLabels());
+    field.setPredefinedCells(game.getPredefinedCells());
+    return field;
+  }
+
   static from(sizeX, sizeY) {
-    return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
+     return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
   }
 
   constructor(labels) {
@@ -51,9 +59,9 @@ export class Field {
   }
 
   setPredefinedCells(predefinedCells) {
-    predefinedCells.array.forEach((predefinedCell) => {
+    predefinedCells.forEach((predefinedCell) => {
       const pos = predefinedCell.getPos();
-      setFixCellValue(pos.getX(), pos.getY(), predefinedCell.getValue());
+      this.setFixCellValue(pos.getX(), pos.getY(), predefinedCell.getValue());
     });
   }
 
@@ -179,7 +187,7 @@ export class Field {
   }
 
   solutionFound() {
-    return this.shipStatistics.noMoreShipsToPlace();
+    return !this.shipStatistics.moreShipsToPlace();
   }
 
   getShipStatistics() {

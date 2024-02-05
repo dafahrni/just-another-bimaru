@@ -1,10 +1,12 @@
 import { Bimaru } from "./bimaru.js";
+import { ModalDialog } from "./modal-dialog.js";
 
 export class GameView {
   constructor(model) {
     this.model = model;
     this.board = new Bimaru(model);
     this.board.updateAll();
+    this.dialog = new ModalDialog();
     this.ressources = {
       click: new Audio("resources/click.mp3"),
       clack: new Audio("resources/clack.mp3"),
@@ -37,6 +39,18 @@ export class GameView {
   updateTile() {
     this.playSound("click");
     this.board.updateSelectedTile();
+  }
+
+  gameIsWon() {
+    this.playSound("bell");
+    this.showAlert(`Alle Schiffe gefunden!`, () => {
+      this.model.resetCells();
+      this.board.updateAll();
+    });
+  }
+
+  showAlert(message, performAfterHiding) {
+    this.dialog.showAlert(message, performAfterHiding);
   }
 
   playSound(key) {

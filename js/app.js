@@ -7,7 +7,10 @@ const view = new GameView(model);
 const controller = new GameController(model, view);
 controller.run();
 
+// TODO: use semi-transaprent layer for fixed cells
+// TODO: document message flow of cell selection between view and model
+// TODO: make use of src folder
 // TODO: change chip type according to placed water
-// TODO: implement consistent naming (avoid different names for basically the same thing!)
+// TODO: simplify naming (make it consistent, use same name for same things!)
 //       - e.g. Grid, Field, Board, Bimaru
 //       - e.g. Tile, Parent, Cell, CellElement, ShipCell

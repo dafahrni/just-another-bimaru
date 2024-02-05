@@ -2,14 +2,14 @@ export class ShipSet {
 
   static parse(text) {
     let shipInfos = Array.from(text.split(","));
-    let ships = [];
+    let shipSets = [];
     for (let i = 0; i < shipInfos.length; i++) {
       let splits = shipInfos[i].split("|");
       let shipSize = parseInt(splits[0]);
       let shipAmount = parseInt(splits[1]);
-      ships.push(new ShipSet(shipSize, shipAmount));
+      shipSets.push(new ShipSet(shipSize, shipAmount));
     }
-    return ships;
+    return shipSets;
   }
 
   constructor(shipSize, shipAmount) {
@@ -34,8 +34,8 @@ export class ShipSet {
     return this.targetAmount - this.currentAmount;
   }
 
-  noMoreShipsLeft() {
-    return shipsLeft() <= 0;
+  moreShipsLeft() {
+    return this.shipsLeft() > 0;
   }
 
   incrementAmount() {
