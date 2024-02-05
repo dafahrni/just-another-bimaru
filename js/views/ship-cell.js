@@ -45,8 +45,7 @@ export class ShipCell extends CellBase {
         this.appendDot();
         break;
       case "~":
-        part = this.createWater();
-        this.tile.appendChild(part);
+        this.appendWater();
         break;
       case ".":
       default:
@@ -118,14 +117,35 @@ export class ShipCell extends CellBase {
     this.tile.appendChild(dot);
   }
 
-  createWater() {
-    const h2o = document.createElementNS(this.svgNamespace, "rect");
+  appendWater() {
+    let h2o = document.createElementNS(this.svgNamespace, "rect");
     h2o.setAttribute("class", "water");
     h2o.setAttribute("pointer-events", "none");
     h2o.setAttribute("x", "10");
     h2o.setAttribute("y", "10");
     h2o.setAttribute("width", "80");
     h2o.setAttribute("height", "80");
-    return h2o;
+    this.tile.appendChild(h2o);
+    
+    // upper wave line
+    h2o = document.createElementNS(this.svgNamespace, "path");
+    h2o.setAttribute("class", "wave");
+    h2o.setAttribute("pointer-events", "none");
+    h2o.setAttribute("d", "M20 30 Q 35 10, 50 30 Q 65 50, 80 30");
+    this.tile.appendChild(h2o);
+
+    // middle wave line
+    h2o = document.createElementNS(this.svgNamespace, "path");
+    h2o.setAttribute("class", "wave");
+    h2o.setAttribute("pointer-events", "none");
+    h2o.setAttribute("d", "M20 50 Q 35 30, 50 50 Q 65 70, 80 50");
+    this.tile.appendChild(h2o);
+
+    // lower wave line
+    h2o = document.createElementNS(this.svgNamespace, "path");
+    h2o.setAttribute("class", "wave");
+    h2o.setAttribute("pointer-events", "none");
+    h2o.setAttribute("d", "M20 70 Q 35 50, 50 70 Q 65 90, 80 70");
+    this.tile.appendChild(h2o);
   }
 }

@@ -34,7 +34,13 @@ html {
 }
 
 .water {
-  fill: #3498db;
+  fill: #a0ceed;
+}
+
+.wave {
+  fill: transparent;
+  stroke: #3498db;
+  stroke-width: 5;
 }
 
 .ship {
