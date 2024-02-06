@@ -1,6 +1,5 @@
 import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
-import { CellBlock } from "./cell-block.js";
 
 export class Cell {
   static outer() {
@@ -15,6 +14,24 @@ export class Cell {
     this.pos = pos;
     this.value = value;
     this.isDirty = false;
+    this.block = null;
+    this.index = null;
+  }
+
+  setIndex(index) {
+    this.index = index;
+  }
+
+  getIndex(index) {
+    return this.index;
+  }
+  
+  setBlock(block) {
+    this.block = block;
+  }
+
+  getBlock() {
+    return this.block;
   }
 
   asText() {
@@ -77,8 +94,11 @@ export class Cell {
       throw new Error("Unexpected value: " + this.value);
     }
 
+    this.block.setCornersToWater();
+    this.block.setCenterWhenShipHasDirection();
+    this.block.setSidesWhenShipHasDirection();
+    
     // TODO: move the following lines to the caller of this method
-    //field.setPossibleBlockParts();
     //field.updateStatistics();
 
     return true;

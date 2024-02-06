@@ -1,5 +1,6 @@
 import { ShipCell } from "./ship-cell.js";
 import { CellLabel } from "./cell-label.js";
+import { Cell } from "../models/cell.js";
 
 export class Bimaru {
   constructor(model) {
@@ -43,20 +44,20 @@ export class Bimaru {
       for (let col = 0; col < cols; col++) {
         const cell = new ShipCell();
         grid.appendChild(cell.tile);
-        this.tiles.push(cell.tile)
+        this.tiles.push(cell.tile);
         this.cells.push(cell);
       }
       const shipCount = this.model.rowLabels[row];
       const label = new CellLabel(shipCount);
       grid.appendChild(label.tile);
-      this.labels.push(label.tile);
+      this.labels.push(label.tile); // defines index of row labels
     }
 
     for (let col = 0; col < cols; col++) {
       const shipCount = this.model.colLabels[col];
       const label = new CellLabel(shipCount);
       grid.appendChild(label.tile);
-      this.labels.push(label.tile);
+      this.labels.push(label.tile); // defines index of col labels
     }
   }
 
@@ -67,6 +68,8 @@ export class Bimaru {
     }
 
     if (this.notifyLabelClick) {
+      // index consists of row labels first and col label second
+      // important for code used in GameModel.fillLineWithWater
       const index = this.labels.indexOf(selectedLabel);
       this.notifyLabelClick(index);
     }
@@ -88,18 +91,40 @@ export class Bimaru {
 
   update(tile) {
     const index = this.tiles.indexOf(tile);
-    const shipCell = this.cells[index];
-    if (!(shipCell instanceof ShipCell))    
-      throw new Error("Tile must be of type 'ShipCell'!");
 
-    // read from model
+    // read cell from model
     const cell = this.model.readCell(index);
-    const value = cell.getValue();
-    const ch = value.getSymbol();
+    const ch = cell.asSymbol();
     const isFix = cell.getIsFix();
 
-    // write to view
+    // write cell to view
+    const shipCell = this.cells[index];
+    if (!(shipCell instanceof ShipCell))
+      throw new Error("Instance must be of type 'ShipCell'!");
     shipCell.selectCellType(ch);
     shipCell.setFix(isFix);
+
+    // read neighbors from model
+    const block = cell.getBlock();
+    const neighbors = block
+      .getNeighborCells()
+      .filter((cell) => cell.asSymbol() != "x")
+      .map((cell) => {
+        if (!(cell instanceof Cell))
+          throw new Error("Instance must be of type 'Cell'!");
+        const index = cell.getIndex();
+        const ch = cell.asSymbol();
+        return [index, ch];
+      });
+
+    // write neighbors to view
+    neighbors.forEach((data) => {
+      const index = data[0];
+      const ch = data[1];
+      const shipCell = this.cells[index];
+      if (!(shipCell instanceof ShipCell))
+        throw new Error("Instance must be of type 'ShipCell'!");
+      shipCell.selectCellType(ch);
+    });
   }
 }

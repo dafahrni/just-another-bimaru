@@ -24,11 +24,5 @@ export class CellLabel extends CellBase {
     text.setAttribute("pointer-events", "none");
 
     this.tile.appendChild(text);
-
-    text.addEventListener("click", this.labelClickHandler);
-  }
-
-  labelClickHandler(event) {
-    // Zeile mit Wasser füllen
   }
 }

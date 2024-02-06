@@ -9,8 +9,8 @@ export class GameDefinition {
     return [
       new GameDefinition(
       new Labels(
-        [5, 1, 3, 1, 4, 1, 2, 3],
         [2, 3, 2, 3, 4, 2, 2, 2],
+        [5, 1, 3, 1, 4, 1, 2, 3],
       ),
       [
         new Cell(new Position(7, 1), CellValue.single),
@@ -19,8 +19,8 @@ export class GameDefinition {
     ),
     new GameDefinition(
       new Labels(
-        [1, 2, 3, 3, 0, 4, 1, 3, 2, 1],
         [1, 6, 1, 1, 2, 0, 3, 1, 3, 2],
+        [1, 2, 3, 3, 0, 4, 1, 3, 2, 1],
       ),
       [
         new Cell(new Position(8, 3), CellValue.center),

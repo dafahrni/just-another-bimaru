@@ -64,23 +64,26 @@ export class ShipStatistics {
     this.resetAmountOfSize(4);
 
     Array.from(field.getCells()).forEach((cell) => {
-      if (cell.asSymbol() == "o") 
+      if (cell.asSymbol() == "o") {
         this.incrementAmountOfSize(1);
-      if (
+      } else if (
         field.symbolsToTheEastAre(cell, "<>") ||
         field.symbolsToTheSouthAre(cell, "^v")
-      )
+      ) {
         this.incrementAmountOfSize(2);
-      if (
+      } else if (
         field.symbolsToTheEastAre(cell, "<□>") ||
         field.symbolsToTheSouthAre(cell, "^□v")
-      )
+      ) {
         this.incrementAmountOfSize(3);
-      if (
+      } else if (
         field.symbolsToTheEastAre(cell, "<□□>") ||
         field.symbolsToTheSouthAre(cell, "^□□v")
-      )
+      ) {
         this.incrementAmountOfSize(4);
+      } else {
+        // do nothing
+      }
     });
   }
 }

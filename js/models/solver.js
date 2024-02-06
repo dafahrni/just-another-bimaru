@@ -2,6 +2,7 @@ import { GameDefinition } from "./game-definition.js";
 import { RestorePoint } from "./restore-point.js";
 import { SolverResult } from "./solver-result.js";
 import { Field } from "./field.js";
+import { CellValue } from "./cell-value.js";
 
 export class Solver {
   static default() {
@@ -68,6 +69,6 @@ export class Solver {
   }
 
   static placeShip(slot) {
-    slot.getCells().foreach((cell) => cell.setValue("s"));
+    slot.getCells().foreach((cell) => cell.setValue(CellValue.ship));
   }
 }

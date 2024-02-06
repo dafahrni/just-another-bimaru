@@ -1,5 +1,4 @@
 import { Field } from "./field.js";
-import { Labels } from "./labels.js";
 
 export class GameModel {
   constructor() {
@@ -33,6 +32,7 @@ export class GameModel {
   }
 
   fillLineWithWater(index) {
+    // index depends on label creation in Bimaru.setupHtml 
     const sizeX = this.labels.sizeX;
     const sizeY = this.labels.sizeY;
     if (index < 0 || index >= sizeX+sizeY) 

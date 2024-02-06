@@ -20,15 +20,15 @@ export class CellBlock {
     const cx = centerCell.getX();
     const cy = centerCell.getY();
 
-    const neigborsMap = {};
+    const neighborsMap = {};
 
     Object.entries(neighbors).map(([key, value]) => {
       const x = value.x(cx);
       const y = value.y(cy);
-      neigborsMap[key] = field.getCell(x, y);
+      neighborsMap[key] = field.getCell(x, y);
     });
 
-    return new CellBlock(centerCell, neigborsMap);
+    return new CellBlock(centerCell, neighborsMap);
   }
 
   constructor(centerCell, neighborsMap) {
@@ -38,20 +38,20 @@ export class CellBlock {
     this.neighbors = neighborsMap;
   }
 
-  getNeighbors() {
-    return Object.entries(this.neighbors).map(([k, v]) => v);
+  getNeighborCells() {
+    return Object.entries(this.neighbors).map((e) => e[1]);
   }
 
-  getCorners() {
+  getCornerCells() {
     return Object.entries(this.neighbors)
-      .filter(([k, v]) => ["a", "c", "e", "g"].includes(k))
-      .map(([k, v]) => v);
+      .filter((e) => ["a", "c", "e", "g"].includes(e[0]))
+      .map((e) => e[1]);
   }
 
-  getSides() {
+  getSideCells() {
     return Object.entries(this.neighbors)
-      .filter(([k, v]) => ["b", "d", "f", "h"].includes(k))
-      .map(([k, v]) => v);
+      .filter((e) => ["b", "d", "f", "h"].includes(e[0]))
+      .map((e) => e[1]);
   }
 
   setCenterWhenShipHasDirection() {
@@ -62,21 +62,49 @@ export class CellBlock {
     const east = this.neighbors.d;
     const south = this.neighbors.f;
     const west = this.neighbors.h;
-    if (north.isWater() && east.isWater() && !south.isWater() && west.isWater())
-      this.center.setValue(CellValue.north);
-    if (north.isWater() && east.isWater() && south.isWater() && !west.isWater())
-      this.center.setValue(CellValue.east);
-    if (!north.isWater() && east.isWater() && south.isWater() && west.isWater())
-      this.center.setValue(CellValue.south);
-    if (north.isWater() && !east.isWater() && south.isWater() && west.isWater())
-      this.center.setValue(CellValue.west);
-    if (north.isWater() && east.isWater() && south.isWater() && west.isWater())
-      this.center.setValue(CellValue.single);
     if (
+      north.isWater() &&
+      east.isWater() &&
+      !south.isWater() &&
+      west.isWater()
+    ) {
+      this.center.setValue(CellValue.north);
+    } else if (
+      north.isWater() &&
+      east.isWater() &&
+      south.isWater() &&
+      !west.isWater()
+    ) {
+      this.center.setValue(CellValue.east);
+    } else if (
+      !north.isWater() &&
+      east.isWater() &&
+      south.isWater() &&
+      west.isWater()
+    ) {
+      this.center.setValue(CellValue.south);
+    } else if (
+      north.isWater() &&
+      !east.isWater() &&
+      south.isWater() &&
+      west.isWater()
+    ) {
+      this.center.setValue(CellValue.west);
+    } else if (
+      north.isWater() &&
+      east.isWater() &&
+      south.isWater() &&
+      west.isWater()
+    ) {
+      this.center.setValue(CellValue.single);
+    } else if (
       (north.isWater() && south.isWater()) ||
       (east.isWater() && west.isWater())
-    )
+    ) {
       this.center.setValue(CellValue.center);
+    } else {
+      // do nothing
+    }
   }
 
   setSidesWhenShipHasDirection() {
@@ -87,7 +115,9 @@ export class CellBlock {
     const east = this.neighbors.d;
     const south = this.neighbors.f;
     const west = this.neighbors.h;
-    switch (this.center.getValue().getSymbol()) {
+    switch (this.center.asSymbol()) {
+      case "s":
+        break;
       case "□":
         if (north.isWater() || south.isWater()) {
           this.setNorth(CellValue.water);
@@ -159,7 +189,7 @@ export class CellBlock {
   setCornersToWater() {
     if (!this.center.isShip()) return;
 
-    const corners = this.getCorners();
+    const corners = this.getCornerCells();
     corners.forEach((corner) => {
       if (corner != null) {
         corner.setValue(CellValue.water);

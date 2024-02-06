@@ -51,9 +51,21 @@ export class Field {
     this.labels = labels;
     this.cells = [];
 
+    let index = 0;
     for (let y = 0; y < this.sizeY; y++) {
       for (let x = 0; x < this.sizeX; x++) {
-        this.cells.push(new Cell(new Position(x, y)));
+        const cell = new Cell(new Position(x, y));
+        this.cells.push(cell);
+        cell.setIndex(index);
+        index += 1;
+      }
+    }
+
+    for (let y = 0; y < this.sizeY; y++) {
+      for (let x = 0; x < this.sizeX; x++) {
+        const cell = this.getCell(x, y);
+        const block = CellBlock.from(cell, this);
+        cell.setBlock(block);
       }
     }
   }
@@ -166,16 +178,15 @@ export class Field {
   }
 
   getShipBlocks() {
-    return this.cells
-      .filter((cell) => cell.isShip())
-      .map((cell) => CellBlock.from(cell, this));
+    const shipCells = this.cells.filter((cell) => cell.isShip());
+    const shipBlocks = shipCells.map((cell) => cell.getBlock());
+    return shipBlocks;
   }
 
   isDirty() {
-    this.cells.forEach((cell) => {
-      if (cell.getDirtyFlag()) return true;
-    });
-
+    for (let i = 0; i < this.cells.length; i++) {
+      if (this.cells[i].getDirtyFlag()) return true;
+    }
     return false;
   }
 
@@ -245,7 +256,7 @@ export class Field {
     let slotsNoneWater = this.getSlotsOfAllNoneWaterCells(size);
     slotsNoneWater.forEach((slot) => {
       newSlots = Array.from(slot.split(size));
-      slots.addAll(newSlots);
+      slots = [...slots, ...newSlots];
     });
     return slots;
   }

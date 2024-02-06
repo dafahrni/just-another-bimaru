@@ -59,11 +59,9 @@ export class CellLine {
   }
 
   hasEmptyCells() {
-    this.cells.forEach((cell) => {
-      if (cell.isEmpty()) {
-        return true;
-      }
-    });
+    for (let i = 0; i < this.cells.length; i++) {
+      if (this.cells[i].isEmpty()) return true;
+    }
     return false;
   }
 
@@ -74,7 +72,7 @@ export class CellLine {
   asText() {
     let text = this.targetAmount + " |";
     this.cells.forEach((cell) => {
-      text += " " + cell.getValue().getSymbol();
+      text += " " + cell.asSymbol();
     });
     return text;
   }
