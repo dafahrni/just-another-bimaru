@@ -57,10 +57,10 @@ describe("Field", () => {
       { shipSize: 5, expectedError: Error },
     ];
     testCases.forEach((tc) => {
-      it(`should throw ${tc.expectedError} when invoked with ${tc.shipSize}`, () => {
+      it(`should throw error when invoked with ${tc.shipSize}`, () => {
         // given
         let testee = Field.parse(fieldText);
-        //Solver.setDeterminedCells(testee);
+        testee.setDeterminedCells();
         let statistics = testee.getStatistics();
 
         // when + then

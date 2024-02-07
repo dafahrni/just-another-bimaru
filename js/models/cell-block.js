@@ -54,6 +54,17 @@ export class CellBlock {
       .map((e) => e[1]);
   }
 
+  getCells() {
+    const nb = this.neighbors;
+    const cntr = this.center;
+    const cells = [
+      nb.a, nb.b, nb.c,
+      nb.h, cntr, nb.d,
+      nb.g, nb.f, nb.e,
+    ];
+    return cells;
+  }
+
   setCenterWhenShipHasDirection() {
     if (!this.center.isShip()) return;
 
@@ -124,8 +135,7 @@ export class CellBlock {
           this.setEast(CellValue.ship);
           this.setSouth(CellValue.water);
           this.setWest(CellValue.ship);
-          break;
-        }
+        } else
         if (east.isWater() || west.isWater()) {
           this.setNorth(CellValue.ship);
           this.setEast(CellValue.water);
@@ -191,9 +201,25 @@ export class CellBlock {
 
     const corners = this.getCornerCells();
     corners.forEach((corner) => {
-      if (corner != null) {
+      if (corner == CellValue.empty) {
         corner.setValue(CellValue.water);
       }
     });
+  }
+
+  asText() {
+    let text = "";
+    let i = 0;
+    const cells = this.getCells();
+    cells.forEach(cell => { 
+      text += `${cell.asSymbol()} ${(i % 3 === 2 ? "\n" : "")}`;  
+      i += 1;
+    });
+    text = text.substring(0, text.length - 2);
+    return text;
+  }
+
+  toString() {
+    return this.asText();
   }
 }

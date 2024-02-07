@@ -81,13 +81,16 @@ export class Field {
     this.statistics = statistics;
   }
 
-  getCellValue(x, y) {
-    const cell = this.getCell(x, y);
-    return cell.getValue();
-  }
-
   getLabels() {
     return this.labels;
+  }
+
+  getSizeX() {
+    return this.labels.sizeX;
+  }
+
+  getSizeY() {
+    return this.labels.sizeY;
   }
 
   setFixCellValue(x, y, value) {
@@ -112,6 +115,34 @@ export class Field {
     } else {
       return Cell.outer();
     }
+  }
+
+  getCellValue(x, y) {
+    const cell = this.getCell(x, y);
+    return cell.getValue();
+  }
+
+
+  getCells() {
+    return this.cells;
+  }
+
+  getRow(y) {
+    let cells = [];
+    for (let x = 0; x < this.sizeX; x++) {
+      const cell = this.getCell(x, y);
+      cells.push(cell);
+    }
+    return new CellLine(this.labels.ofRow(y), cells);
+  }
+
+  getCol(x) {
+    let cells = [];
+    for (let y = 0; y < this.sizeY; y++) {
+      const cell = this.getCell(x, y);
+      cells.push(cell);
+    }
+    return new CellLine(this.labels.ofCol(x), cells);
   }
 
   asTextWithCheckMarks() {
@@ -147,34 +178,11 @@ export class Field {
     return this.asText();
   }
 
-  getRow(y) {
-    let cells = [];
-    for (let x = 0; x < this.sizeX; x++) {
-      const cell = this.getCell(x, y);
-      cells.push(cell);
-    }
-    return new CellLine(this.labels.ofRow(y), cells);
-  }
-
-  getCol(x) {
-    let cells = [];
-    for (let y = 0; y < this.sizeY; y++) {
-      const cell = this.getCell(x, y);
-      cells.push(cell);
-    }
-    return new CellLine(this.labels.ofCol(x), cells);
-  }
-
-  getSizeX() {
-    return this.labels.sizeX;
-  }
-
-  getSizeY() {
-    return this.labels.sizeY;
-  }
-
-  getCells() {
-    return this.cells;
+  placeShip(slot) {
+    const cells = slot.getCells();
+    cells.foreach((cell) => {
+      cell.setValue(CellValue.ship);
+    });
   }
 
   getShipBlocks() {
@@ -185,9 +193,20 @@ export class Field {
 
   isDirty() {
     for (let i = 0; i < this.cells.length; i++) {
-      if (this.cells[i].getDirtyFlag()) return true;
+      const cell = this.cells[i];
+      if (cell.getDirtyFlag())
+        return true;
     }
     return false;
+  }
+
+  setDeterminedCells() {
+    do {
+      this.resetDirtyFlags();
+      this.setEmptyCellsOfAllFullLinesToWater();
+      this.setPossibleBlockParts();
+      this.updateStatistics();
+    } while (this.isDirty());
   }
 
   resetDirtyFlags() {
@@ -242,15 +261,6 @@ export class Field {
     return symbols;
   }
 
-  setPossibleBlockParts() {
-    let blocks = this.getShipBlocks();
-    Array.from(blocks).forEach((block) => {
-      block.setCornersToWater();
-      block.setCenterWhenShipHasDirection();
-      block.setSidesWhenShipHasDirection();
-    });
-  }
-
   getSlotsOfSize(size) {
     let slots = [];
     let slotsNoneWater = this.getSlotsOfAllNoneWaterCells(size);
@@ -290,5 +300,14 @@ export class Field {
         line.changeEmptyToWater();
       }
     }
+  }
+
+  setPossibleBlockParts() {
+    let blocks = this.getShipBlocks();
+    Array.from(blocks).forEach((block) => {
+      block.setCornersToWater();
+      block.setCenterWhenShipHasDirection();
+      block.setSidesWhenShipHasDirection();
+    });
   }
 }

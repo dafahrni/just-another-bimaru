@@ -39,10 +39,10 @@ export class ShipSet {
   }
 
   incrementAmount() {
-    if (this.currentAmount < this.targetAmount) {
+    if (this.currentAmount < this.targetAmount)
       this.currentAmount++;
-    }
-    throw new Error("Amount cannot be increased.");
+    else
+      throw new Error("Amount cannot be increased.");
   }
 
   resetAmount() {

@@ -19,28 +19,28 @@ export class Solver {
     let restorePoints = [];
 
     while (true) {
-      this.setDeterminedCells(field);
+      this.field.setDeterminedCells();
 
       let slots = [];
       let size = this.field.getSizeOfBiggestShipToPlace();
       let restorePoint = this.restorePoints.peek();
       if (restorePoint == null || restorePoint.getShipSizeToPlace() > size) {
         // next level -> create slots
-        slots = this.getSlotsOfSize(size, field);
+        slots = field.getSlotsOfSize(size);
       } else {
         // same level -> continue
         slots = restorePoint.getSlotsLeft();
       }
 
       let remainingSlots = slots;
-      if (remainingSlots.size() > 0) {
-        let nextslot = remainingSlots.get(0);
+      if (remainingSlots.length > 0) {
+        let nextslot = remainingSlots[0];
         // create restore point (to return in case of placement does not lead to success)
         remainingSlots.remove(nextslot);
         restorePoints.push(
           new RestorePoint(field.asText(), remainingSlots, size)
         );
-        Solver.placeShip(nextslot);
+        field.placeShip(nextslot);
       }
 
       if (field.solutionFound()) break;
@@ -49,26 +49,5 @@ export class Solver {
     let result = new SolverResult();
     result.push(field);
     return result;
-  }
-
-  static placeShip(slotSize, field) {
-    // place ship
-    let slots = Solver.getSlotsOfSize(slotSize, field);
-    Solver.placeShip(slots.get(0));
-    // set determined
-    Solver.setDeterminedCells(field);
-  }
-
-  static setDeterminedCells(field) {
-    do {
-      field.resetDirtyFlags();
-      field.setEmptyCellsOfAllFullLinesToWater();
-      field.setPossibleBlockParts();
-      field.updateStatistics();
-    } while (field.isDirty());
-  }
-
-  static placeShip(slot) {
-    slot.getCells().foreach((cell) => cell.setValue(CellValue.ship));
   }
 }

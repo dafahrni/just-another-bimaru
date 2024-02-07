@@ -7,9 +7,8 @@ const view = new GameView(model);
 const controller = new GameController(model, view);
 controller.run();
 
+// TODO: create API with node.js and use Unit Tests in Postman
 // TODO: split Field into new FieldBase class
-// TODO: fix all failing unit tests
-// TODO: change chip type according to placed water
 // TODO: change neighbors when placing a ship (take it from solver)
 // TODO: change repository name to just-another-bimaru
 // TODO: implement scaling according to screen size
