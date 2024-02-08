@@ -70,7 +70,11 @@ export class Field {
     }
   }
 
-  setPredefinedCells(predefinedCells) {
+  setPredefinedCells(predefinedCells = null) {
+    predefinedCells = predefinedCells
+      ? predefinedCells
+      : this.cells.filter((cell) => cell.isPredefinedCellCandidate());
+    
     predefinedCells.forEach((predefinedCell) => {
       const pos = predefinedCell.getPos();
       this.setFixCellValue(pos.getX(), pos.getY(), predefinedCell.getValue());

@@ -30,6 +30,17 @@ describe("Field", () => {
       expect(testee.asText()).to.be.equal(expected);
     });
   });
+  
+  describe("#setPredefinedCells()", () => {
+    it("should create field with ", () => {
+      let testee = Field.parse(fieldText);
+
+      testee.setPredefinedCells();
+
+      const predefinedCells = testee.getCells().filter(cell => cell.getIsFix());
+      expect(predefinedCells.length).to.be.equal(4);
+    });
+  });
 
   describe("#getRow()", () => {
     it("should create expected row", () => {

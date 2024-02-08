@@ -91,13 +91,21 @@ export class CellValue {
     );
   }
 
+  isPredefinedCellCandidate() {
+    return (
+      this.name != CellValue.empty.name &&
+      this.name == CellValue.outer.name
+    );
+  }
+
   isEmpty() {
     return this.name == CellValue.empty.name;
   }
 
   isWater() {
     return (
-      this.name == CellValue.water.name || this.name == CellValue.outer.name
+      this.name == CellValue.water.name ||
+      this.name == CellValue.outer.name
     );
   }
 

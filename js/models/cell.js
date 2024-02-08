@@ -130,6 +130,10 @@ export class Cell {
     return this.isFix;
   }
 
+  isPredefinedCellCandidate() {
+    return this.value.isPredefinedCellCandidate();
+  }
+
   asSymbol() {
     return this.value.getSymbol();
   }
