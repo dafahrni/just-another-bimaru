@@ -2,8 +2,11 @@ import { FieldFactory } from "./board/field-factory.js";
 import { Game } from "./board/game.js";
 
 export class GameModel {
-  constructor() {
-    this.field = FieldFactory.default(2);
+  constructor(field = null) {
+    const index = 2;
+    this.field = field 
+      ? field
+      : FieldFactory.default(index);
     this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
 

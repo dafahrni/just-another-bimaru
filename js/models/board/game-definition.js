@@ -52,18 +52,13 @@ export class GameDefinition {
     );
   }
 
-  constructor(labels, predefinedCells, ships) {
+  constructor(labels, predefinedCells) {
     this.labels = labels;
     this.predefinedCells = predefinedCells;
-    this.ships = ships;
   }
 
   getLabels() {
     return this.labels;
-  }
-
-  getShips() {
-    return this.ships;
   }
 
   getPredefinedCells() {
