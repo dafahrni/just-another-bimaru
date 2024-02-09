@@ -2,6 +2,27 @@ import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
 
 export class Cell {
+
+  static isHorizontal(cells) {
+    if (cells.length <= 0) return false;
+
+    let y = cells[0].getY();
+    for (let i = 1; i < cells.length; i++)
+      if (y != cells[i].getY()) return false;
+
+    return true;
+  }
+
+  static isVertical(cells) {
+    if (cells.length <= 0) return false;
+
+    let x = cells[0].getX();
+    for (let i = 1; i < cells.length; i++)
+      if (x != cells[i].getX()) return false;
+
+    return true;
+  }
+  
   static outer() {
     return new Cell(new Position(-1, -1), CellValue.outer);
   }
@@ -32,34 +53,6 @@ export class Cell {
 
   getBlock() {
     return this.block;
-  }
-
-  asText() {
-    return this.value.getSymbol() + " (" + this.pos.asText() + ")";
-  }
-
-  toString() {
-    return this.asText();
-  }
-
-  static isHorizontal(cells) {
-    if (cells.length <= 0) return false;
-
-    let y = cells[0].getY();
-    for (let i = 1; i < cells.length; i++)
-      if (y != cells[i].getY()) return false;
-
-    return true;
-  }
-
-  static isVertical(cells) {
-    if (cells.length <= 0) return false;
-
-    let x = cells[0].getX();
-    for (let i = 1; i < cells.length; i++)
-      if (x != cells[i].getX()) return false;
-
-    return true;
   }
 
   getPos() {
@@ -144,5 +137,13 @@ export class Cell {
 
   resetDirtyFlag() {
     if (this.isDirty) this.isDirty = false;
+  }
+
+  asText() {
+    return this.value.getSymbol() + " (" + this.pos.asText() + ")";
+  }
+
+  toString() {
+    return this.asText();
   }
 }

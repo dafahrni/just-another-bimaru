@@ -1,12 +1,11 @@
-import { CellBlock } from "../../js/models/cell-block.js";
-import { Field } from "../../js/models/field.js";
+import { FieldFactory } from "../../js/models/field-factory.js";
 import { expect } from "chai";
 
 describe("CellBlock", () => {
   describe("#asText()", () => {
     it("should return expected text", () => {
       // given
-      let field = Field.parse(
+      let field = FieldFactory.parse(
         "1 | . ^ . \n" +
         "3 | < □ > \n" +
         "2 | . v o \n" +

@@ -1,236 +1,27 @@
-import { Cell } from "./cell.js";
-import { CellLine } from "./cell-line.js";
-import { CellValue } from "./cell-value.js";
-import { CellBlock } from "./cell-block.js";
-import { Position } from "./position.js";
-import { Labels } from "./labels.js";
-import { ShipStatistics } from "./ship-statistics.js";
-import { GameDefinition } from "./game-definition.js";
+import { FieldBase } from "./field-base.js";
 
-export class Field {
-  static parse(text) {
-    let lines = text.replace(/ /g, "").split("\n");
-    let sizeY = lines.length - 1;
-    let lastLine = lines[sizeY];
-    let sizeX = lastLine.length;
-    let colLabels = Array(sizeX);
-    let rowLabels = Array(sizeY);
-    let labels = new Labels(colLabels, rowLabels);
-    let field = new Field(labels);
-    for (let x = 0; x < sizeX; x++) {
-      colLabels[x] = parseInt("" + lastLine[x]);
-    }
-    for (let y = 0; y < sizeY; y++) {
-      let row = lines[y];
-      let line = row.split("|");
-      rowLabels[y] = parseInt(line[0]);
-      for (let x = 0; x < sizeX; x++) {
-        let symbol = line[1][x];
-        let value = CellValue.from(symbol);
-        field.setCellValue(x, y, value);
-      }
-    }
-    return field;
-  }
-
-  static default() {
-    const game = GameDefinition.default();
-    const field = new Field(game.getLabels());
-    field.setPredefinedCells(game.getPredefinedCells());
-    return field;
-  }
-
-  static from(sizeX, sizeY) {
-    return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
-  }
+export class Field extends FieldBase {
 
   constructor(labels) {
-    this.statistics = ShipStatistics.createDefault();
-    this.sizeX = labels.sizeX;
-    this.sizeY = labels.sizeY;
-    this.labels = labels;
-    this.cells = [];
-
-    let index = 0;
+    super(labels);
+  }
+  
+  setEmptyCellsOfAllFullLinesToWater() {
+    // iterate rows
     for (let y = 0; y < this.sizeY; y++) {
-      for (let x = 0; x < this.sizeX; x++) {
-        const cell = new Cell(new Position(x, y));
-        this.cells.push(cell);
-        cell.setIndex(index);
-        index += 1;
+      let line = this.getRow(y);
+      if (line.isFull() && line.hasEmptyCells()) {
+        line.changeEmptyToWater();
       }
     }
 
-    for (let y = 0; y < this.sizeY; y++) {
-      for (let x = 0; x < this.sizeX; x++) {
-        const cell = this.getCell(x, y);
-        const block = CellBlock.from(cell, this);
-        cell.setBlock(block);
-      }
-    }
-  }
-
-  setPredefinedCells(predefinedCells = null) {
-    predefinedCells = predefinedCells
-      ? predefinedCells
-      : this.cells.filter((cell) => cell.isPredefinedCellCandidate());
-    
-    predefinedCells.forEach((predefinedCell) => {
-      const pos = predefinedCell.getPos();
-      this.setFixCellValue(pos.getX(), pos.getY(), predefinedCell.getValue());
-    });
-  }
-
-  initStatistics(statistics) {
-    this.statistics = statistics;
-  }
-
-  getLabels() {
-    return this.labels;
-  }
-
-  getSizeX() {
-    return this.labels.sizeX;
-  }
-
-  getSizeY() {
-    return this.labels.sizeY;
-  }
-
-  setFixCellValue(x, y, value) {
-    this.setCellValue(x, y, value, true);
-  }
-
-  setCellValue(x, y, value, isFix = false) {
-    let cell = this.getCell(x, y);
-    if (cell != null) {
-      cell.setValue(value);
-      if (isFix) {
-        cell.setFix();
-      }
-    }
-  }
-
-  getCell(x, y) {
-    const pos = new Position(x, y);
-    const matchingCells = this.cells.filter((c) => c.getPos().isSameAs(pos));
-    if (matchingCells.length > 0) {
-      return matchingCells[0];
-    } else {
-      return Cell.outer();
-    }
-  }
-
-  getCellValue(x, y) {
-    const cell = this.getCell(x, y);
-    return cell.getValue();
-  }
-
-
-  getCells() {
-    return this.cells;
-  }
-
-  getRow(y) {
-    let cells = [];
+    // iterate columns
     for (let x = 0; x < this.sizeX; x++) {
-      const cell = this.getCell(x, y);
-      cells.push(cell);
-    }
-    return new CellLine(this.labels.ofRow(y), cells);
-  }
-
-  getCol(x) {
-    let cells = [];
-    for (let y = 0; y < this.sizeY; y++) {
-      const cell = this.getCell(x, y);
-      cells.push(cell);
-    }
-    return new CellLine(this.labels.ofCol(x), cells);
-  }
-
-  asTextWithCheckMarks() {
-    return this.asText(true);
-  }
-
-  asText() {
-    return this.asText(false);
-  }
-
-  asText(withCheckMarks) {
-    let text = "";
-    for (let y = 0; y < this.sizeY; y++) {
-      let row = this.getRow(y);
-      let line =
-        (withCheckMarks && row.isFull() ? "√" : this.labels.ofRow(y)) + " | ";
-      for (let x = 0; x < this.sizeX; x++) {
-        let value = this.getCellValue(x, y);
-        line += value.getSymbol() + " ";
+      let line = this.getCol(x);
+      if (line.isFull() && line.hasEmptyCells()) {
+        line.changeEmptyToWater();
       }
-      text += line + "\n";
     }
-    text += "   ";
-    for (let x = 0; x < this.sizeX; x++) {
-      let col = this.getCol(x);
-      text +=
-        " " + (withCheckMarks && col.isFull() ? "√" : this.labels.ofCol(x));
-    }
-    return text;
-  }
-
-  toString() {
-    return this.asText();
-  }
-
-  placeShip(slot) {
-    const cells = slot.getCells();
-    cells.foreach((cell) => {
-      cell.setValue(CellValue.ship);
-    });
-  }
-
-  getShipBlocks() {
-    const shipCells = this.cells.filter((cell) => cell.isShip());
-    const shipBlocks = shipCells.map((cell) => cell.getBlock());
-    return shipBlocks;
-  }
-
-  isDirty() {
-    for (let i = 0; i < this.cells.length; i++) {
-      const cell = this.cells[i];
-      if (cell.getDirtyFlag())
-        return true;
-    }
-    return false;
-  }
-
-  setDeterminedCells() {
-    do {
-      this.resetDirtyFlags();
-      this.setEmptyCellsOfAllFullLinesToWater();
-      this.setPossibleBlockParts();
-      this.updateStatistics();
-    } while (this.isDirty());
-  }
-
-  resetDirtyFlags() {
-    this.cells.forEach((cell) => cell.resetDirtyFlag());
-  }
-
-  getSizeOfBiggestShipToPlace() {
-    return this.statistics.getSizeOfBiggestShipToPlace();
-  }
-
-  solutionFound() {
-    return !this.statistics.moreShipsToPlace();
-  }
-
-  getStatistics() {
-    return this.statistics;
-  }
-
-  updateStatistics() {
-    return this.statistics.update(this);
   }
 
   symbolsToTheEastAre(cell, symbols) {
@@ -269,7 +60,7 @@ export class Field {
     let slots = [];
     let slotsNoneWater = this.getSlotsOfAllNoneWaterCells(size);
     slotsNoneWater.forEach((slot) => {
-      newSlots = Array.from(slot.split(size));
+      const newSlots = slot.split(size);
       slots = [...slots, ...newSlots];
     });
     return slots;
@@ -279,39 +70,14 @@ export class Field {
     let slots = [];
     for (let y = 0; y < this.sizeY; y++) {
       let row = this.getRow(y);
-      if (row.getAmountLeft() >= size) slots.addAll(row.findSlots());
+      if (row.getAmountLeft() >= size) 
+        slots = [...slots, ...row.findSlots()];
     }
     for (let x = 0; x < this.sizeX; x++) {
-      let col = field.getCol(x);
-      if (col.getAmountLeft() >= size) slots.addAll(col.findSlots());
+      let col = this.getCol(x);
+      if (col.getAmountLeft() >= size)
+        slots = [...slots, ...col.findSlots()];
     }
     return slots;
-  }
-
-  setEmptyCellsOfAllFullLinesToWater() {
-    // iterate rows
-    for (let y = 0; y < this.sizeY; y++) {
-      let line = this.getRow(y);
-      if (line.isFull() && line.hasEmptyCells()) {
-        line.changeEmptyToWater();
-      }
-    }
-
-    // iterate columns
-    for (let x = 0; x < this.sizeX; x++) {
-      let line = this.getCol(x);
-      if (line.isFull() && line.hasEmptyCells()) {
-        line.changeEmptyToWater();
-      }
-    }
-  }
-
-  setPossibleBlockParts() {
-    let blocks = this.getShipBlocks();
-    Array.from(blocks).forEach((block) => {
-      block.setCornersToWater();
-      block.setCenterWhenShipHasDirection();
-      block.setSidesWhenShipHasDirection();
-    });
   }
 }

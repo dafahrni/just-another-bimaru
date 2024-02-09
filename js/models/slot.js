@@ -1,10 +1,20 @@
+import { CellValue } from "./cell-value.js";
+
 export class Slot {
+  
   constructor(cells) {
     this.cells = cells;
   }
 
   get size() {
     return this.cells.length;
+  }
+
+  placeShip() {
+    const cells = this.getCells();
+    cells.foreach((cell) => {
+      cell.setValue(CellValue.ship);
+    });
   }
 
   getCells() {

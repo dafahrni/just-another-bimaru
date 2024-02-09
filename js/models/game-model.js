@@ -1,10 +1,14 @@
-import { Field } from "./field.js";
+import { FieldFactory } from "./field-factory.js";
+import { Game } from "./game.js";
 
 export class GameModel {
   constructor() {
-    this.field = Field.default();
+    this.field = FieldFactory.default(2);
     this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
+
+    // TODO: remove this line after merger of Game and GameView classes
+    this.game = new Game(this.field);
   }
 
   get rows() {
@@ -55,7 +59,7 @@ export class GameModel {
     if (!cell.tryChangeValue())
       return false;
 
-    console.info(this.asText);
+    console.info(this.field.asTextWithCheckMarks());
     return true;
   }
 
@@ -65,7 +69,7 @@ export class GameModel {
   }
   
   checkForWinner() {
-    return this.field.solutionFound();
+    return this.game.solutionFound();
   }
 
   toString() {

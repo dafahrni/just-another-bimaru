@@ -94,7 +94,7 @@ export class CellValue {
   isPredefinedCellCandidate() {
     return (
       this.name != CellValue.empty.name &&
-      this.name == CellValue.outer.name
+      this.name != CellValue.outer.name
     );
   }
 

@@ -7,8 +7,10 @@ const view = new GameView(model);
 const controller = new GameController(model, view);
 controller.run();
 
+// TODO: merge Game and GameModel
 // TODO: create API with node.js and use Unit Tests in Postman
-// TODO: split Field into new FieldBase class
+// TODO: detect when game is won
+// TODO: change ship parts according to neighborhood
 // TODO: change neighbors when placing a ship (take it from solver)
 // TODO: implement scaling according to screen size
 // TODO: document message flow of cell selection between view and model

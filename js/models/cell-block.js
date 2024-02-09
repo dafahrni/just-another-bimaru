@@ -1,7 +1,8 @@
+import { FieldBase } from "./field-base.js";
 import { CellValue } from "./cell-value.js";
-import { Field } from "./field.js";
 
 export class CellBlock {
+
   static from(centerCell, field) {
     // a b c
     // h . d
@@ -32,8 +33,8 @@ export class CellBlock {
   }
 
   constructor(centerCell, neighborsMap) {
-    if (neighborsMap instanceof Field)
-      throw new Error("Argument 'neighborsMap' must not be of type 'Field'.");
+    if (neighborsMap instanceof FieldBase)
+      throw new Error("Argument 'neighborsMap' must not be of type 'FieldBase'.");
     this.center = centerCell;
     this.neighbors = neighborsMap;
   }
@@ -54,6 +55,13 @@ export class CellBlock {
       .map((e) => e[1]);
   }
 
+  setSides(values) {
+    const sides = this.getSideCells();
+    for (let i = 0; i < sides.length; i++) {
+      sides[i].setValue(values[i]);
+    }
+  }
+  
   getCells() {
     const nb = this.neighbors;
     const cntr = this.center;
@@ -63,6 +71,27 @@ export class CellBlock {
       nb.g, nb.f, nb.e,
     ];
     return cells;
+  }
+
+  setCellValue(cellKey, value) {
+    const cell = this.neighbors[cellKey];
+    cell.setValue(value);
+  }
+
+  setPossibleParts() {
+    this.setCornersToWater();
+    this.setCenterWhenShipHasDirection();
+    this.setSidesWhenShipHasDirection();
+  }
+
+  setCornersToWater() {
+    if (!this.center.isShip()) return;
+
+    const corners = this.getCornerCells();
+    const emptyCorners = corners.filter(cell => cell.isEmpty());
+    emptyCorners.forEach((corner) => {
+      corner.setValue(CellValue.water);
+    });
   }
 
   setCenterWhenShipHasDirection() {
@@ -131,80 +160,28 @@ export class CellBlock {
         break;
       case "□":
         if (north.isWater() || south.isWater()) {
-          this.setNorth(CellValue.water);
-          this.setEast(CellValue.ship);
-          this.setSouth(CellValue.water);
-          this.setWest(CellValue.ship);
+          this.setSides([CellValue.water, CellValue.ship, CellValue.water, CellValue.ship]);
         } else
         if (east.isWater() || west.isWater()) {
-          this.setNorth(CellValue.ship);
-          this.setEast(CellValue.water);
-          this.setSouth(CellValue.ship);
-          this.setWest(CellValue.water);
+          this.setSides([CellValue.ship, CellValue.water, CellValue.ship, CellValue.water]);
         }
         break;
       case "^":
-        this.setNorth(CellValue.water);
-        this.setEast(CellValue.water);
-        this.setSouth(CellValue.ship);
-        this.setWest(CellValue.water);
+        this.setSides([CellValue.water, CellValue.water, CellValue.ship, CellValue.water]);
         break;
       case ">":
-        this.setNorth(CellValue.water);
-        this.setEast(CellValue.water);
-        this.setSouth(CellValue.water);
-        this.setWest(CellValue.ship);
+        this.setSides([CellValue.water, CellValue.water, CellValue.water, CellValue.ship]);
         break;
       case "v":
-        this.setNorth(CellValue.ship);
-        this.setEast(CellValue.water);
-        this.setSouth(CellValue.water);
-        this.setWest(CellValue.water);
+        this.setSides([CellValue.ship, CellValue.water, CellValue.water, CellValue.water]);
         break;
       case "<":
-        this.setNorth(CellValue.water);
-        this.setEast(CellValue.ship);
-        this.setSouth(CellValue.water);
-        this.setWest(CellValue.water);
+        this.setSides([CellValue.water, CellValue.ship, CellValue.water, CellValue.water]);
         break;
       case "o":
-        this.setNorth(CellValue.water);
-        this.setEast(CellValue.water);
-        this.setSouth(CellValue.water);
-        this.setWest(CellValue.water);
+        this.setSides([CellValue.water, CellValue.water, CellValue.water, CellValue.water]);
         break;
     }
-  }
-
-  setNorth(value) {
-    const cell = this.neighbors.b;
-    cell.setValue(value);
-  }
-
-  setEast(value) {
-    const cell = this.neighbors.d;
-    cell.setValue(value);
-  }
-
-  setSouth(value) {
-    const cell = this.neighbors.f;
-    cell.setValue(value);
-  }
-
-  setWest(value) {
-    const cell = this.neighbors.h;
-    cell.setValue(value);
-  }
-
-  setCornersToWater() {
-    if (!this.center.isShip()) return;
-
-    const corners = this.getCornerCells();
-    corners.forEach((corner) => {
-      if (corner == CellValue.empty) {
-        corner.setValue(CellValue.water);
-      }
-    });
   }
 
   asText() {

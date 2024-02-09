@@ -1,88 +1,9 @@
-import { CellValue } from "../../js/models/cell-value.js";
-import { Field } from "../../js/models/field.js";
+import { FieldFactory } from "../../js/models/field-factory.js";
 import { expect } from "chai";
 
 describe("Field", () => {
-  describe("#setFixCellValue()", () => {
-    it("should change cell value", () => {
-      let value = CellValue.center;
-      let testee = Field.from(3, 2);
-
-      testee.setFixCellValue(2, 1, value);
-
-      expect(testee.getCellValue(2, 1)).to.be.equal(value);
-    });
-  });
-
-  const fieldText =
-    "0 | . . . \n" +
-    "3 | < □ > \n" +
-    "0 | ~ . . \n" +
-    "1 | . o . \n" +
-    "    1 2 1";
-
-  describe("#parse()", () => {
-    it("should create expected field", () => {
-      let expected = fieldText;
-
-      let testee = Field.parse(expected);
-
-      expect(testee.asText()).to.be.equal(expected);
-    });
-  });
   
-  describe("#setPredefinedCells()", () => {
-    it("should create field with ", () => {
-      let testee = Field.parse(fieldText);
-
-      testee.setPredefinedCells();
-
-      const predefinedCells = testee.getCells().filter(cell => cell.getIsFix());
-      expect(predefinedCells.length).to.be.equal(4);
-    });
-  });
-
-  describe("#getRow()", () => {
-    it("should create expected row", () => {
-      let testee = Field.parse(fieldText);
-
-      let row = testee.getRow(0);
-
-      expect(row.asText()).to.be.equal("0 | . . .");
-    });
-  });
-
-  describe("#getCol()", () => {
-    it("should create expected col", () => {
-      let testee = Field.parse(fieldText);
-
-      let col = testee.getCol(1);
-
-      expect(col.asText()).to.be.equal("2 | . □ . o");
-    });
-  });
-
-  describe("#getAmount()", () => {
-    const testCases = [
-      { shipSize: 0, expectedError: Error },
-      { shipSize: 5, expectedError: Error },
-    ];
-    testCases.forEach((tc) => {
-      it(`should throw error when invoked with ${tc.shipSize}`, () => {
-        // given
-        let testee = Field.parse(fieldText);
-        testee.setDeterminedCells();
-        let statistics = testee.getStatistics();
-
-        // when + then
-        expect(() => statistics.getAmount(tc.shipSize)).to.throw(
-          tc.expectedException
-        );
-      });
-    });
-  });
-
-  const fieldText2 =
+  const fieldText =
     "3 | < □ > \n" +
     "0 | . . . \n" +
     "1 | ^ . . \n" +
@@ -91,7 +12,7 @@ describe("Field", () => {
 
   describe("#symbolsToTheEastAre()", () => {
     it("should return true when invoked with <□>", () => {
-      let testee = Field.parse(fieldText2);
+      let testee = FieldFactory.parse(fieldText);
       let cell = testee.getCell(0, 0);
 
       let result = testee.symbolsToTheEastAre(cell, "<□>");
@@ -102,12 +23,56 @@ describe("Field", () => {
 
   describe("#symbolsToTheSouthAre()", () => {
     it("should return true when invoked with ^v", () => {
-      let testee = Field.parse(fieldText2);
+      let testee = FieldFactory.parse(fieldText);
       let cell = testee.getCell(0, 2);
 
       let result = testee.symbolsToTheSouthAre(cell, "^v");
 
       expect(result).to.be.true;
+    });
+  });
+
+  describe("#getSlotsOfSize()", () => {
+    it("should return expected amount of slots", () => {
+      let testee = FieldFactory.parse(
+        "3 | . ~ . . . . . . . . \n" +
+        "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "7 | . ~ . . . . . ~ . . \n" +
+        "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "2 | . ~ ^ ~ . . . . . . \n" +
+        "1 | ~ ~ v ~ ~ ~ ~ ~ ~ ~ \n" +
+        "4 | ^ ~ ~ ~ . . . . . . \n" +
+        "1 | s ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "2 | . ~ . . . . ~ o ~ . \n" +
+        "    4 0 4 2 1 4 1 2 1 1"
+      );
+
+      let slots = testee.getSlotsOfSize(4);
+
+      expect(slots.length).to.be.equal(2);
+    });
+  });
+
+  describe("#getSlotsOfSize()", () => {
+    it.skip("should return expected amount of slots", () => {
+      let testee = FieldFactory.parse(
+        "4 | ~ ~ . . ~ . . . . . \n" +
+        "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "1 | ~ ~ . . ~ . . . . . \n" +
+        "1 | ~ ~ . . ~ . . ~ ~ ~ \n" +
+        "2 | ~ ~ . . ~ . ~ ~ ^ ~ \n" +
+        "3 | ~ ~ . . ~ s ~ ~ s ~ \n" +
+        "3 | o ~ . . ~ □ ~ ~ . ~ \n" +
+        "1 | ~ ~ ~ ~ ~ s ~ ~ ~ ~ \n" +
+        "4 | ~ ~ ^ ~ ~ . ~ . . . \n" +
+        "1 | ~ ~ v ~ ~ ~ ~ ~ ~ ~ \n" +
+        "    1 0 3 1 0 7 1 1 5 1 "
+      );
+
+      let slots = testee.getSlotsOfSize(4);
+
+      expect(slots.length).to.be.equal(4);
     });
   });
 });

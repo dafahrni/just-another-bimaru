@@ -2,7 +2,6 @@ import { GameDefinition } from "./game-definition.js";
 import { RestorePoint } from "./restore-point.js";
 import { SolverResult } from "./solver-result.js";
 import { Field } from "./field.js";
-import { CellValue } from "./cell-value.js";
 
 export class Solver {
   static default() {
@@ -23,7 +22,7 @@ export class Solver {
 
       let slots = [];
       let size = this.field.getSizeOfBiggestShipToPlace();
-      let restorePoint = this.restorePoints.peek();
+      let restorePoint = this.peek(this.restorePoints);
       if (restorePoint == null || restorePoint.getShipSizeToPlace() > size) {
         // next level -> create slots
         slots = field.getSlotsOfSize(size);
@@ -40,7 +39,7 @@ export class Solver {
         restorePoints.push(
           new RestorePoint(field.asText(), remainingSlots, size)
         );
-        field.placeShip(nextslot);
+        nextslot.placeShip();
       }
 
       if (field.solutionFound()) break;
@@ -49,5 +48,10 @@ export class Solver {
     let result = new SolverResult();
     result.push(field);
     return result;
+  }
+
+  peek(stack) {
+    // accessing top element of stack without removing it
+    return stack[stack.length - 1];
   }
 }
