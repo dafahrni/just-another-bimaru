@@ -1,4 +1,4 @@
-# Simplest Bimaru
+# Just another Bimaru
 
 ## Setup
 

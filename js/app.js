@@ -10,7 +10,6 @@ controller.run();
 // TODO: create API with node.js and use Unit Tests in Postman
 // TODO: split Field into new FieldBase class
 // TODO: change neighbors when placing a ship (take it from solver)
-// TODO: change repository name to just-another-bimaru
 // TODO: implement scaling according to screen size
 // TODO: document message flow of cell selection between view and model
 // TODO: make use of src folder
