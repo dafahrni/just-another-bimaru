@@ -1,4 +1,5 @@
 export class Position {
+  
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -7,6 +8,7 @@ export class Position {
   getX() {
     return this.x;
   }
+
   getY() {
     return this.y;
   }

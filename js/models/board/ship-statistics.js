@@ -1,4 +1,4 @@
-import { ShipSet } from "./ship-set.js";
+import { ShipSet } from "./parts/ship-set.js";
 
 export class ShipStatistics {
   static createDefault() {

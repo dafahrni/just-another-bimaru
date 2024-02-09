@@ -1,4 +1,4 @@
-import { FieldFactory } from "../../js/models/field-factory.js";
+import { FieldFactory } from "../../../js/models/board/field-factory.js";
 import { expect } from "chai";
 
 describe("Field", () => {

@@ -1,5 +1,5 @@
-import { CellLine } from "../../js/models/cell-line.js";
-import { Cell } from "../../js/models/cell.js";
+import { CellLine } from "../../../../js/models/board/parts/cell-line.js";
+import { Cell } from "../../../../js/models/board/parts/cell.js";
 import { expect } from "chai";
 
 describe("Cell", () => {

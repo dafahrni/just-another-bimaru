@@ -1,7 +1,7 @@
-import { Cell } from "./cell.js";
-import { CellValue } from "./cell-value.js";
-import { Labels } from "./labels.js";
-import { Position } from "./position.js";
+import { Cell } from "./parts/cell.js";
+import { CellValue } from "./parts/cell-value.js";
+import { Labels } from "./parts/labels.js";
+import { Position } from "./parts/position.js";
 
 export class GameDefinition {
   static default(index = 0) {

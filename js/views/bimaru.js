@@ -1,6 +1,8 @@
 import { ShipCell } from "./ship-cell.js";
 import { CellLabel } from "./cell-label.js";
-import { Cell } from "../models/cell.js";
+
+// TODO: avoid dependency on models, maybe use DTOs 
+import { Cell } from "../models/board/parts/cell.js";
 
 export class Bimaru {
   constructor(model) {

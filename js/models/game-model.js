@@ -1,5 +1,5 @@
-import { FieldFactory } from "./field-factory.js";
-import { Game } from "./game.js";
+import { FieldFactory } from "./board/field-factory.js";
+import { Game } from "./board/game.js";
 
 export class GameModel {
   constructor() {

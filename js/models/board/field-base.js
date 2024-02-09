@@ -1,7 +1,7 @@
-import { Cell } from "./cell.js";
-import { CellLine } from "./cell-line.js";
-import { CellBlock } from "./cell-block.js";
-import { Position } from "./position.js";
+import { Cell } from "./parts/cell.js";
+import { CellLine } from "./parts/cell-line.js";
+import { CellBlock } from "./parts/cell-block.js";
+import { Position } from "./parts/position.js";
 
 export class FieldBase {
 

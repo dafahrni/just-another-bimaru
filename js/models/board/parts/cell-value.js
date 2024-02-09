@@ -1,43 +1,14 @@
 export class CellValue {
-  static get empty() {
-    return new CellValue(".", "empty");
-  }
-
-  static get water() {
-    return new CellValue("~", "water");
-  }
-
-  static get center() {
-    return new CellValue("□", "center");
-  }
-
-  static get north() {
-    return new CellValue("^", "north");
-  }
-
-  static get east() {
-    return new CellValue(">", "east");
-  }
-
-  static get south() {
-    return new CellValue("v", "south");
-  }
-
-  static get west() {
-    return new CellValue("<", "west");
-  }
-
-  static get single() {
-    return new CellValue("o", "single");
-  }
-
-  static get ship() {
-    return new CellValue("s", "ship");
-  }
-
-  static get outer() {
-    return new CellValue("x", "outer");
-  }
+  static get empty() { return new CellValue(".", "empty"); }
+  static get water() { return new CellValue("~", "water"); }
+  static get center() { return new CellValue("□", "center"); }
+  static get north() { return new CellValue("^", "north"); }
+  static get east() { return new CellValue(">", "east"); }
+  static get south() { return new CellValue("v", "south"); }
+  static get west() { return new CellValue("<", "west"); }
+  static get single() { return new CellValue("o", "single"); }
+  static get ship() { return new CellValue("s", "ship"); }
+  static get outer() { return new CellValue("x", "outer"); }
 
   static get all() {
     return [

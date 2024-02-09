@@ -1,4 +1,3 @@
-import { FieldBase } from "./field-base.js";
 import { CellValue } from "./cell-value.js";
 
 export class CellBlock {
@@ -33,8 +32,6 @@ export class CellBlock {
   }
 
   constructor(centerCell, neighborsMap) {
-    if (neighborsMap instanceof FieldBase)
-      throw new Error("Argument 'neighborsMap' must not be of type 'FieldBase'.");
     this.center = centerCell;
     this.neighbors = neighborsMap;
   }

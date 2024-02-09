@@ -1,4 +1,4 @@
-import { CellLine } from "../../js/models/cell-line.js";
+import { CellLine } from "../../../../js/models/board/parts/cell-line.js";
 import { expect } from "chai";
 
 describe("Slot", () => {
