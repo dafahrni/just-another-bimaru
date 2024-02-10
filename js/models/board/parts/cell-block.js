@@ -2,40 +2,15 @@ import { CellValue } from "./cell-value.js";
 
 export class CellBlock {
 
-  static from(centerCell, field) {
-    // a b c
-    // h . d
-    // g f e
-    const neighbors = {
-      a: { x: (x) => x - 1, y: (y) => y - 1 }, // a
-      b: { x: (x) => x + 0, y: (y) => y - 1 }, // north
-      c: { x: (x) => x + 1, y: (y) => y - 1 }, // c
-      d: { x: (x) => x + 1, y: (y) => y - 0 }, // east
-      e: { x: (x) => x + 1, y: (y) => y + 1 }, // e
-      f: { x: (x) => x - 0, y: (y) => y + 1 }, // south
-      g: { x: (x) => x - 1, y: (y) => y + 1 }, // g
-      h: { x: (x) => x - 1, y: (y) => y + 0 }, // west
-    };
-
-    const cx = centerCell.getX();
-    const cy = centerCell.getY();
-
-    const neighborsMap = {};
-
-    Object.entries(neighbors).map(([key, value]) => {
-      const x = value.x(cx);
-      const y = value.y(cy);
-      neighborsMap[key] = field.getCell(x, y);
-    });
-
-    return new CellBlock(centerCell, neighborsMap);
-  }
-
   constructor(centerCell, neighborsMap) {
     this.center = centerCell;
     this.neighbors = neighborsMap;
   }
 
+  getCenterCell() {
+    return this.center;
+  }
+  
   getNeighborCells() {
     return Object.entries(this.neighbors).map((e) => e[1]);
   }
@@ -154,7 +129,6 @@ export class CellBlock {
     const west = this.neighbors.h;
     switch (this.center.asSymbol()) {
       case "s":
-        break;
       case "□":
         if (north.isWater() || south.isWater()) {
           this.setSides([CellValue.water, CellValue.ship, CellValue.water, CellValue.ship]);

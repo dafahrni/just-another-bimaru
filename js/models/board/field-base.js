@@ -2,6 +2,7 @@ import { Cell } from "./parts/cell.js";
 import { CellLine } from "./parts/cell-line.js";
 import { CellBlock } from "./parts/cell-block.js";
 import { Position } from "./parts/position.js";
+import { CellBlockFactory } from "./parts/cell-block-factory.js";
 
 export class FieldBase {
 
@@ -24,7 +25,7 @@ export class FieldBase {
     for (let y = 0; y < this.sizeY; y++) {
       for (let x = 0; x < this.sizeX; x++) {
         const cell = this.getCell(x, y);
-        const block = CellBlock.from(cell, this);
+        const block = CellBlockFactory.from(cell, this);
         cell.setBlock(block);
       }
     }

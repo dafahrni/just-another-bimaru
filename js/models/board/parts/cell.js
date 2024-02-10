@@ -1,5 +1,6 @@
 import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
+import { CellBlock } from "./cell-block.js";
 
 export class Cell {
 
