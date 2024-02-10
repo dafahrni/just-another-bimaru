@@ -2,9 +2,17 @@ import { CellValue } from "./cell-value.js";
 
 export class CellBlock {
 
-  constructor(centerCell, neighborsMap) {
+  constructor(centerCell, neighborCells) {
     this.center = centerCell;
-    this.neighbors = neighborsMap;
+    this.neighbors = neighborCells;
+
+    const ns = this.neighbors;
+    const cnter = this.center;
+    this.cells = [
+      ns[0], ns[1], ns[2],
+      ns[7], cnter, ns[3],
+      ns[6], ns[5], ns[4],
+    ];
   }
 
   getCenterCell() {
@@ -12,19 +20,17 @@ export class CellBlock {
   }
   
   getNeighborCells() {
-    return Object.entries(this.neighbors).map((e) => e[1]);
+    return this.neighbors;
   }
 
   getCornerCells() {
-    return Object.entries(this.neighbors)
-      .filter((e) => ["a", "c", "e", "g"].includes(e[0]))
-      .map((e) => e[1]);
+    const ns = this.neighbors;
+    return [ns[0], ns[2], ns[4], ns[6]];
   }
 
   getSideCells() {
-    return Object.entries(this.neighbors)
-      .filter((e) => ["b", "d", "f", "h"].includes(e[0]))
-      .map((e) => e[1]);
+    const ns = this.neighbors;
+    return [ns[1], ns[3], ns[5], ns[7]];
   }
 
   setSides(values) {
@@ -35,19 +41,7 @@ export class CellBlock {
   }
   
   getCells() {
-    const nb = this.neighbors;
-    const cntr = this.center;
-    const cells = [
-      nb.a, nb.b, nb.c,
-      nb.h, cntr, nb.d,
-      nb.g, nb.f, nb.e,
-    ];
-    return cells;
-  }
-
-  setCellValue(cellKey, value) {
-    const cell = this.neighbors[cellKey];
-    cell.setValue(value);
+    return this.cells;
   }
 
   setPossibleParts() {
@@ -70,10 +64,11 @@ export class CellBlock {
     if (!this.center.isShip()) return;
 
     // get sides
-    const north = this.neighbors.b;
-    const east = this.neighbors.d;
-    const south = this.neighbors.f;
-    const west = this.neighbors.h;
+    const ss = this.getSideCells();
+    const north = ss[0]
+    const east = ss[1];
+    const south = ss[2];
+    const west = ss[3];
     if (
       north.isWater() &&
       east.isWater() &&
@@ -123,10 +118,11 @@ export class CellBlock {
     if (!this.center.isShip()) return;
 
     // get sides
-    const north = this.neighbors.b;
-    const east = this.neighbors.d;
-    const south = this.neighbors.f;
-    const west = this.neighbors.h;
+    const ss = this.getSideCells();
+    const north = ss[0]
+    const east = ss[1];
+    const south = ss[2];
+    const west = ss[3];
     switch (this.center.asSymbol()) {
       case "s":
       case "□":

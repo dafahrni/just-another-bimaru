@@ -26,43 +26,26 @@ export class CellBlockFactory {
     // a b c
     // h . d
     // g f e
-    const neighborCordinates = {
-      a: { x: (x) => x - 1, y: (y) => y - 1 }, // a
-      b: { x: (x) => x + 0, y: (y) => y - 1 }, // north
-      c: { x: (x) => x + 1, y: (y) => y - 1 }, // c
-      d: { x: (x) => x + 1, y: (y) => y - 0 }, // east
-      e: { x: (x) => x + 1, y: (y) => y + 1 }, // e
-      f: { x: (x) => x - 0, y: (y) => y + 1 }, // south
-      g: { x: (x) => x - 1, y: (y) => y + 1 }, // g
-      h: { x: (x) => x - 1, y: (y) => y + 0 }, // west
-    };
-/*
-    // 0 1 2
-    // 3 4 5
-    // 6 7 8
-    const coordinates = [
-      { x: (x) => x - 1, y: (y) => y - 1 }, // 0
-      { x: (x) => x    , y: (y) => y - 1 }, // 1
-      { x: (x) => x + 1, y: (y) => y - 1 }, // 2
-      { x: (x) => x - 1, y: (y) => y     }, // 3
-      { x: (x) => x    , y: (y) => y     }, // 4
-      { x: (x) => x + 1, y: (y) => y     }, // 5
-      { x: (x) => x - 1, y: (y) => y + 1 }, // 6
-      { x: (x) => x    , y: (y) => y + 1 }, // 7
-      { x: (x) => x + 1, y: (y) => y + 1 }, // 8
+    const neighborCoordinates = [
+      { x: (x) => x - 1, y: (y) => y - 1 }, // a
+      { x: (x) => x + 0, y: (y) => y - 1 }, // north
+      { x: (x) => x + 1, y: (y) => y - 1 }, // c
+      { x: (x) => x + 1, y: (y) => y - 0 }, // east
+      { x: (x) => x + 1, y: (y) => y + 1 }, // e
+      { x: (x) => x - 0, y: (y) => y + 1 }, // south
+      { x: (x) => x - 1, y: (y) => y + 1 }, // g
+      { x: (x) => x - 1, y: (y) => y + 0 }, // west
     ];
-*/
+
     const cx = centerCell.getX();
     const cy = centerCell.getY();
 
-    const neighborsMap = {};
-
-    Object.entries(neighborCordinates).map(([key, value]) => {
-      const x = value.x(cx);
-      const y = value.y(cy);
-      neighborsMap[key] = field.getCell(x, y);
+    const neighborCells = neighborCoordinates.map((coord) => {
+      const x = coord.x(cx);
+      const y = coord.y(cy);
+      return field.getCell(x, y);
     });
 
-    return new CellBlock(centerCell, neighborsMap);
+    return new CellBlock(centerCell, neighborCells);
   }
 }
