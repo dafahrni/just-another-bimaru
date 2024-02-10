@@ -5,6 +5,10 @@
 - install [node.js](https://nodejs.org/en/download)
 - execute `npm install`
 
+## Build TS Files
+
+- execute `npm run buildn`
+
 ## Run in VS Code
 
 - go to marketplace and install *Live Server* extension
@@ -12,4 +16,4 @@
 
 ## Run Unit Tests
 
-- execute `npm test`
+- execute `npm run test`

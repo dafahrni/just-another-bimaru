@@ -4,14 +4,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "build": "npx tsc"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^5.0.3",
+    "esm": "^3.2.25",
     "mocha": "^10.2.0",
-    "esm": "^3.2.25"
-    },
+    "typescript": "^5.3.3"
+  },
   "type": "module"
 }
