@@ -34,6 +34,7 @@ export class Cell {
     this.y = pos.getY();
     this.pos = pos;
     this.value = value;
+    this.isFix = false;
     this.isDirty = false;
     this.block = null;
     this.index = null;
@@ -43,7 +44,7 @@ export class Cell {
     this.index = index;
   }
 
-  getIndex(index) {
+  getIndex() {
     return this.index;
   }
   
@@ -82,6 +83,8 @@ export class Cell {
       this.value = CellValue.water;
     } else if (this.isWater()) {
       this.value = CellValue.ship;
+      this.block.setCenterWhenShipHasDirection();
+      this.block.setSidesWhenShipHasDirection();
     } else if (this.isShip()) {
       this.value = CellValue.empty;
     } else {

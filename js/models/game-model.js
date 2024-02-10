@@ -1,17 +1,28 @@
 import { FieldFactory } from "./board/field-factory.js";
 import { Game } from "./board/game.js";
+import { GameDefinition } from "./board/game-definition.js";
 
 export class GameModel {
   constructor(field = null) {
     const index = 2;
+    const definition = GameDefinition.default(index);
     this.field = field 
       ? field
-      : FieldFactory.default(index);
+      : FieldFactory.createWith(definition);
     this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
 
     // TODO: remove this line after merger of Game and GameView classes
     this.game = new Game(this.field);
+    this.game.initStatistics(definition.getShipSets());
+  }
+
+  initStatistics(shipSets) {
+    this.game.initStatistics(shipSets);
+  }
+
+  updateStatistics() {
+    this.game.updateStatistics();
   }
 
   get rows() {
@@ -72,7 +83,9 @@ export class GameModel {
   }
   
   checkForWinner() {
-    return this.game.solutionFound();
+    this.game.updateStatistics();
+    const solutionFound = this.game.solutionFound();
+    return solutionFound;
   }
 
   toString() {

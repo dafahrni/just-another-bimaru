@@ -1,12 +1,19 @@
 import { ShipSet } from "./parts/ship-set.js";
 
 export class ShipStatistics {
+
   static createDefault() {
-    return new ShipStatistics(ShipSet.parse("1|4,2|3,3|2,4|1"));
+    return new ShipStatistics();
   }
 
   constructor(shipSets) {
-    this.shipSets = shipSets;
+    this.init(shipSets)
+  }
+
+  init(shipSets) {
+    this.shipSets = shipSets
+      ? shipSets
+      : ShipSet.parse("1|4,2|3,3|2,4|1");
   }
 
   getAmount(shipSize) {
@@ -40,6 +47,11 @@ export class ShipStatistics {
     return this.shipSets.filter((shipSet) => shipSet.getSize() == size)[0];
   }
 
+  moreShipsToPlace() {
+    const moreShipsToPlace = this.getSizeOfBiggestShipToPlace() > 0;
+    return moreShipsToPlace;
+  }
+
   getSizeOfBiggestShipToPlace() {
     this.shipSets.sort(set => set.getSize()).reverse();
     for (let i = 0; i < this.shipSets.length; i++) {
@@ -48,11 +60,7 @@ export class ShipStatistics {
         return set.getSize();
       }
     }
-    return -1;
-  }
-
-  moreShipsToPlace() {
-    return this.getSizeOfBiggestShipToPlace() >= 0;
+    return 0;
   }
 
   update(field) {
@@ -63,7 +71,9 @@ export class ShipStatistics {
     this.resetAmountOfSize(3);
     this.resetAmountOfSize(4);
 
-    Array.from(field.getCells()).forEach((cell) => {
+    const cells = field.getCells();
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
       if (cell.asSymbol() == "o") {
         this.incrementAmountOfSize(1);
       } else if (
@@ -84,6 +94,6 @@ export class ShipStatistics {
       } else {
         // do nothing
       }
-    });
+    }
   }
 }

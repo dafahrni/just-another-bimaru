@@ -10,8 +10,8 @@ export class Game {
     this.statistics = ShipStatistics.createDefault();
   }
 
-  initStatistics(statistics) {
-    this.statistics = statistics;
+  initStatistics(shipSets) {
+    this.statistics.init(shipSets);
   }
 
   getStatistics() {
@@ -34,7 +34,8 @@ export class Game {
   }
 
   solutionFound() {
-    return !this.statistics.moreShipsToPlace();
+    const solutionFound = !this.statistics.moreShipsToPlace();
+    return solutionFound;
   }
 
   setDeterminedCells() {

@@ -2,8 +2,11 @@ import { Cell } from "./parts/cell.js";
 import { CellValue } from "./parts/cell-value.js";
 import { Labels } from "./parts/labels.js";
 import { Position } from "./parts/position.js";
+import { ShipStatistics } from "./ship-statistics.js";
+import { ShipSet } from "./parts/ship-set.js";
 
 export class GameDefinition {
+
   static default(index = 0) {
     const definitions = [
       new GameDefinition(
@@ -27,9 +30,12 @@ export class GameDefinition {
         ]
       ),
       new GameDefinition(
-        new Labels([1, 2, 1], [0, 3, 0, 1]), [
-        new Cell(new Position(0, 2), CellValue.water),
-      ]),
+        new Labels([1, 2, 1], [0, 3, 0, 1]),
+        [
+          new Cell(new Position(0, 2), CellValue.water),
+        ],
+        ShipSet.parse("1|1,2|0,3|1,4|0")
+      ),
     ];
     return 0 <= index && index < definitions.length
       ? definitions[index]
@@ -47,14 +53,16 @@ export class GameDefinition {
   static from(labels, predefinedCells) {
     return new GameDefinition(
       labels,
-      predefinedCells,
-      this.createDefaultShips()
+      predefinedCells
     );
   }
 
-  constructor(labels, predefinedCells) {
+  constructor(labels, predefinedCells, shipSets = null) {
     this.labels = labels;
     this.predefinedCells = predefinedCells;
+    this.shipSets = shipSets
+      ? shipSets
+      : ShipSet.parse("1|4,2|3,3|2,4|1");
   }
 
   getLabels() {
@@ -63,6 +71,10 @@ export class GameDefinition {
 
   getPredefinedCells() {
     return this.predefinedCells;
+  }
+
+  getShipSets() {
+    return this.shipSets;
   }
 
   static isValid(labels, ships) {

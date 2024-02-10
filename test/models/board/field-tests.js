@@ -55,7 +55,7 @@ describe("Field", () => {
   });
 
   describe("#getSlotsOfSize()", () => {
-    it.skip("should return expected amount of slots", () => {
+    it("should return expected amount of slots", () => {
       let testee = FieldFactory.parse(
         "4 | ~ ~ . . ~ . . . . . \n" +
         "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
