@@ -12,7 +12,7 @@ export class Slot {
 
   placeShip() {
     const cells = this.getCells();
-    cells.foreach((cell) => {
+    cells.forEach((cell) => {
       cell.setValue(CellValue.ship);
     });
   }

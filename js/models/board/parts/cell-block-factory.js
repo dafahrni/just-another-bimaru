@@ -7,7 +7,7 @@ export class CellBlockFactory {
 
   static parse(text) {
     const lines = text.replace(/ /g, "").split("\n");
-    const sizeY = lines.length - 1;
+    const sizeY = lines.length;
     const sizeX = lines[0].length;
     const cells = [];
     for (let y = 0; y < sizeY; y++) {

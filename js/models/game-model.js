@@ -4,7 +4,7 @@ import { GameDefinition } from "./board/game-definition.js";
 
 export class GameModel {
   constructor(field = null) {
-    const index = 2;
+    const index = 0;
     const definition = GameDefinition.default(index);
     this.field = field 
       ? field
@@ -67,13 +67,25 @@ export class GameModel {
       return false;
 
     const cell = this.cells[index];
-    if (!cell.isEmpty)
-      return false;
-    
-    if (!cell.tryChangeValue())
+    const shipIsOk = this.canPlaceShip(cell);
+    if (!cell.tryChangeValue(shipIsOk))
       return false;
 
     console.info(this.field.asTextWithCheckMarks());
+    return true;
+  }
+
+  canPlaceShip(cell) {
+    // check col
+    const x = cell.getX();
+    const col = this.field.getCol(x);
+    if (col.isFull()) return false;
+    
+    // check row
+    const y = cell.getY();
+    const row = this.field.getRow(y);
+    if (row.isFull()) return false;
+
     return true;
   }
 

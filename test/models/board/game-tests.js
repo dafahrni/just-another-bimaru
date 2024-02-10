@@ -48,8 +48,112 @@ describe("Game", () => {
     });
   });
 
+  describe("#setEmptyCellsOfAllFullLinesToWater()", () => {
+    it("should produce expected field", () => {
+      let testee = new Game(FieldFactory.parse(
+        "1 | . . . . . . . . . . \n" +
+        "2 | . . . . . . . . . . \n" +
+        "3 | . . . . . . . . . . \n" +
+        "3 | . . . . . . . . □ . \n" +
+        "0 | . . . . . . . . . . \n" +
+        "4 | . . . . . . . . . . \n" +
+        "1 | . . . . . . . . . . \n" +
+        "3 | . ^ . . . . . . . . \n" +
+        "2 | . . . . . . . . v . \n" +
+        "1 | . . . . . . . . . . \n" +
+        "    1 6 1 1 2 0 3 1 3 2"
+      ));
+
+      testee.setEmptyCellsOfAllFullLinesToWater();
+
+      expect(testee.asText()).to.be.equal(
+        "1 | . . . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . . □ . \n" +
+        "√ | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "4 | . . . . . ~ . . . . \n" +
+        "1 | . . . . . ~ . . . . \n" +
+        "3 | . ^ . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . v . \n" +
+        "1 | . . . . . ~ . . . . \n" +
+        "    1 6 1 1 2 √ 3 1 3 2"
+      );
+    });
+  });
+
+  describe("#setPossibleBlockParts()", () => {
+    it("should produce expected field", () => {
+      let testee = new Game(FieldFactory.parse(
+        "1 | . . . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . . □ . \n" +
+        "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "4 | . . . . . ~ . . . . \n" +
+        "1 | . . . . . ~ . . . . \n" +
+        "3 | . ^ . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . v . \n" +
+        "1 | . . . . . ~ . . . . \n" +
+        "    1 6 1 1 2 0 3 1 3 2"
+      ));
+
+      testee.setPossibleBlockParts();
+
+      expect(testee.asText()).to.be.equal(
+        "1 | . . . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . ~ . ~ \n" +
+        "3 | . . . . . ~ . . □ . \n" +
+        "√ | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "4 | . . . . . ~ . . . . \n" +
+        "1 | ~ ~ ~ . . ~ . . . . \n" +
+        "3 | ~ ^ ~ . . ~ . ~ . ~ \n" +
+        "2 | ~ . ~ . . ~ . ~ v ~ \n" +
+        "1 | . . . . . ~ . ~ ~ ~ \n" +
+        "    1 6 1 1 2 √ 3 1 3 2"
+      );
+    });
+  });
+
+  describe("#setPossibleBlockParts()", () => {
+    it("should produce expected field", () => {
+      let testee = new Game(FieldFactory.parse(
+        "1 | . . . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . ~ . ~ \n" +
+        "3 | . . . . . ~ . . □ . \n" +
+        "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "4 | . . . . . ~ . . . . \n" +
+        "1 | ~ ~ ~ . . ~ . . . . \n" +
+        "3 | ~ ^ ~ . . ~ . ~ . ~ \n" +
+        "2 | ~ . ~ . . ~ . ~ v ~ \n" +
+        "1 | . . . . . ~ . ~ ~ ~ \n" +
+        "    1 6 1 1 2 0 3 1 3 2"
+      ));
+
+      testee.correctCenters();
+
+      expect(testee.asText()).to.be.equal(
+        "1 | . . . . . ~ . . . . \n" +
+        "2 | . . . . . ~ . . . . \n" +
+        "3 | . . . . . ~ . ~ . ~ \n" +
+        "3 | . . . . . ~ . . □ > \n" +
+        "√ | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +
+        "4 | . . . . . ~ . . . . \n" +
+        "1 | ~ ~ ~ . . ~ . . . . \n" +
+        "3 | ~ ^ ~ . . ~ . ~ s ~ \n" +
+        "√ | ~ s ~ . . ~ . ~ v ~ \n" +
+        "√ | . v . . . ~ . ~ ~ ~ \n" +
+        "    1 6 1 1 2 √ 3 1 √ 2"
+      );
+    });
+  });
+});
+
+describe.skip("Skipped test", () => {
   describe("#setDeterminedCells()", () => {
-    it.skip("should produce expected field", () => {
+    it("should produce expected field", () => {
       let testee = new Game(FieldFactory.parse(
         "1 | . . . . . . . . . . \n" +
         "2 | . . . . . . . . . . \n" +
@@ -83,7 +187,7 @@ describe("Game", () => {
   });
 
   describe("#setDeterminedCells()", () => {
-    it.skip("should produce expected field", () => {
+    it("should produce expected field", () => {
       let testee = new Game(FieldFactory.parse(
         "5 | . < . . . . . . . . \n" +
         "0 | . . . . . . . . . . \n" +
@@ -151,7 +255,7 @@ describe("Game", () => {
   });
 
   describe("#setDeterminedCells()", () => {
-    it.skip("should modify field as expected", () => {
+    it("should modify field as expected", () => {
       let testee = new Game(FieldFactory.parse(
         "3 | . . . . . . . . . . \n" +
         "0 | . . . . . . . . . . \n" +
@@ -185,7 +289,7 @@ describe("Game", () => {
   });
 
   describe("#setDeterminedCells()", () => {
-    it.skip("should modify field as expected", () => {
+    it("should modify field as expected", () => {
       let testee = new Game(FieldFactory.parse(
         "4 | . . . . . . . . . . \n" +
         "0 | . . . . . . . . . . \n" +
@@ -218,7 +322,7 @@ describe("Game", () => {
   });
 
   describe("#placeShip()", () => {
-    it.skip("should modify field as expected", () => {
+    it("should modify field as expected", () => {
       let testee = new Game(FieldFactory.parse(
         "4 | ~ ~ . . ~ . . . . . \n" +
         "0 | ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \n" +

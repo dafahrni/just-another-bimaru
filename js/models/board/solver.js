@@ -1,6 +1,7 @@
 import { GameDefinition } from "./game-definition.js";
 import { RestorePoint } from "./restore-point.js";
 import { SolverResult } from "./solver-result.js";
+import { Game } from "./game.js";
 import { Field } from "./field.js";
 
 export class Solver {
@@ -8,17 +9,17 @@ export class Solver {
     return new Solver(GameDefinition.default());
   }
 
-  constructor(game) {
+  constructor(definition) {
     this.cells = [];
-    this.field = new Field(game.getLabels());
-    this.field.setPredefinedCells(game.getPredefinedCells());
+    this.field = new Field(definition.getLabels());
+    this.field.setPredefinedCells(definition.getPredefinedCells());
   }
 
   solve() {
     let restorePoints = [];
 
     while (true) {
-      this.field.setDeterminedCells();
+      new Game(this.field).setDeterminedCells();
 
       let slots = [];
       let size = this.field.getSizeOfBiggestShipToPlace();

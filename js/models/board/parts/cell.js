@@ -1,6 +1,5 @@
 import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
-import { CellBlock } from "./cell-block.js";
 
 export class Cell {
 
@@ -70,22 +69,27 @@ export class Cell {
     if (this.isFix) return;
     if (this.value.isSameAs(CellValue.outer)) return;
     if (this.value.isSameAs(value)) return;
-    if (this.value.isShip() && value.isSameAs(CellValue.ship)) return;
     
     this.value = value;
     this.isDirty = true;
   }
 
-  tryChangeValue() {
+  tryChangeValue(shipIsOk) {
     // used for player of the game
     if (this.isFix) return false;
 
     if (this.isEmpty()) {
       this.value = CellValue.water;
     } else if (this.isWater()) {
-      this.value = CellValue.ship;
-      this.block.setCenterWhenShipHasDirection();
-      this.block.setSidesWhenShipHasDirection();
+      if (!shipIsOk) {
+        this.value = CellValue.empty;
+      } else if (this.hasShipInCorner()) {
+        return false;
+      } else { 
+        this.value = CellValue.ship;
+        this.block.setCenter();
+        this.block.correctCenter();
+      }
     } else if (this.isShip()) {
       this.value = CellValue.empty;
     } else {
@@ -93,6 +97,14 @@ export class Cell {
     }
 
     return true;
+  }
+
+  hasShipInCorner() {
+    const corners = this.block.getCornerCells();
+    for (let i = 0; i < corners.length; i++) {
+      if (corners[i].isShip()) return true;
+    }
+    return false;
   }
 
   reset() {
@@ -133,6 +145,10 @@ export class Cell {
 
   asSymbol() {
     return this.value.getSymbol();
+  }
+
+  hasSymbol(symbol) {
+    return this.asSymbol() == symbol;
   }
 
   getDirtyFlag() {

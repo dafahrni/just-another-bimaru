@@ -91,8 +91,6 @@ export class ShipStatistics {
         field.symbolsToTheSouthAre(cell, "^□□v")
       ) {
         this.incrementAmountOfSize(4);
-      } else {
-        // do nothing
       }
     }
   }

@@ -21,12 +21,12 @@ export class Game {
   placeShip(size) {
     // find slots with given size
     const slots = this.field.getSlotsOfSize(size);
-    if (slots || slots.length < 1) return;
+    if (!slots || slots.length < 1) return;
 
     // place ship on first suitable slot
     slots[0].placeShip();
     // set determined cells
-    this.setDeterminedCells(field);
+    this.setDeterminedCells(this.field);
   }
 
   getSizeOfBiggestShipToPlace() {
@@ -39,10 +39,12 @@ export class Game {
   }
 
   setDeterminedCells() {
+    // for solver only (must not be used for playing!!)
     do {
       this.resetDirtyFlags();
       this.setEmptyCellsOfAllFullLinesToWater();
       this.setPossibleBlockParts();
+      this.correctCenters();
       this.updateStatistics();
     } while (this.isDirty());
   }
@@ -56,11 +58,22 @@ export class Game {
   }
 
   setPossibleBlockParts() {
-    const shipCells = this.cells.filter((cell) => cell.isShip());
-    const shipBlocks = shipCells.map((cell) => cell.getBlock());
+    const shipBlocks = this.cells
+      .filter((cell) => cell.isShip())
+      .map((cell) => cell.getBlock());
 
     shipBlocks.forEach((block) => {
       block.setPossibleParts();
+    });
+  }
+
+  correctCenters() {
+    const emptyBlocks = this.cells
+      .filter((cell) => cell.isEmpty())
+      .map((cell) => cell.getBlock());
+
+    emptyBlocks.forEach((block) => {
+      block.correctCenter();
     });
   }
 

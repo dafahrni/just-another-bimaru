@@ -33,11 +33,14 @@ export class CellBlock {
     return [ns[1], ns[3], ns[5], ns[7]];
   }
 
-  setSides(values) {
-    const sides = this.getSideCells();
-    for (let i = 0; i < sides.length; i++) {
-      sides[i].setValue(values[i]);
-    }
+  getSideCellMap() {
+    const ns = this.neighbors;
+    const cellMap = {};
+    cellMap['n'] = ns[1]
+    cellMap['e'] = ns[3];
+    cellMap['s'] = ns[5];
+    cellMap['w'] = ns[7];
+    return cellMap;
   }
   
   getCells() {
@@ -45,9 +48,10 @@ export class CellBlock {
   }
 
   setPossibleParts() {
+    // for solver only (must not be used for playing!!)
     this.setCornersToWater();
-    this.setCenterWhenShipHasDirection();
-    this.setSidesWhenShipHasDirection();
+    this.setCenter();
+    this.setSidesToWater();
   }
 
   setCornersToWater() {
@@ -55,100 +59,130 @@ export class CellBlock {
 
     const corners = this.getCornerCells();
     const emptyCorners = corners.filter(cell => cell.isEmpty());
-    emptyCorners.forEach((corner) => {
-      corner.setValue(CellValue.water);
-    });
+    
+    this.setCellValuesTo(emptyCorners, CellValue.water);
   }
 
-  setCenterWhenShipHasDirection() {
+  setCellValuesTo(cells, value) {
+    cells.forEach(cell => cell.setValue(value));
+  }
+
+  setCenter() {
     if (!this.center.isShip()) return;
 
-    // get sides
-    const ss = this.getSideCells();
-    const north = ss[0]
-    const east = ss[1];
-    const south = ss[2];
-    const west = ss[3];
-    if (
-      north.isWater() &&
-      east.isWater() &&
-      !south.isWater() &&
-      west.isWater()
-    ) {
-      this.center.setValue(CellValue.north);
+    // get sides cells
+    const side = this.getSideCellMap();
+    const center = this.center;
+           if (side['n'].isWater() && side['s'].isShip()) {
+      center.setValue(CellValue.north);
+    } else if (side['e'].isWater() && side['w'].isShip()) {
+      center.setValue(CellValue.east);
+    } else if (side['n'].isShip() && side['s'].isWater()) {
+      center.setValue(CellValue.south);
+    } else if (side['e'].isShip() && side['w'].isWater()) {
+      center.setValue(CellValue.west);
     } else if (
-      north.isWater() &&
-      east.isWater() &&
-      south.isWater() &&
-      !west.isWater()
+      side['n'].isWater() &&
+      side['e'].isWater() &&
+      side['s'].isWater() &&
+      side['w'].isWater()
     ) {
-      this.center.setValue(CellValue.east);
+      center.setValue(CellValue.single);
     } else if (
-      !north.isWater() &&
-      east.isWater() &&
-      south.isWater() &&
-      west.isWater()
+      (side['n'].isShip() && side['s'].isShip()) ||
+      (side['e'].isShip() && side['w'].isShip()) 
     ) {
-      this.center.setValue(CellValue.south);
-    } else if (
-      north.isWater() &&
-      !east.isWater() &&
-      south.isWater() &&
-      west.isWater()
-    ) {
-      this.center.setValue(CellValue.west);
-    } else if (
-      north.isWater() &&
-      east.isWater() &&
-      south.isWater() &&
-      west.isWater()
-    ) {
-      this.center.setValue(CellValue.single);
-    } else if (
-      (north.isWater() && south.isWater()) ||
-      (east.isWater() && west.isWater())
-    ) {
-      this.center.setValue(CellValue.center);
-    } else {
-      // do nothing
+      center.setValue(CellValue.center);
     }
   }
 
-  setSidesWhenShipHasDirection() {
+  setSidesToWater() {
     if (!this.center.isShip()) return;
 
-    // get sides
-    const ss = this.getSideCells();
-    const north = ss[0]
-    const east = ss[1];
-    const south = ss[2];
-    const west = ss[3];
-    switch (this.center.asSymbol()) {
-      case "s":
-      case "□":
-        if (north.isWater() || south.isWater()) {
-          this.setSides([CellValue.water, CellValue.ship, CellValue.water, CellValue.ship]);
-        } else
-        if (east.isWater() || west.isWater()) {
-          this.setSides([CellValue.ship, CellValue.water, CellValue.ship, CellValue.water]);
-        }
-        break;
-      case "^":
-        this.setSides([CellValue.water, CellValue.water, CellValue.ship, CellValue.water]);
-        break;
-      case ">":
-        this.setSides([CellValue.water, CellValue.water, CellValue.water, CellValue.ship]);
-        break;
-      case "v":
-        this.setSides([CellValue.ship, CellValue.water, CellValue.water, CellValue.water]);
-        break;
-      case "<":
-        this.setSides([CellValue.water, CellValue.ship, CellValue.water, CellValue.water]);
-        break;
-      case "o":
-        this.setSides([CellValue.water, CellValue.water, CellValue.water, CellValue.water]);
-        break;
+    // get sides cells
+    const side = this.getSideCellMap();
+    const center = this.center;
+    if (center.hasSymbol("s") || center.hasSymbol("□")) {
+      if (side['n'].isShip() && side['s'].isShip()) {
+        this.setCellValuesTo([side['e'], side['w']], CellValue.water);
+      } else
+      if (side['e'].isShip() && side['w'].isShip()) {
+        this.setCellValuesTo([side['n'], side['s']], CellValue.water);
+      }
+    } else if (center.hasSymbol("^")) {
+      this.setCellValuesTo([side['n'], side['e'], side['w']], CellValue.water);
+    } else if (center.hasSymbol(">")) {
+      this.setCellValuesTo([side['n'], side['e'], side['s']], CellValue.water);
+    } else if (center.hasSymbol("v")) {
+      this.setCellValuesTo([side['e'], side['s'], side['w']], CellValue.water);
+    } else if (center.hasSymbol("<")) {
+      this.setCellValuesTo([side['n'], side['s'], side['w']], CellValue.water);
+    } else if (center.hasSymbol("o")) {
+      this.setCellValuesTo(this.getSideCells(), CellValue.water);
     }
+  }
+
+  correctCenter() {
+    // get sides cells
+    const side = this.getSideCellMap();
+    const center = this.center;
+           if (side['n'].isShip() && side['s'].isWater()) {
+      center.setValue(CellValue.south);
+    } else if (side['e'].isShip() && side['w'].isWater()) {
+      center.setValue(CellValue.west);
+    } else if (side['s'].isShip() && side['n'].isWater()) {
+      center.setValue(CellValue.north);
+    } else if (side['w'].isShip() && side['e'].isWater()) {
+      center.setValue(CellValue.east);
+    } 
+
+    if (center.isEmpty()) {
+      if (
+        side['n'].hasSymbol("^") ||
+        side['e'].hasSymbol(">") ||
+        side['s'].hasSymbol("v") ||
+        side['w'].hasSymbol("<")
+      ) {
+        center.setValue(CellValue.ship);
+      }
+    }
+
+    this.correctSides();
+  }
+
+  correctSides() {
+    if (!this.center.isShip()) return;
+
+    // get sides cells
+    const side = this.getSideCellMap();
+    const center = this.center;
+
+    // reset surrounding ships, eventually
+    if ((
+      side['n'].hasSymbol('v') ||
+      side['n'].hasSymbol('o')))
+      side['n'].setValue(CellValue.ship);
+    if ((
+      side['e'].hasSymbol('<') ||
+      side['e'].hasSymbol('o')))
+      side['e'].setValue(CellValue.ship);
+    if ((
+      side['s'].hasSymbol('^') ||
+      side['s'].hasSymbol('o')))
+      side['s'].setValue(CellValue.ship);
+    if ((
+      side['w'].hasSymbol('>') ||
+      side['w'].hasSymbol('o')))
+      side['w'].setValue(CellValue.ship);
+
+    if (center.hasSymbol("□")) {
+      if (side['n'].isWater() || side['s'].isWater()) {
+        this.setCellValuesTo([side['e'], side['w']], CellValue.ship);
+      } else
+      if (side['e'].isShip() || side['w'].isShip()) {
+        this.setCellValuesTo([side['n'], side['s']], CellValue.ship);
+      }
+    } 
   }
 
   asText() {
@@ -159,7 +193,7 @@ export class CellBlock {
       text += `${cell.asSymbol()} ${(i % 3 === 2 ? "\n" : "")}`;  
       i += 1;
     });
-    text = text.substring(0, text.length - 2);
+    text = text.substring(0, text.length - 1);
     return text;
   }
 
