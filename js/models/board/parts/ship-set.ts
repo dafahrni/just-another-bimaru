@@ -1,6 +1,10 @@
 export class ShipSet {
 
-  static parse(text) {
+  size: number;
+  targetAmount: number;
+  currentAmount: number;
+
+  static parse(text: string): ShipSet[] {
     let shipInfos = Array.from(text.split(","));
     let shipSets = [];
     for (let i = 0; i < shipInfos.length; i++) {
@@ -12,7 +16,7 @@ export class ShipSet {
     return shipSets;
   }
 
-  constructor(shipSize, shipAmount) {
+  constructor(shipSize: number, shipAmount: number) {
     this.size = shipSize;
     this.targetAmount = shipAmount;
     this.currentAmount = 0;

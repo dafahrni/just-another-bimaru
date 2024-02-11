@@ -1,8 +1,10 @@
 import { CellBase } from "./cell-base.js";
 
 export class CellLabel extends CellBase {
+
+  text: any;
   
-  constructor(shipCount) {
+  constructor(shipCount: number) {
     super();
 
     this.tile.setAttribute("class", "label");

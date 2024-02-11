@@ -1,12 +1,18 @@
 import { Cell } from "./parts/cell.js";
 import { CellLine } from "./parts/cell-line.js";
-import { CellBlock } from "./parts/cell-block.js";
 import { Position } from "./parts/position.js";
 import { CellBlockFactory } from "./parts/cell-block-factory.js";
+import { Labels } from "./parts/labels.js";
+import { CellValue } from "./parts/cell-value.js";
 
 export class FieldBase {
 
-  constructor(labels) {
+  sizeX: number;
+  sizeY: number;
+  labels: Labels;
+  cells: Cell[];
+
+  constructor(labels: Labels) {
     this.sizeX = labels.sizeX;
     this.sizeY = labels.sizeY;
     this.labels = labels;
@@ -31,7 +37,7 @@ export class FieldBase {
     }
   }
 
-  setPredefinedCells(predefinedCells = null) {
+  setPredefinedCells(predefinedCells: Cell[] | null = null) {
     predefinedCells = predefinedCells
       ? predefinedCells
       : this.cells.filter((cell) => cell.isPredefinedCellCandidate());
@@ -42,11 +48,11 @@ export class FieldBase {
     });
   }
 
-  setFixCellValue(x, y, value) {
+  setFixCellValue(x: number, y: number, value: CellValue) {
     this.setCellValue(x, y, value, true);
   }
 
-  setCellValue(x, y, value, isFix = false) {
+  setCellValue(x: number, y: number, value: CellValue, isFix = false) {
     let cell = this.getCell(x, y);
     if (cell != null) {
       cell.setValue(value);
@@ -56,12 +62,12 @@ export class FieldBase {
     }
   }
 
-  getCellValue(x, y) {
+  getCellValue(x: number, y: number) {
     const cell = this.getCell(x, y);
     return cell.getValue();
   }
 
-  getCell(x, y) {
+  getCell(x: number, y: number) {
     const pos = new Position(x, y);
     const matchingCells = this.cells.filter((c) => c.getPos().isSameAs(pos));
     if (matchingCells.length > 0) {
@@ -79,7 +85,7 @@ export class FieldBase {
     return this.cells.filter(cell => cell.getIsFix());
   }
 
-  getRow(y) {
+  getRow(y: number) {
     let cells = [];
     for (let x = 0; x < this.sizeX; x++) {
       const cell = this.getCell(x, y);
@@ -88,7 +94,7 @@ export class FieldBase {
     return new CellLine(this.labels.ofRow(y), cells);
   }
 
-  getCol(x) {
+  getCol(x: number) {
     let cells = [];
     for (let y = 0; y < this.sizeY; y++) {
       const cell = this.getCell(x, y);
@@ -113,11 +119,7 @@ export class FieldBase {
     return this.asText(true);
   }
 
-  asText() {
-    return this.asText(false);
-  }
-
-  asText(withCheckMarks) {
+  asText(withCheckMarks: boolean = false) {
     let text = "";
     for (let y = 0; y < this.sizeY; y++) {
       let row = this.getRow(y);

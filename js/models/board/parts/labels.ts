@@ -1,11 +1,15 @@
 export class Labels {
+
+  colLabels: number[];
+  rowLabels: number[];
+
   static default() {
     const colShipCount = [2, 3, 2, 3, 4, 2, 2, 2];
     const rowShipCount = [5, 1, 3, 1, 4, 1, 2, 3];
     return new Labels(colShipCount, rowShipCount);
   }
 
-  constructor(colLabels, rowLabels) {
+  constructor(colLabels: number[], rowLabels: number[]) {
     this.colLabels = colLabels;
     this.rowLabels = rowLabels;
   }
@@ -18,11 +22,11 @@ export class Labels {
     return this.rowLabels;
   }
 
-  ofCol(x) {
+  ofCol(x: number) {
     return this.colLabels[x];
   }
 
-  ofRow(y) {
+  ofRow(y: number) {
     return this.rowLabels[y];
   }
 

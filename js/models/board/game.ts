@@ -1,16 +1,23 @@
+import { Field } from "./field.js";
 import { FieldFactory } from "./field-factory.js";
 import { ShipStatistics } from "./ship-statistics.js";
+import { Cell } from "./parts/cell.js";
+import { ShipSet } from "./parts/ship-set.js";
 
 export class Game {
+
+  field: Field;
+  cells: Cell[];
+  statistics: ShipStatistics;
   
-  constructor(field = null) {
+  constructor(field: Field | null = null) {
     this.field = field ? field : FieldFactory.default();
     this.cells = this.field.getCells();
     this.field.setPredefinedCells();
     this.statistics = ShipStatistics.createDefault();
   }
 
-  initStatistics(shipSets) {
+  initStatistics(shipSets: ShipSet[]) {
     this.statistics.init(shipSets);
   }
 
@@ -18,7 +25,7 @@ export class Game {
     return this.statistics;
   }
 
-  placeShip(size) {
+  placeShip(size: number) {
     // find slots with given size
     const slots = this.field.getSlotsOfSize(size);
     if (!slots || slots.length < 1) return;
@@ -26,7 +33,7 @@ export class Game {
     // place ship on first suitable slot
     slots[0].placeShip();
     // set determined cells
-    this.setDeterminedCells(this.field);
+    this.setDeterminedCells();
   }
 
   getSizeOfBiggestShipToPlace() {

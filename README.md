@@ -17,3 +17,35 @@
 ## Run Unit Tests
 
 - execute `npm run test`
+
+## Folder structue
+
+project/
+│
+├── src/          - Source code directory
+│   ├── index.html         - Main HTML file
+│   ├── styles/            - CSS files
+│   │   └── style.css
+│   ├── scripts/           - TypeScript files
+│   │   └── app.ts
+│   └── assets/            - Assets directory
+│
+├── tests/        - Test directory
+│   ├── unit/             - Unit tests
+│   │   └── unit-test.ts
+│   ├── integration/      - Integration tests
+│   │   └── integration-test.ts
+│   └── ...
+│
+├── dist/         - Output directory for transpiled code
+│   ├── index.html         - Transpiled HTML file
+│   ├── styles/            - Transpiled CSS files
+│   │   └── style.css
+│   ├── scripts/           - Transpiled JavaScript files
+│   │   └── app.js
+│   └── assets/            - Copied assets
+│
+├── node_modules/    - Installed npm packages
+├── package.json      - Configuration file for npm
+├── tsconfig.json     - Configuration file for TypeScript
+└── README.md         - This file

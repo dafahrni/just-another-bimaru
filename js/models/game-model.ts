@@ -1,8 +1,17 @@
 import { FieldFactory } from "./board/field-factory.js";
+import { Field } from "./board/field.js";
 import { Game } from "./board/game.js";
 import { GameDefinition } from "./board/game-definition.js";
+import { ShipSet } from "./board/parts/ship-set.js";
+import { Cell } from "./board/parts/cell.js";
 
 export class GameModel {
+
+  field: Field;
+  labels: any;
+  cells: any;
+  game: Game;
+  
   constructor(field = null) {
     const index = 0;
     const definition = GameDefinition.default(index);
@@ -17,7 +26,7 @@ export class GameModel {
     this.game.initStatistics(definition.getShipSets());
   }
 
-  initStatistics(shipSets) {
+  initStatistics(shipSets: ShipSet[]) {
     this.game.initStatistics(shipSets);
   }
 
@@ -45,11 +54,11 @@ export class GameModel {
     return this.cells.length;
   }
 
-  readCell(index) {
+  readCell(index: number) {
     return this.isValid(index) ? this.cells[index] : "!";
   }
 
-  fillLineWithWater(index) {
+  fillLineWithWater(index: number) {
     // index depends on label creation in Bimaru.setupHtml 
     const sizeX = this.labels.sizeX;
     const sizeY = this.labels.sizeY;
@@ -62,7 +71,7 @@ export class GameModel {
     line.changeEmptyToWater();
   }
 
-  changeCell(index) {
+  changeCell(index: number) {
     if (!this.isValid(index))
       return false;
 
@@ -75,7 +84,7 @@ export class GameModel {
     return true;
   }
 
-  canPlaceShip(cell) {
+  canPlaceShip(cell: Cell) {
     // check col
     const x = cell.getX();
     const col = this.field.getCol(x);
@@ -90,7 +99,7 @@ export class GameModel {
   }
 
   resetCells() {
-    this.cells.forEach((c) => c.reset());
+    this.cells.forEach((c: Cell) => c.reset());
     console.info(this.asText);
   }
   
@@ -108,7 +117,7 @@ export class GameModel {
     return this.field.asText();
   }
 
-  isValid(index) {
+  isValid(index: number) {
     if (index < 0 || index >= this.size) {
       console.error(
         `Index ${index} outside of intervall [0..${this.size - 1}]`

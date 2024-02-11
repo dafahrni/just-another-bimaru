@@ -2,23 +2,25 @@ import { CellBase } from "./cell-base.js";
 
 export class ShipCell extends CellBase {
 
+  cell: Element;
+
   constructor() {
     super();
     
     this.cell = document.createElementNS(this.svgNamespace, "rect");
     this.cell.setAttribute("class", "cell");
-    this.cell.setAttribute("width", this.size);
-    this.cell.setAttribute("height", this.size);
+    this.cell.setAttribute("width", `${this.size}`);
+    this.cell.setAttribute("height", `${this.size}`);
     this.tile.appendChild(this.cell);
 
     this.selectCellType(".");
   }
 
-  selectCellType(ch) {
+  selectCellType(ch: string) {
     // alles löschen ausser den Hintergrund
     Array.from(this.tile.children)
-      .filter((child) => !child.classList.contains("cell"))
-      .forEach((child) => this.tile.removeChild(child));
+      .filter((child: any) => !child.classList.contains("cell"))
+      .forEach((child: any) => this.tile.removeChild(child));
 
     let part;
     switch (ch) {
@@ -54,25 +56,25 @@ export class ShipCell extends CellBase {
 
     // Grösse anpassen
     Array.from(this.tile.children)
-      .filter((child) => !child.classList.contains("cell"))
-      .forEach((child) => this.scale(child));
+      .filter((child: any) => !child.classList.contains("cell"))
+      .forEach((child: any) => this.scale(child));
   }
 
-  setFix(fix) {
+  setFix(fix: boolean) {
     if (fix)
       this.tile.classList.add("semi-transparent");
     else
       this.tile.classList.remove("semi-transparent");
   }
 
-  createShipPart(type) {
+  createShipPart(type: string) {
     const part = document.createElementNS(this.svgNamespace, type);
     part.setAttribute("class", "ship");
     part.setAttribute("pointer-events", "none");
     return part;
   }
 
-  appendShip(n) {
+  appendShip(n: number) {
     // Rechteck erstellen
     const part1 = this.createShipPart("rect");
     part1.setAttribute("x", "10");

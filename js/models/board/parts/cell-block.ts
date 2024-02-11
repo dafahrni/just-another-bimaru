@@ -1,8 +1,13 @@
 import { CellValue } from "./cell-value.js";
+import { Cell } from "./cell.js";
 
 export class CellBlock {
+  
+  center: Cell;
+  neighbors: Cell[];
+  cells: Cell[];
 
-  constructor(centerCell, neighborCells) {
+  constructor(centerCell: Cell, neighborCells: Cell[]) {
     this.center = centerCell;
     this.neighbors = neighborCells;
 
@@ -35,11 +40,12 @@ export class CellBlock {
 
   getSideCellMap() {
     const ns = this.neighbors;
-    const cellMap = {};
-    cellMap['n'] = ns[1]
-    cellMap['e'] = ns[3];
-    cellMap['s'] = ns[5];
-    cellMap['w'] = ns[7];
+    const cellMap = {
+      'n': ns[1],
+      'e': ns[3],
+      's': ns[5],
+      'w': ns[7],
+    };
     return cellMap;
   }
   
@@ -63,7 +69,7 @@ export class CellBlock {
     this.setCellValuesTo(emptyCorners, CellValue.water);
   }
 
-  setCellValuesTo(cells, value) {
+  setCellValuesTo(cells: Cell[], value: CellValue) {
     cells.forEach(cell => cell.setValue(value));
   }
 

@@ -1,17 +1,24 @@
+import { GameModel } from "../models/game-model";
+import { GameView } from "../views/game-view";
+
 export class GameController {
-  constructor(model, view) {
+
+  model: GameModel;
+  view: GameView;
+  
+  constructor(model: GameModel, view: GameView) {
     this.model = model;
     this.view = view;
-    this.view.bindSelectionChanged((i) => this.nextMove(i));
-    this.view.bindLabelClick((i) => this.fillLineWithWater(i));
+    this.view.bindSelectionChanged((i: number) => this.nextMove(i));
+    this.view.bindLabelClick((i: number) => this.fillLineWithWater(i));
   }
 
-  fillLineWithWater(index) {
+  fillLineWithWater(index: number) {
     this.model.fillLineWithWater(index);
     this.view.updateBoard();
   }
 
-  nextMove(index) {
+  nextMove(index: number) {
     if (this.model.changeCell(index)) {
       this.view.updateTile();
     } else {

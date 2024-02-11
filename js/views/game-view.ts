@@ -1,8 +1,15 @@
+import { GameModel } from "../models/game-model.js";
 import { Bimaru } from "./bimaru.js";
 import { ModalDialog } from "./modal-dialog.js";
 
 export class GameView {
-  constructor(model) {
+  
+  model: GameModel;
+  board: Bimaru;
+  dialog: ModalDialog;
+  ressources: any;
+  
+  constructor(model: GameModel) {
     this.model = model;
     this.board = new Bimaru(model);
     this.board.updateAll();
@@ -19,11 +26,11 @@ export class GameView {
   main() {
   }
 
-  bindLabelClick(handler) {
+  bindLabelClick(handler: any) {
     this.board.bindLabelClick(handler);
   }
 
-  bindSelectionChanged(handler) {
+  bindSelectionChanged(handler: any) {
     this.board.bindSelectionChanged(handler);
   }
 
@@ -49,11 +56,11 @@ export class GameView {
     });
   }
 
-  showAlert(message, performAfterHiding) {
+  showAlert(message: string, performAfterHiding: () => void) {
     this.dialog.showAlert(message, performAfterHiding);
   }
 
-  playSound(key) {
+  playSound(key: string) {
     if (key in this.ressources) {
       this.ressources[key].play();
     }

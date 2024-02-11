@@ -1,6 +1,12 @@
+import { Slot } from "./parts/slot";
+
 export class RestorePoint {
 
-    RestorePoint(fieldText, slotsLeft, shipSizeToPlace) {
+    fieldText: string;
+    slotsLeft: Slot[];
+    shipSizeToPlace: number;
+
+    constructor(fieldText: string, slotsLeft: Slot[], shipSizeToPlace: number) {
         this.fieldText = fieldText;
         this.slotsLeft = slotsLeft;
         this.shipSizeToPlace = shipSizeToPlace;

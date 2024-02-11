@@ -1,5 +1,10 @@
 export class CellBase {
 
+  svgNamespace: string;
+  factor: number;
+  size: number;
+  tile: any;
+
   constructor(factor = 0.4) {
     this.svgNamespace = "http://www.w3.org/2000/svg";
     this.factor = factor;
@@ -7,11 +12,15 @@ export class CellBase {
     
     this.tile = document.createElementNS(this.svgNamespace, "svg");
     this.tile.setAttribute("class", "tile");
-    this.tile.setAttribute("width", this.size);
-    this.tile.setAttribute("height", this.size);
+    this.tile.setAttribute("width", `${this.size}`);
+    this.tile.setAttribute("height", `${this.size}`);
   }
 
-  scale(part) {
+  getTile(): HTMLElement {
+    return this.tile;
+  }
+
+  scale(part: any) {
     const factor = this.factor;
     const attr = part.attributes["transform"];
     const attrValue = !attr

@@ -1,9 +1,19 @@
 import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
+import { CellBlock } from "./cell-block.js";
 
 export class Cell {
 
-  static isHorizontal(cells) {
+  x: number;
+  y: number;
+  pos: Position;
+  value: CellValue;
+  isFix: boolean;
+  isDirty: boolean;
+  block: CellBlock | null;
+  index: number;
+
+  static isHorizontal(cells: Cell[]) {
     if (cells.length <= 0) return false;
 
     let y = cells[0].getY();
@@ -13,7 +23,7 @@ export class Cell {
     return true;
   }
 
-  static isVertical(cells) {
+  static isVertical(cells: Cell[]) {
     if (cells.length <= 0) return false;
 
     let x = cells[0].getX();
@@ -27,7 +37,7 @@ export class Cell {
     return new Cell(new Position(-1, -1), CellValue.outer);
   }
 
-  constructor(pos, value = CellValue.empty) {
+  constructor(pos: Position, value = CellValue.empty) {
     if (!pos) throw new Error("Argument 'pos' must not be null!");
     if (!value) throw new Error("Argument 'value' must not be null!");
     this.x = pos.getX();
@@ -37,10 +47,10 @@ export class Cell {
     this.isFix = false;
     this.isDirty = false;
     this.block = null;
-    this.index = null;
+    this.index = -1;
   }
 
-  setIndex(index) {
+  setIndex(index: number) {
     this.index = index;
   }
 
@@ -48,23 +58,25 @@ export class Cell {
     return this.index;
   }
   
-  setBlock(block) {
+  setBlock(block: CellBlock) {
     this.block = block;
   }
 
-  getBlock() {
-    return this.block;
+  getBlock(): CellBlock {
+    const block = this.block;
+    if (block) return block; 
+    throw new Error("Block is expected to be defined here!");
   }
 
-  getPos() {
+  getPos(): Position {
     return this.pos;
   }
 
-  getValue() {
+  getValue(): CellValue {
     return this.value;
   }
 
-  setValue(value) {
+  setValue(value: CellValue) {
     // used for object creation in Field class, unit testing, solver ...
     if (this.isFix) return;
     if (this.value.isSameAs(CellValue.outer)) return;
@@ -74,7 +86,7 @@ export class Cell {
     this.isDirty = true;
   }
 
-  tryChangeValue(shipIsOk) {
+  tryChangeValue(shipIsOk: boolean) {
     // used for player of the game
     if (this.isFix) return false;
 
@@ -87,8 +99,8 @@ export class Cell {
         return false;
       } else { 
         this.value = CellValue.ship;
-        this.block.setCenter();
-        this.block.correctCenter();
+        this.block?.setCenter();
+        this.block?.correctCenter();
       }
     } else if (this.isShip()) {
       this.value = CellValue.empty;
@@ -100,6 +112,7 @@ export class Cell {
   }
 
   hasShipInCorner() {
+    if (!this.block) return;
     const corners = this.block.getCornerCells();
     for (let i = 0; i < corners.length; i++) {
       if (corners[i].isShip()) return true;
@@ -147,7 +160,7 @@ export class Cell {
     return this.value.getSymbol();
   }
 
-  hasSymbol(symbol) {
+  hasSymbol(symbol: string) {
     return this.asSymbol() == symbol;
   }
 
@@ -160,7 +173,7 @@ export class Cell {
   }
 
   asText() {
-    return this.value.getSymbol() + " (" + this.pos.asText() + ")";
+    return `${this.value.getSymbol()} (${this.pos})`;
   }
 
   toString() {

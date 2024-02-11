@@ -5,7 +5,7 @@ import { GameDefinition } from "./game-definition.js";
 
 export class FieldFactory {
 
-  static parse(text) {
+  static parse(text: string) {
     let lines = text.replace(/ /g, "").split("\n");
     let sizeY = lines.length - 1;
     let lastLine = lines[sizeY];
@@ -35,7 +35,7 @@ export class FieldFactory {
     return FieldFactory.createWith(definition);
   }
 
-  static createWith(definition = null) {
+  static createWith(definition: GameDefinition | null = null) {
     definition = definition
       ? definition
       : GameDefinition.default();
@@ -44,7 +44,8 @@ export class FieldFactory {
     return field;
   }
 
-  static from(sizeX, sizeY) {
-    return new Field(new Labels(Array(sizeX).fill(0), Array(sizeY).fill(0)));
+  static from(sizeX: number, sizeY: number) {
+    const create = (size: number) => Array(size).fill(0);
+    return new Field(new Labels(create(sizeX), create(sizeY)));
   }
 }

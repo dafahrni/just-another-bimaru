@@ -4,15 +4,19 @@ import { Slot } from "./slot.js";
 import { Position } from "./position.js";
 
 export class CellLine {
-  static from(targetAmount, cellCount) {
-    let emptyCells = Array.from({ length: cellCount }, () => ({}));
+
+  targetAmount: number;
+  cells: Cell[];
+  
+  static from(targetAmount: number, cellCount: number) {
+    let emptyCells: Cell[] = Array(cellCount);
     for (let x = 0; x < cellCount; x++) {
       emptyCells[x] = new Cell(new Position(x, 0), CellValue.empty);
     }
     return new CellLine(targetAmount, emptyCells);
   }
 
-  static parse(text) {
+  static parse(text: string) {
     let line = text.replace(/ /g, "").split("|");
     let label = parseInt(line[0]);
     let cellValues = line[1];
@@ -27,7 +31,7 @@ export class CellLine {
     return new CellLine(label, cells);
   }
 
-  constructor(targetAmount, cells) {
+  constructor(targetAmount: number, cells: Cell[]) {
     this.targetAmount = targetAmount;
     this.cells = cells;
   }
@@ -82,10 +86,10 @@ export class CellLine {
   }
 
   findSlots(minShipSize = null) {
-    let slots = [];
+    let slots: Slot[] = [];
     if (this.isFull()) return slots;
 
-    let tempCells = [];
+    let tempCells: Cell[] = [];
     this.cells.forEach((cell) => {
       if (cell.isWater()) {
         slots = CellLine.addToSlots(slots, tempCells);
@@ -98,12 +102,12 @@ export class CellLine {
     slots = CellLine.addToSlots(slots, tempCells);
 
     return minShipSize 
-        ? slots.filter((s) => s.size >= minShipSize) 
+        ? slots.filter((s: Slot) => s.size >= minShipSize) 
         : slots;
   }
 
-  static addToSlots(slots, tempCells) {
-    if (tempCells.size <= 0) return;
+  static addToSlots(slots: Slot[], tempCells: Cell[]): Slot[] {
+    if (tempCells.length <= 0) return slots;
 
     let cells = tempCells;
     let newSlot = new Slot(cells);

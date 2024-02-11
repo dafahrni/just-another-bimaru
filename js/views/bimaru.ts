@@ -3,9 +3,19 @@ import { CellLabel } from "./cell-label.js";
 
 // TODO: avoid dependency on models, maybe use DTOs 
 import { Cell } from "../models/board/parts/cell.js";
+import { GameModel } from "../models/game-model.js";
 
 export class Bimaru {
-  constructor(model) {
+
+  model: GameModel;
+  cells: ShipCell[];
+  tiles: HTMLElement[];
+  selectedTile: HTMLElement | null;
+  notifySelectionChanged: any;
+  labels: HTMLElement[];
+  notifyLabelClick: any;
+  
+  constructor(model: GameModel) {
     this.model = model;
     this.cells = [];
     this.tiles = [];
@@ -16,11 +26,11 @@ export class Bimaru {
     this.setupHtml(model.rows, model.cols);
   }
 
-  bindLabelClick(handler) {
+  bindLabelClick(handler: any) {
     this.notifyLabelClick = handler;
   }
 
-  bindSelectionChanged(handler) {
+  bindSelectionChanged(handler: any) {
     this.notifySelectionChanged = handler;
   }
 
@@ -35,8 +45,9 @@ export class Bimaru {
     this.selectedTile = null;
   }
 
-  setupHtml(rows, cols) {
-    const grid = document.getElementById("root");
+  setupHtml(rows: number, cols: number) {
+    const grid: HTMLElement | null = document.getElementById("root");
+    if (!grid) throw new Error("Root node is missing in HTML.");
     const templateColumns = `repeat(${cols + 1}, 1fr)`;
     grid.style.gridTemplateColumns = templateColumns;
     grid.addEventListener("click", this.labelSelected.bind(this));
@@ -63,7 +74,7 @@ export class Bimaru {
     }
   }
 
-  labelSelected(event) {
+  labelSelected(event: any) {
     const selectedLabel = event.target.closest(".label");
     if (!selectedLabel) {
       return;
@@ -77,7 +88,7 @@ export class Bimaru {
     }
   }
 
-  tileSelected(event) {
+  tileSelected(event: any) {
     const selectedTile = event.target.closest(".tile");
     if (!selectedTile) {
       return;
@@ -91,7 +102,7 @@ export class Bimaru {
     }
   }
 
-  update(tile) {
+  update(tile: HTMLElement) {
     const index = this.tiles.indexOf(tile);
 
     // read cell from model
@@ -110,8 +121,8 @@ export class Bimaru {
     const block = cell.getBlock();
     const neighbors = block
       .getNeighborCells()
-      .filter((cell) => cell.asSymbol() != "x")
-      .map((cell) => {
+      .filter((cell: Cell) => cell.asSymbol() != "x")
+      .map((cell: Cell) => {
         if (!(cell instanceof Cell))
           throw new Error("Instance must be of type 'Cell'!");
         const index = cell.getIndex();
@@ -120,7 +131,7 @@ export class Bimaru {
       });
 
     // write neighbors to view
-    neighbors.forEach((data) => {
+    neighbors.forEach((data: any[]) => {
       const index = data[0];
       const ch = data[1];
       const shipCell = this.cells[index];

@@ -1,6 +1,8 @@
 export class Position {
+  x: number;
+  y: number;
   
-  constructor(x, y) {
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
@@ -29,26 +31,26 @@ export class Position {
     this.y++;
   }
 
-  isSameAs(o) {
+  isSameAs(o: Position) {
     if (this == o) return true;
     if (o == null || !(o instanceof Position)) return false;
     let position = o;
     return this.x == position.x && this.y == position.y;
   }
 
-  getCopy() {
+  getCopy(): Position {
     return new Position(this.x, this.y);
   }
 
-  asText() {
+  asText(): string {
     return this.x + "|" + this.y;
   }
 
-  toString() {
+  toString(): string {
     return this.asText();
   }
 
-  changeTo(x, y) {
+  changeTo(x: number, y: number) {
     this.x = x;
     this.y = y;
   }

@@ -1,8 +1,11 @@
 import { FieldBase } from "./field-base.js";
+import { Labels } from "./parts/labels.js";
+import { Slot } from "./parts/slot.js";
+import { Cell } from "./parts/cell.js";
 
 export class Field extends FieldBase {
 
-  constructor(labels) {
+  constructor(labels: Labels) {
     super(labels);
   }
   
@@ -24,17 +27,17 @@ export class Field extends FieldBase {
     }
   }
 
-  symbolsToTheEastAre(cell, symbols) {
+  symbolsToTheEastAre(cell: Cell, symbols: string) {
     let easternSymbols = this.symbolsToTheEast(cell, symbols.length);
     return easternSymbols == symbols;
   }
 
-  symbolsToTheSouthAre(cell, symbols) {
+  symbolsToTheSouthAre(cell: any, symbols: string) {
     let southernSymbols = this.symbolsToTheSouth(cell, symbols.length);
     return southernSymbols == symbols;
   }
 
-  symbolsToTheEast(cell, quantity) {
+  symbolsToTheEast(cell: Cell, quantity: number) {
     const x = cell.getX();
     const y = cell.getY();
     let symbols = "" + cell.asSymbol();
@@ -45,7 +48,7 @@ export class Field extends FieldBase {
     return symbols;
   }
 
-  symbolsToTheSouth(cell, quantity) {
+  symbolsToTheSouth(cell: Cell, quantity: number) {
     const x = cell.getX();
     const y = cell.getY();
     let symbols = "" + cell.asSymbol();
@@ -56,8 +59,8 @@ export class Field extends FieldBase {
     return symbols;
   }
 
-  getSlotsOfSize(size) {
-    let slots = [];
+  getSlotsOfSize(size: number) {
+    let slots: Slot[] = [];
     let slotsNoneWater = this.getSlotsOfAllNoneWaterCells(size);
     slotsNoneWater.forEach((slot) => {
       const newSlots = slot.split(size);
@@ -66,8 +69,8 @@ export class Field extends FieldBase {
     return slots;
   }
 
-  getSlotsOfAllNoneWaterCells(size) {
-    let slots = [];
+  getSlotsOfAllNoneWaterCells(size: number) {
+    let slots: Slot[] = [];
     for (let y = 0; y < this.sizeY; y++) {
       let row = this.getRow(y);
       if (row.getAmountLeft() >= size) 

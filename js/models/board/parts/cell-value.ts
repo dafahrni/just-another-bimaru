@@ -1,4 +1,8 @@
 export class CellValue {
+  
+  symbol: string;
+  name: string;
+
   static get empty() { return new CellValue(".", "empty"); }
   static get water() { return new CellValue("~", "water"); }
   static get center() { return new CellValue("□", "center"); }
@@ -25,7 +29,7 @@ export class CellValue {
     ];
   }
   
-  static from(symbol) {
+  static from(symbol: string) {
     const validSymbols = CellValue.all.map((v) => v.getSymbol());
     if (!validSymbols.includes(symbol)) 
       throw new Error(`Symbol ${symbol} is invalid.`);
@@ -41,7 +45,7 @@ export class CellValue {
     return value;
   }
 
-  constructor(symbol, name) {
+  constructor(symbol: string, name: string) {
     this.symbol = symbol;
     this.name = name;
   }
@@ -80,7 +84,7 @@ export class CellValue {
     );
   }
 
-  isSameAs(value) {
+  isSameAs(value: CellValue) {
     return this.name == value.name;
   }
 

@@ -1,8 +1,11 @@
 import { CellValue } from "./cell-value.js";
+import { Cell } from "./cell.js";
 
 export class Slot {
   
-  constructor(cells) {
+  cells: Cell[];
+  
+  constructor(cells: Cell[]) {
     this.cells = cells;
   }
 
@@ -21,8 +24,8 @@ export class Slot {
     return this.cells;
   }
 
-  split(shipSize) {
-    var slots = [];
+  split(shipSize: number) {
+    var slots: Slot[] = [];
     var count = this.size - shipSize + 1;
     if (count < 1) return slots;
 
@@ -38,7 +41,7 @@ export class Slot {
   }
 
   asText() {
-    return `size ${this.size} slots ${this.slots}`;
+    return `size: ${this.size}, cells: ${this.cells.join(", ")}`;
   }
 
   toString() {

@@ -2,10 +2,14 @@ import { Cell } from "./parts/cell.js";
 import { CellValue } from "./parts/cell-value.js";
 import { Labels } from "./parts/labels.js";
 import { Position } from "./parts/position.js";
-import { ShipStatistics } from "./ship-statistics.js";
 import { ShipSet } from "./parts/ship-set.js";
+import { Field } from "./field.js";
 
 export class GameDefinition {
+
+  labels: Labels;
+  predefinedCells: Cell[];
+  shipSets: ShipSet[];
 
   static default(index = 0) {
     const definitions = [
@@ -46,18 +50,21 @@ export class GameDefinition {
     return new GameDefinition(new Labels(Array(10), Array(10)), []);
   }
 
-  static extract(field) {
-    return GameDefinition(field.getLabels(), field.getCellsWithFixedValue());
+  static extract(field: Field) {
+    return new GameDefinition(field.getLabels(), field.getCellsWithFixedValue());
   }
 
-  static from(labels, predefinedCells) {
+  static from(labels: Labels, predefinedCells: Cell[]) {
     return new GameDefinition(
       labels,
       predefinedCells
     );
   }
 
-  constructor(labels, predefinedCells, shipSets = null) {
+  constructor(
+    labels: Labels, 
+    predefinedCells: Cell[], 
+    shipSets: ShipSet[] | null = null) {
     this.labels = labels;
     this.predefinedCells = predefinedCells;
     this.shipSets = shipSets
@@ -77,17 +84,17 @@ export class GameDefinition {
     return this.shipSets;
   }
 
-  static isValid(labels, ships) {
+  static isValid(labels: Labels, ships: ShipSet[]) {
     let colLabelSum = 0;
-    labels.ofColums().forEach((label) => {
+    labels.ofCols().forEach((label: number) => {
       colLabelSum += label;
     });
     let rowLabelSum = 0;
-    labels.ofRows().forEach((label) => {
+    labels.ofRows().forEach((label: number) => {
       rowLabelSum += label;
     });
     let shipSum = 0;
-    ships.forEach((ship) => {
+    ships.forEach((ship: ShipSet) => {
       shipSum += ship.getSize() * ship.getTargetAmount();
     });
     return colLabelSum == rowLabelSum && rowLabelSum == shipSum;
