@@ -1,8 +1,8 @@
-import { Field } from "./field";
-import { FieldFactory } from "./field-factory";
-import { ShipStatistics } from "./ship-statistics";
-import { Cell } from "./parts/cell";
-import { ShipSet } from "./parts/ship-set";
+import { Field } from "./field.js";
+import { FieldFactory } from "./field-factory.js";
+import { ShipStatistics } from "./ship-statistics.js";
+import { Cell } from "./parts/cell.js";
+import { ShipSet } from "./parts/ship-set.js";
 
 export class Game {
 

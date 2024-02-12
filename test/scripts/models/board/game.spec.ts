@@ -1,6 +1,6 @@
-import { FieldFactory } from "../../../js/models/board/field-factory.js";
-import { Game } from "../../../js/models/board/game.js";
 import { expect } from "chai";
+import { Game } from "../../../../src/scripts/models/board/game.js";
+import { FieldFactory } from "../../../../src/scripts/models/board/field-factory.js";
 
 describe("Game", () => {
   

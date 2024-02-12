@@ -1,6 +1,6 @@
-import { FieldFactory } from "../../../js/models/board/field-factory.js";
-import { Game } from "../../../js/models/board/game.js";
 import { expect } from "chai";
+import { FieldFactory } from "../../../../src/scripts/models/board/field-factory.js";
+import { Game } from "../../../../src/scripts/models/board/game.js";
 
 describe("ShipStatistics", () => {
   const fieldText =
@@ -39,7 +39,7 @@ describe("ShipStatistics", () => {
 
         // when + then
         expect(() => testee.getAmount(tc.shipSize)).to.throw(
-          tc.expectedException
+          tc.expectedError
         );
       });
     });

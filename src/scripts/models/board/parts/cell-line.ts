@@ -1,7 +1,7 @@
-import { Cell } from "./cell";
-import { CellValue } from "./cell-value";
-import { Slot } from "./slot";
-import { Position } from "./position";
+import { Cell } from "./cell.js";
+import { CellValue } from "./cell-value.js";
+import { Slot } from "./slot.js";
+import { Position } from "./position.js";
 
 export class CellLine {
 
@@ -85,7 +85,7 @@ export class CellLine {
     return this.asText();
   }
 
-  findSlots(minShipSize = null) {
+  findSlots(minShipSize: number | null = null) {
     let slots: Slot[] = [];
     if (this.isFull()) return slots;
 

@@ -1,5 +1,5 @@
-import { FieldFactory } from "../../../js/models/board/field-factory.js";
 import { expect } from "chai";
+import { FieldFactory } from "../../../../src/scripts/models/board/field-factory.js";
 
 describe("FieldFactory", () => {
 

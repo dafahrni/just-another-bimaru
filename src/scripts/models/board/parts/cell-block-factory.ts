@@ -1,8 +1,8 @@
-import { CellBlock } from "./cell-block";
-import { CellValue } from "./cell-value";
-import { Cell } from "./cell";
-import { Position } from "./position";
-import { FieldBase } from "../field-base";
+import { CellBlock } from "./cell-block.js";
+import { CellValue } from "./cell-value.js";
+import { Cell } from "./cell.js";
+import { Position } from "./position.js";
+import { FieldBase } from "../field-base.js";
 
 export class CellBlockFactory {
 

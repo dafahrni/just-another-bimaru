@@ -1,5 +1,5 @@
-import { Field } from "./field";
-import { ShipSet } from "./parts/ship-set";
+import { Field } from "./field.js";
+import { ShipSet } from "./parts/ship-set.js";
 
 export class ShipStatistics {
 

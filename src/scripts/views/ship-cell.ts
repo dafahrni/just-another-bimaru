@@ -1,4 +1,4 @@
-import { CellBase } from "./cell-base";
+import { CellBase } from "./cell-base.js";
 
 export class ShipCell extends CellBase {
 

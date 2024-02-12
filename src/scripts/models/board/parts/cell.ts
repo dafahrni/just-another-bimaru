@@ -1,6 +1,6 @@
-import { Position } from "./position";
-import { CellValue } from "./cell-value";
-import { CellBlock } from "./cell-block";
+import { Position } from "./position.js";
+import { CellValue } from "./cell-value.js";
+import { CellBlock } from "./cell-block.js";
 
 export class Cell {
 

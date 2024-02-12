@@ -4,16 +4,29 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --recursive",
-    "build": "npx tsc"
+    "clean": "rimraf dist",
+    "copy-assets": "node_modules\\.bin\\cpy src\\!(scripts)\\**\\* dist\\src\\",
+    "copy-index-html": "node_modules\\.bin\\cpy src\\index.html dist\\",
+    "build": "npm run clean && npx tsc && npm run copy-assets && npm run copy-index-html",
+    "test": "node_modules\\.bin\\mocha dist\\test\\**\\*.spec.js",
+    "start": "live-server dist/src --port=8080"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.17",
     "chai": "^5.0.3",
+    "cpy-cli": "^5.0.0",
     "esm": "^3.2.25",
-    "mocha": "^10.2.0",
+    "mocha": "^10.3.0",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "live-server": "^1.2.2"
+  }
 }

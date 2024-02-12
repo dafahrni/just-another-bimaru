@@ -1,7 +1,7 @@
-import { ShipSet } from "../../js/models/board/parts/ship-set.js";
-import { FieldFactory } from "../../js/models/board/field-factory.js";
-import { GameModel } from "../../js/models/game-model.js";
 import { expect } from "chai";
+import { FieldFactory } from "../../../src/scripts/models/board/field-factory.js";
+import { ShipSet } from "../../../src/scripts/models/board/parts/ship-set.js";
+import { GameModel } from "../../../src/scripts/models/game-model.js";
 
 describe("GameModel", () => {
   describe("#rowCount()", () => {

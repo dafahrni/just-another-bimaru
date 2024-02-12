@@ -1,7 +1,7 @@
-import { Field } from "./field";
-import { CellValue } from "./parts/cell-value";
-import { Labels } from "./parts/labels";
-import { GameDefinition } from "./game-definition";
+import { Field } from "./field.js";
+import { CellValue } from "./parts/cell-value.js";
+import { Labels } from "./parts/labels.js";
+import { GameDefinition } from "./game-definition.js";
 
 export class FieldFactory {
 
@@ -44,7 +44,7 @@ export class FieldFactory {
     return field;
   }
 
-  static from(sizeX: number, sizeY: number) {
+  static from(sizeX: number, sizeY: number): Field {
     const create = (size: number) => Array(size).fill(0);
     return new Field(new Labels(create(sizeX), create(sizeY)));
   }

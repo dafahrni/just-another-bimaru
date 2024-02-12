@@ -1,6 +1,6 @@
-import { GameModel } from "../models/game-model";
-import { Bimaru } from "./bimaru";
-import { ModalDialog } from "./modal-dialog";
+import { GameModel } from "../models/game-model.js";
+import { Bimaru } from "./bimaru.js";
+import { ModalDialog } from "./modal-dialog.js";
 
 export class GameView {
   
@@ -15,11 +15,11 @@ export class GameView {
     this.board.updateAll();
     this.dialog = new ModalDialog();
     this.ressources = {
-      click: new Audio("resources/click.mp3"),
-      clack: new Audio("resources/clack.mp3"),
-      wrong: new Audio("resources/buzz.mp3"),
-      bell: new Audio("resources/success.mp3"),
-      draw: new Audio("resources/draw.mp3"),
+      click: new Audio("assets/click.mp3"),
+      clack: new Audio("assets/clack.mp3"),
+      wrong: new Audio("assets/buzz.mp3"),
+      bell: new Audio("assets/success.mp3"),
+      draw: new Audio("assets/draw.mp3"),
     };
   }
 

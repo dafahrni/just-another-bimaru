@@ -1,5 +1,5 @@
-import { CellLine } from "../../../../js/models/board/parts/cell-line.js";
 import { expect } from "chai";
+import { CellLine } from "../../../../../src/scripts/models/board/parts/cell-line.js";
 
 describe("CellLine", () => {
   describe("#getCurrentAmount()", () => {

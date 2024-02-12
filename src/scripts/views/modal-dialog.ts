@@ -1,4 +1,4 @@
-import { ElementBuilder } from "./element-builder";
+import { ElementBuilder } from "./element-builder.js";
 
 export class ModalDialog {
 

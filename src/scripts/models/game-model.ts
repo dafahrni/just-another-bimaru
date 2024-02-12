@@ -1,9 +1,9 @@
-import { FieldFactory } from "./board/field-factory";
-import { Field } from "./board/field";
-import { Game } from "./board/game";
-import { GameDefinition } from "./board/game-definition";
-import { ShipSet } from "./board/parts/ship-set";
-import { Cell } from "./board/parts/cell";
+import { FieldFactory } from "./board/field-factory.js";
+import { Field } from "./board/field.js";
+import { Game } from "./board/game.js";
+import { GameDefinition } from "./board/game-definition.js";
+import { ShipSet } from "./board/parts/ship-set.js";
+import { Cell } from "./board/parts/cell.js";
 
 export class GameModel {
 
@@ -12,7 +12,7 @@ export class GameModel {
   cells: any;
   game: Game;
   
-  constructor(field = null) {
+  constructor(field: Field | null = null) {
     const index = 0;
     const definition = GameDefinition.default(index);
     this.field = field 
