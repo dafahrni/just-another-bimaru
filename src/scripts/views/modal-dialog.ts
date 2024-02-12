@@ -2,12 +2,12 @@ import { ElementBuilder } from "./element-builder.js";
 
 export class ModalDialog {
 
-    notification: any;
-    overlay: any;
-    text: any;
-    button: any;
-    notificationTimeout: any;
-    action: any;
+    private notification: any;
+    private overlay: any;
+    private text: any;
+    private button: any;
+    private notificationTimeout: any;
+    private action: any;
 
     constructor() {
       this.notification = null;

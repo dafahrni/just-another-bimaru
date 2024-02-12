@@ -2,7 +2,7 @@ import { CellBase } from "./cell-base.js";
 
 export class CellLabel extends CellBase {
 
-  text: any;
+  private text: any;
   
   constructor(shipCount: number) {
     super();

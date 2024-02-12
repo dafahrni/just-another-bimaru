@@ -1,5 +1,6 @@
 export class ElementBuilder {
-    child: HTMLElement;
+    
+  private child: HTMLElement;
 
     constructor(elementType: string) {
       this.child = document.createElement(elementType);

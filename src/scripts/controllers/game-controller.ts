@@ -3,8 +3,8 @@ import { GameView } from "../views/game-view";
 
 export class GameController {
 
-  model: GameModel;
-  view: GameView;
+  private model: GameModel;
+  private view: GameView;
   
   constructor(model: GameModel, view: GameView) {
     this.model = model;

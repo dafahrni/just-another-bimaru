@@ -4,14 +4,12 @@ import { CellBlock } from "./cell-block.js";
 
 export class Cell {
 
-  x: number;
-  y: number;
-  pos: Position;
-  value: CellValue;
-  isFix: boolean;
-  isDirty: boolean;
-  block: CellBlock | null;
-  index: number;
+  private pos: Position;
+  private value: CellValue;
+  private isFix: boolean;
+  private isDirty: boolean;
+  private block: CellBlock | null;
+  private index: number;
 
   static isHorizontal(cells: Cell[]) {
     if (cells.length <= 0) return false;
@@ -40,8 +38,6 @@ export class Cell {
   constructor(pos: Position, value = CellValue.empty) {
     if (!pos) throw new Error("Argument 'pos' must not be null!");
     if (!value) throw new Error("Argument 'value' must not be null!");
-    this.x = pos.getX();
-    this.y = pos.getY();
     this.pos = pos;
     this.value = value;
     this.isFix = false;
@@ -86,27 +82,33 @@ export class Cell {
     this.isDirty = true;
   }
 
-  tryChangeValue(shipIsOk: boolean) {
+  tryChangeValue(shipIsOk: boolean | null = null) {
     // used for player of the game
     if (this.isFix) return false;
 
+    // 1st step: use state machine to change cell value (don't apply logic)
     if (this.isEmpty()) {
       this.value = CellValue.water;
+      this.block?.correctCenter();
     } else if (this.isWater()) {
-      if (!shipIsOk) {
-        this.value = CellValue.empty;
-      } else if (this.hasShipInCorner()) {
-        return false;
-      } else { 
-        this.value = CellValue.ship;
-        this.block?.setCenter();
-        this.block?.correctCenter();
-      }
+      this.value = CellValue.ship;
+      this.block?.setCenter();
     } else if (this.isShip()) {
       this.value = CellValue.empty;
     } else {
       throw new Error("Unexpected value: " + this.value);
     }
+
+    // 2nd steo: maybe correct cells (do apply logic)
+    //if (!shipIsOk) {
+    //  this.value = CellValue.empty;
+    // TODO: remove this check (corner check is obsolete as well)
+    //} else if (this.hasShipInCorner()) {
+    //  return false;
+    //} else {
+    //  this.block?.setCenter();
+    //  this.block?.correctCenter();
+    //}
 
     return true;
   }

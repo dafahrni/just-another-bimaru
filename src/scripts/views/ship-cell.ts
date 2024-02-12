@@ -2,7 +2,7 @@ import { CellBase } from "./cell-base.js";
 
 export class ShipCell extends CellBase {
 
-  cell: Element;
+  private cell: Element;
 
   constructor() {
     super();

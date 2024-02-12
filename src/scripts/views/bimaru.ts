@@ -7,13 +7,13 @@ import { GameModel } from "../models/game-model.js";
 
 export class Bimaru {
 
-  model: GameModel;
-  cells: ShipCell[];
-  tiles: HTMLElement[];
-  selectedTile: HTMLElement | null;
-  notifySelectionChanged: any;
-  labels: HTMLElement[];
-  notifyLabelClick: any;
+  private model: GameModel;
+  private cells: ShipCell[];
+  private tiles: HTMLElement[];
+  private selectedTile: HTMLElement | null;
+  private notifySelectionChanged: any;
+  private labels: HTMLElement[];
+  private notifyLabelClick: any;
   
   constructor(model: GameModel) {
     this.model = model;
@@ -56,21 +56,21 @@ export class Bimaru {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const cell = new ShipCell();
-        grid.appendChild(cell.tile);
-        this.tiles.push(cell.tile);
+        grid.appendChild(cell.getTile());
+        this.tiles.push(cell.getTile());
         this.cells.push(cell);
       }
       const shipCount = this.model.rowLabels[row];
       const label = new CellLabel(shipCount);
-      grid.appendChild(label.tile);
-      this.labels.push(label.tile); // defines index of row labels
+      grid.appendChild(label.getTile());
+      this.labels.push(label.getTile()); // defines index of row labels
     }
 
     for (let col = 0; col < cols; col++) {
       const shipCount = this.model.colLabels[col];
       const label = new CellLabel(shipCount);
-      grid.appendChild(label.tile);
-      this.labels.push(label.tile); // defines index of col labels
+      grid.appendChild(label.getTile());
+      this.labels.push(label.getTile()); // defines index of col labels
     }
   }
 
@@ -106,7 +106,7 @@ export class Bimaru {
     const index = this.tiles.indexOf(tile);
 
     // read cell from model
-    const cell = this.model.readCell(index);
+    const cell = this.model.getCell(index);
     const ch = cell.asSymbol();
     const isFix = cell.getIsFix();
 

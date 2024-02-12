@@ -1,8 +1,8 @@
 export class ShipSet {
 
-  size: number;
-  targetAmount: number;
-  currentAmount: number;
+  private size: number;
+  private targetAmount: number;
+  private currentAmount: number;
 
   static parse(text: string): ShipSet[] {
     let shipInfos = Array.from(text.split(","));

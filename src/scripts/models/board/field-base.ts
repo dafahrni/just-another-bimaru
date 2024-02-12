@@ -7,10 +7,10 @@ import { CellValue } from "./parts/cell-value.js";
 
 export class FieldBase {
 
-  sizeX: number;
-  sizeY: number;
-  labels: Labels;
-  cells: Cell[];
+  protected sizeX: number;
+  protected sizeY: number;
+  protected labels: Labels;
+  protected cells: Cell[];
 
   constructor(labels: Labels) {
     this.sizeX = labels.sizeX;

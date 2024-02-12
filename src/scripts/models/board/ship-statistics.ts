@@ -3,7 +3,7 @@ import { ShipSet } from "./parts/ship-set.js";
 
 export class ShipStatistics {
 
-  shipSets: ShipSet[];
+  private shipSets: ShipSet[];
 
   static createDefault() {
     return new ShipStatistics(ShipSet.parse("1|4,2|3,3|2,4|1"));

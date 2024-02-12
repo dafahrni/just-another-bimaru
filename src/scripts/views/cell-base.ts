@@ -1,9 +1,9 @@
 export class CellBase {
 
-  svgNamespace: string;
-  factor: number;
-  size: number;
-  tile: any;
+  protected svgNamespace: string;
+  protected factor: number;
+  protected size: number;
+  protected tile: any;
 
   constructor(factor = 0.4) {
     this.svgNamespace = "http://www.w3.org/2000/svg";

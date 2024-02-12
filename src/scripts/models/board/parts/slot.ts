@@ -3,7 +3,7 @@ import { Cell } from "./cell.js";
 
 export class Slot {
   
-  cells: Cell[];
+  private cells: Cell[];
   
   constructor(cells: Cell[]) {
     this.cells = cells;

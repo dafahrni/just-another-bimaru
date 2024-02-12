@@ -5,8 +5,8 @@ import { Position } from "./position.js";
 
 export class CellLine {
 
-  targetAmount: number;
-  cells: Cell[];
+  private targetAmount: number;
+  private cells: Cell[];
   
   static from(targetAmount: number, cellCount: number) {
     let emptyCells: Cell[] = Array(cellCount);

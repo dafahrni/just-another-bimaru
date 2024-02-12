@@ -4,13 +4,14 @@ import { Game } from "./board/game.js";
 import { GameDefinition } from "./board/game-definition.js";
 import { ShipSet } from "./board/parts/ship-set.js";
 import { Cell } from "./board/parts/cell.js";
+import { Labels } from "./board/parts/labels.js";
 
 export class GameModel {
 
-  field: Field;
-  labels: any;
-  cells: any;
-  game: Game;
+  private field: Field;
+  private labels: Labels;
+  private cells: Cell[];
+  private game: Game;
   
   constructor(field: Field | null = null) {
     const index = 0;
@@ -54,8 +55,10 @@ export class GameModel {
     return this.cells.length;
   }
 
-  readCell(index: number) {
-    return this.isValid(index) ? this.cells[index] : "!";
+  getCell(index: number) {
+    if (this.isValid(index))
+      return this.cells[index];
+    else throw new Error(`No cell with index ${index} available.`);
   }
 
   fillLineWithWater(index: number) {
@@ -76,14 +79,17 @@ export class GameModel {
       return false;
 
     const cell = this.cells[index];
-    const shipIsOk = this.canPlaceShip(cell);
-    if (!cell.tryChangeValue(shipIsOk))
+    // TODO: remove check (ships can always be placed)
+    // const shipIsOk = this.canPlaceShip(cell);
+    //if (!cell.tryChangeValue(shipIsOk))
+    if (!cell.tryChangeValue())
       return false;
 
     console.info(this.field.asTextWithCheckMarks());
     return true;
   }
 
+  // TODO: remove this obsolete check
   canPlaceShip(cell: Cell) {
     // check col
     const x = cell.getX();

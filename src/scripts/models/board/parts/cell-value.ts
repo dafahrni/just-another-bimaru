@@ -1,7 +1,7 @@
 export class CellValue {
   
-  symbol: string;
-  name: string;
+  private symbol: string;
+  private name: string;
 
   static get empty() { return new CellValue(".", "empty"); }
   static get water() { return new CellValue("~", "water"); }

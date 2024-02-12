@@ -4,10 +4,10 @@ import { ModalDialog } from "./modal-dialog.js";
 
 export class GameView {
   
-  model: GameModel;
-  board: Bimaru;
-  dialog: ModalDialog;
-  ressources: any;
+  private model: GameModel;
+  private board: Bimaru;
+  private dialog: ModalDialog;
+  private ressources: any;
   
   constructor(model: GameModel) {
     this.model = model;
