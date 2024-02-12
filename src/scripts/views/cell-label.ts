@@ -17,7 +17,7 @@ export class CellLabel extends CellBase {
 
     // Text Positionierung
     var textWidth = text.getComputedTextLength();
-    var textHeight = this.factor * 24;
+    var textHeight = this.factor * 32;
     var centerX = this.tile.getAttribute("width") / 2 - textWidth / 2;
     var centerY = this.tile.getAttribute("height") / 2 + textHeight / 2;
     text.setAttribute("x", centerX - 2);

@@ -44,7 +44,6 @@ new App();
 // I M P R O V E M E N T S
 // -----------------------
 // TODO: setup build pipeline with unit tests
-// TODO: font of labels should be bigger
 // TODO: enable debugging in TS files with source mapping
 // TODO: document message flow of cell selection between view and model
 // TODO: merge Game and GameModel
