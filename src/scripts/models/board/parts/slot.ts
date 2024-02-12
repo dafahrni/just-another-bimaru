@@ -1,5 +1,5 @@
-import { CellValue } from "./cell-value.js";
-import { Cell } from "./cell.js";
+import { CellValue } from "./cell-value";
+import { Cell } from "./cell";
 
 export class Slot {
   

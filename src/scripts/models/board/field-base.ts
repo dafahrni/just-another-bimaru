@@ -1,9 +1,9 @@
-import { Cell } from "./parts/cell.js";
-import { CellLine } from "./parts/cell-line.js";
-import { Position } from "./parts/position.js";
-import { CellBlockFactory } from "./parts/cell-block-factory.js";
-import { Labels } from "./parts/labels.js";
-import { CellValue } from "./parts/cell-value.js";
+import { Cell } from "./parts/cell";
+import { CellLine } from "./parts/cell-line";
+import { Position } from "./parts/position";
+import { CellBlockFactory } from "./parts/cell-block-factory";
+import { Labels } from "./parts/labels";
+import { CellValue } from "./parts/cell-value";
 
 export class FieldBase {
 

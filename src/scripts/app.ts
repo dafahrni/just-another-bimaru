@@ -1,6 +1,6 @@
-import { GameView } from "./views/game-view.js";
-import { GameModel } from "./models/game-model.js";
-import { GameController} from "./controllers/game-controller.js";
+import { GameView } from "./views/game-view";
+import { GameModel } from "./models/game-model";
+import { GameController} from "./controllers/game-controller";
 
 const model = new GameModel();
 const view = new GameView(model);

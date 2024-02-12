@@ -1,10 +1,10 @@
-import { GameDefinition } from "./game-definition.js";
-import { RestorePoint } from "./restore-point.js";
-import { SolverResult } from "./solver-result.js";
-import { Game } from "./game.js";
-import { Field } from "./field.js";
-import { Cell } from "./parts/cell.js";
-import { Slot } from "./parts/slot.js";
+import { GameDefinition } from "./game-definition";
+import { RestorePoint } from "./restore-point";
+import { SolverResult } from "./solver-result";
+import { Game } from "./game";
+import { Field } from "./field";
+import { Cell } from "./parts/cell";
+import { Slot } from "./parts/slot";
 
 export class Solver {
 

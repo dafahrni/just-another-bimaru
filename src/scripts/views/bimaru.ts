@@ -1,9 +1,9 @@
-import { ShipCell } from "./ship-cell.js";
-import { CellLabel } from "./cell-label.js";
+import { ShipCell } from "./ship-cell";
+import { CellLabel } from "./cell-label";
 
 // TODO: avoid dependency on models, maybe use DTOs 
-import { Cell } from "../models/board/parts/cell.js";
-import { GameModel } from "../models/game-model.js";
+import { Cell } from "../models/board/parts/cell";
+import { GameModel } from "../models/game-model";
 
 export class Bimaru {
 

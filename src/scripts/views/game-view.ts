@@ -1,6 +1,6 @@
-import { GameModel } from "../models/game-model.js";
-import { Bimaru } from "./bimaru.js";
-import { ModalDialog } from "./modal-dialog.js";
+import { GameModel } from "../models/game-model";
+import { Bimaru } from "./bimaru";
+import { ModalDialog } from "./modal-dialog";
 
 export class GameView {
   

@@ -1,7 +1,7 @@
-import { Cell } from "./cell.js";
-import { CellValue } from "./cell-value.js";
-import { Slot } from "./slot.js";
-import { Position } from "./position.js";
+import { Cell } from "./cell";
+import { CellValue } from "./cell-value";
+import { Slot } from "./slot";
+import { Position } from "./position";
 
 export class CellLine {
 

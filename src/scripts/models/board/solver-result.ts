@@ -1,4 +1,4 @@
-import { Field } from "./field.js";
+import { Field } from "./field";
 
 export class SolverResult {
 
