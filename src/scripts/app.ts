@@ -7,6 +7,11 @@ const view = new GameView(model);
 const controller = new GameController(model, view);
 controller.run();
 
+// TODO: create API with source for game definitions
+// TODO: persist game definitions on local store
+// TODO: create game definition editor
+// TODO: play sound during the game (can be turned on/off)
+// TODO: consider to correct ships when water is placed
 // TODO: merge Game and GameModel
 // TODO: create API with node.js and use Unit Tests in Postman
 // TODO: implement scaling according to screen size
