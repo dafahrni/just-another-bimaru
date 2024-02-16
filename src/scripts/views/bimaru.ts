@@ -4,7 +4,7 @@ import { CellLabel } from "./cell-label.js";
 // TODO: avoid dependency on models, maybe use DTOs 
 import { Cell } from "../models/board/parts/cell.js";
 import { GameModel } from "../models/game-model.js";
-import { CellLine, LineState } from "../models/board/parts/cell-line.js";
+import { LineState } from "../models/board/parts/cell-line.js";
 
 export class Bimaru {
 

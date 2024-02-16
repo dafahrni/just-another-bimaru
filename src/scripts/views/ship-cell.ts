@@ -24,31 +24,14 @@ export class ShipCell extends CellBase {
 
     let part;
     switch (ch) {
-      case "^":
-        this.appendShip(0);
-        break;
-      case ">":
-        this.appendShip(1);
-        break;
-      case "v":
-        this.appendShip(2);
-        break;
-      case "<":
-        this.appendShip(3);
-        break;
-      case "□":
-        part = this.createMidPiece();
-        this.tile.appendChild(part);
-        break;
-      case "o":
-        this.appendSubmarine();
-        break;
-      case "s":
-        this.appendDot();
-        break;
-      case "~":
-        this.appendWater();
-        break;
+      case "^": this.appendShip(0); break;
+      case ">": this.appendShip(1); break;
+      case "v": this.appendShip(2); break;
+      case "<": this.appendShip(3); break;
+      case "□": this.appendMidPiece(); break;
+      case "o": this.appendSubmarine(); break;
+      case "s": this.appendDot(); break;
+      case "~": this.appendWater(); break;
       case ".":
       default:
         break;
@@ -92,7 +75,7 @@ export class ShipCell extends CellBase {
     this.tile.setAttribute("transform", `rotate(${degree})`);
   }
 
-  createMidPiece() {
+  appendMidPiece() {
     const midPiece = document.createElementNS(this.svgNamespace, "rect");
     midPiece.setAttribute("class", "ship");
     midPiece.setAttribute("pointer-events", "none");
@@ -100,7 +83,10 @@ export class ShipCell extends CellBase {
     midPiece.setAttribute("y", "10");
     midPiece.setAttribute("width", "80");
     midPiece.setAttribute("height", "80");
-    return midPiece;
+    this.tile.appendChild(midPiece);
+
+    const degree = 0;
+    this.tile.setAttribute("transform", `rotate(${degree})`);
   }
 
   appendSubmarine() {
@@ -109,6 +95,9 @@ export class ShipCell extends CellBase {
     submarine.setAttribute("cy", "50");
     submarine.setAttribute("r", "40");
     this.tile.appendChild(submarine);
+
+    const degree = 0;
+    this.tile.setAttribute("transform", `rotate(${degree})`);
   }
 
   appendDot() {
@@ -117,6 +106,9 @@ export class ShipCell extends CellBase {
     dot.setAttribute("cy", "50");
     dot.setAttribute("r", "10");
     this.tile.appendChild(dot);
+
+    const degree = 0;
+    this.tile.setAttribute("transform", `rotate(${degree})`);
   }
 
   appendWater() {
@@ -149,5 +141,8 @@ export class ShipCell extends CellBase {
     h2o.setAttribute("pointer-events", "none");
     h2o.setAttribute("d", "M20 70 Q 35 50, 50 70 Q 65 90, 80 70");
     this.tile.appendChild(h2o);
+
+    const degree = 0;
+    this.tile.setAttribute("transform", `rotate(${degree})`);
   }
 }
