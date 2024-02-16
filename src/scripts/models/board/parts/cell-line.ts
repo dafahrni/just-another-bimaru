@@ -3,6 +3,12 @@ import { CellValue } from "./cell-value.js";
 import { Slot } from "./slot.js";
 import { Position } from "./position.js";
 
+export enum LineState {
+  hasShipsToPlace,
+  isFull,
+  isCrowded,
+};
+
 export class CellLine {
 
   private targetAmount: number;
@@ -60,6 +66,17 @@ export class CellLine {
 
   isFull() {
     return this.targetAmount == this.getCurrentAmount();
+  }
+  
+  get state() {
+    const amount = this.getCurrentAmount();
+    
+    if (amount < this.targetAmount)
+      return LineState.hasShipsToPlace;
+    else if (amount === this.targetAmount)
+      return LineState.isFull;
+    else 
+      return LineState.isCrowded;
   }
 
   hasEmptyCells() {

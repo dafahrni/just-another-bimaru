@@ -4,22 +4,21 @@ import { CellLabel } from "./cell-label.js";
 // TODO: avoid dependency on models, maybe use DTOs 
 import { Cell } from "../models/board/parts/cell.js";
 import { GameModel } from "../models/game-model.js";
+import { CellLine, LineState } from "../models/board/parts/cell-line.js";
 
 export class Bimaru {
 
   private model: GameModel;
   private cells: ShipCell[];
-  private tiles: HTMLElement[];
-  private selectedTile: HTMLElement | null;
+  private selectedCell: ShipCell | null;
   private notifySelectionChanged: any;
-  private labels: HTMLElement[];
+  private labels: CellLabel[];
   private notifyLabelClick: any;
   
   constructor(model: GameModel) {
     this.model = model;
     this.cells = [];
-    this.tiles = [];
-    this.selectedTile = null;
+    this.selectedCell = null;
     this.notifySelectionChanged = null;
     this.labels = [];
     this.notifyLabelClick = null;
@@ -35,14 +34,14 @@ export class Bimaru {
   }
 
   updateSelectedTile() {
-    if (this.selectedTile) {
-      this.update(this.selectedTile);
+    if (this.selectedCell) {
+      this.update(this.selectedCell);
     }
   }
 
   updateAll() {
-    this.tiles.forEach((tile) => this.update(tile));
-    this.selectedTile = null;
+    this.cells.forEach((cell) => this.update(cell));
+    this.selectedCell = null;
   }
 
   setupHtml(rows: number, cols: number) {
@@ -57,20 +56,19 @@ export class Bimaru {
       for (let col = 0; col < cols; col++) {
         const cell = new ShipCell();
         grid.appendChild(cell.getTile());
-        this.tiles.push(cell.getTile());
         this.cells.push(cell);
       }
       const shipCount = this.model.rowLabels[row];
       const label = new CellLabel(shipCount);
       grid.appendChild(label.getTile());
-      this.labels.push(label.getTile()); // defines index of row labels
+      this.labels.push(label); // defines index of row labels
     }
 
     for (let col = 0; col < cols; col++) {
       const shipCount = this.model.colLabels[col];
       const label = new CellLabel(shipCount);
       grid.appendChild(label.getTile());
-      this.labels.push(label.getTile()); // defines index of col labels
+      this.labels.push(label); // defines index of col labels
     }
   }
 
@@ -80,10 +78,13 @@ export class Bimaru {
       return;
     }
 
+    const index = this.labels
+      .map(label => label.getTile())
+      .indexOf(selectedLabel);
+
     if (this.notifyLabelClick) {
       // index consists of row labels first and col label second
       // important for code used in GameModel.fillLineWithWater
-      const index = this.labels.indexOf(selectedLabel);
       this.notifyLabelClick(index);
     }
   }
@@ -94,16 +95,20 @@ export class Bimaru {
       return;
     }
 
-    this.selectedTile = selectedTile;
+    const index = this.cells
+      .map(cell => cell.getTile())
+      .indexOf(selectedTile);
+
+    this.selectedCell = this.cells[index];
 
     if (this.notifySelectionChanged) {
-      const index = this.tiles.indexOf(selectedTile);
       this.notifySelectionChanged(index);
     }
   }
 
-  update(tile: HTMLElement) {
-    const index = this.tiles.indexOf(tile);
+  update(shipCell: ShipCell) {
+    // TODO: analyse and move interactions between view and its model to controller (!!)
+    const index = this.cells.indexOf(shipCell);
 
     // read cell from model
     const cell = this.model.getCell(index);
@@ -111,9 +116,6 @@ export class Bimaru {
     const isFix = cell.getIsFix();
 
     // write cell to view
-    const shipCell = this.cells[index];
-    if (!(shipCell instanceof ShipCell))
-      throw new Error("Instance must be of type 'ShipCell'!");
     shipCell.selectCellType(ch);
     shipCell.setFix(isFix);
 
@@ -125,19 +127,42 @@ export class Bimaru {
       .map((cell: Cell) => {
         if (!(cell instanceof Cell))
           throw new Error("Instance must be of type 'Cell'!");
-        const index = cell.getIndex();
+        const i = cell.getIndex();
         const ch = cell.asSymbol();
-        return [index, ch];
+        return [i, ch];
       });
 
     // write neighbors to view
     neighbors.forEach((data: any[]) => {
-      const index = data[0];
+      const i = data[0];
       const ch = data[1];
-      const shipCell = this.cells[index];
-      if (!(shipCell instanceof ShipCell))
-        throw new Error("Instance must be of type 'ShipCell'!");
+      const shipCell = this.cells[i];
       shipCell.selectCellType(ch);
     });
+
+    const row = cell.getRow();
+    const col = cell.getCol();
+    const pos = cell.getPos();
+    const x = pos.getX();
+    const y = pos.getY();
+    const sizeY = col.size;
+    const rowLabel = this.labels[y];
+    const colLabel = this.labels[x + sizeY];
+    if (!rowLabel || !colLabel)
+      throw new Error("Some error in index calculation!");
+    this.updateLineTargetLabel(row.getTargetAmount(), row.state, rowLabel);
+    this.updateLineTargetLabel(col.getTargetAmount(), col.state, colLabel);
+  }
+
+  updateLineTargetLabel(amount: number, state: LineState, label: CellLabel) {
+    if (state === LineState.isFull) {
+      // if line is complete -> mark with '√'
+      label.changeText("✔️");
+    } else if (state === LineState.isCrowded) {
+      // if line has too many ships -> mark with '!'
+      label.changeText("⚠️");
+    } else if (state === LineState.hasShipsToPlace) {
+      label.changeText(`${amount}`);
+    }
   }
 }

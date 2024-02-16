@@ -12,8 +12,10 @@ export class CellLabel extends CellBase {
     // SVG-text erstellen
     this.text = document.createElementNS(this.svgNamespace, "text");
     const text = this.text;
+    text.setAttribute("text-anchor", "middle");
     text.setAttribute("class", "label");
-    text.textContent = shipCount;
+
+    this.changeText(`${shipCount}`);
 
     // Text Positionierung
     var textWidth = text.getComputedTextLength();
@@ -26,5 +28,9 @@ export class CellLabel extends CellBase {
     text.setAttribute("pointer-events", "none");
 
     this.tile.appendChild(text);
+  }
+
+  changeText(content: string) {
+    this.text.textContent = content;
   }
 }

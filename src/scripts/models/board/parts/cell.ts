@@ -1,6 +1,7 @@
 import { Position } from "./position.js";
 import { CellValue } from "./cell-value.js";
 import { CellBlock } from "./cell-block.js";
+import { CellLine } from "./cell-line.js";
 
 export class Cell {
 
@@ -10,6 +11,8 @@ export class Cell {
   private isDirty: boolean;
   private block: CellBlock | null;
   private index: number;
+  private row: CellLine | null;
+  private col: CellLine | null;
 
   static isHorizontal(cells: Cell[]) {
     if (cells.length <= 0) return false;
@@ -44,6 +47,8 @@ export class Cell {
     this.isDirty = false;
     this.block = null;
     this.index = -1;
+    this.row = null;
+    this.col = null;
   }
 
   setIndex(index: number) {
@@ -62,6 +67,26 @@ export class Cell {
     const block = this.block;
     if (block) return block; 
     throw new Error("Block is expected to be defined here!");
+  }
+
+  setRow(row: CellLine) {
+    this.row = row;
+  }
+
+  getRow() {
+    const row = this.row;
+    if (row) return row; 
+    throw new Error("Row is expected to be defined here!");
+  }
+  
+  setCol(col: CellLine) {
+    this.col = col;
+  }
+
+  getCol() {
+    const col = this.col;
+    if (col) return col; 
+    throw new Error("Col is expected to be defined here!");
   }
 
   getPos(): Position {

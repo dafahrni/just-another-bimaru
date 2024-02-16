@@ -35,6 +35,14 @@ export class FieldBase {
         cell.setBlock(block);
       }
     }
+
+    for (let y = 0; y < this.sizeY; y++) {
+      for (let x = 0; x < this.sizeX; x++) {
+        const cell = this.getCell(x, y);
+        cell.setCol(this.getCol(x));
+        cell.setRow(this.getRow(y));
+      }
+    }
   }
 
   setPredefinedCells(predefinedCells: Cell[] | null = null) {
