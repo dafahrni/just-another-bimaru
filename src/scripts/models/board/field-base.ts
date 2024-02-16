@@ -7,20 +7,20 @@ import { CellValue } from "./parts/cell-value.js";
 
 export class FieldBase {
 
-  protected sizeX: number;
-  protected sizeY: number;
+  protected cols: number;
+  protected rows: number;
   protected labels: Labels;
   protected cells: Cell[];
 
   constructor(labels: Labels) {
-    this.sizeX = labels.sizeX;
-    this.sizeY = labels.sizeY;
+    this.cols = labels.cols;
+    this.rows = labels.rows;
     this.labels = labels;
     this.cells = [];
 
     let index = 0;
-    for (let y = 0; y < this.sizeY; y++) {
-      for (let x = 0; x < this.sizeX; x++) {
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
         const cell = new Cell(new Position(x, y));
         this.cells.push(cell);
         cell.setIndex(index);
@@ -28,16 +28,16 @@ export class FieldBase {
       }
     }
 
-    for (let y = 0; y < this.sizeY; y++) {
-      for (let x = 0; x < this.sizeX; x++) {
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
         const cell = this.getCell(x, y);
         const block = CellBlockFactory.from(cell, this);
         cell.setBlock(block);
       }
     }
 
-    for (let y = 0; y < this.sizeY; y++) {
-      for (let x = 0; x < this.sizeX; x++) {
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
         const cell = this.getCell(x, y);
         cell.setCol(this.getCol(x));
         cell.setRow(this.getRow(y));
@@ -95,7 +95,7 @@ export class FieldBase {
 
   getRow(y: number) {
     let cells = [];
-    for (let x = 0; x < this.sizeX; x++) {
+    for (let x = 0; x < this.cols; x++) {
       const cell = this.getCell(x, y);
       cells.push(cell);
     }
@@ -104,7 +104,7 @@ export class FieldBase {
 
   getCol(x: number) {
     let cells = [];
-    for (let y = 0; y < this.sizeY; y++) {
+    for (let y = 0; y < this.rows; y++) {
       const cell = this.getCell(x, y);
       cells.push(cell);
     }
@@ -116,11 +116,11 @@ export class FieldBase {
   }
 
   getSizeX() {
-    return this.labels.sizeX;
+    return this.labels.cols;
   }
 
   getSizeY() {
-    return this.labels.sizeY;
+    return this.labels.rows;
   }
 
   asTextWithCheckMarks() {
@@ -129,18 +129,18 @@ export class FieldBase {
 
   asText(withCheckMarks: boolean = false) {
     let text = "";
-    for (let y = 0; y < this.sizeY; y++) {
+    for (let y = 0; y < this.rows; y++) {
       let row = this.getRow(y);
       let line =
         (withCheckMarks && row.isFull() ? "√" : this.labels.ofRow(y)) + " | ";
-      for (let x = 0; x < this.sizeX; x++) {
+      for (let x = 0; x < this.cols; x++) {
         let value = this.getCellValue(x, y);
         line += value.getSymbol() + " ";
       }
       text += line + "\n";
     }
     text += "   ";
-    for (let x = 0; x < this.sizeX; x++) {
+    for (let x = 0; x < this.cols; x++) {
       let col = this.getCol(x);
       text +=
         " " + (withCheckMarks && col.isFull() ? "√" : this.labels.ofCol(x));

@@ -11,7 +11,7 @@ export class Field extends FieldBase {
   
   setEmptyCellsOfAllFullLinesToWater() {
     // iterate rows
-    for (let y = 0; y < this.sizeY; y++) {
+    for (let y = 0; y < this.rows; y++) {
       let line = this.getRow(y);
       if (line.isFull() && line.hasEmptyCells()) {
         line.changeEmptyToWater();
@@ -19,7 +19,7 @@ export class Field extends FieldBase {
     }
 
     // iterate columns
-    for (let x = 0; x < this.sizeX; x++) {
+    for (let x = 0; x < this.cols; x++) {
       let line = this.getCol(x);
       if (line.isFull() && line.hasEmptyCells()) {
         line.changeEmptyToWater();
@@ -71,12 +71,12 @@ export class Field extends FieldBase {
 
   getSlotsOfAllNoneWaterCells(size: number) {
     let slots: Slot[] = [];
-    for (let y = 0; y < this.sizeY; y++) {
+    for (let y = 0; y < this.rows; y++) {
       let row = this.getRow(y);
       if (row.getAmountLeft() >= size) 
         slots = [...slots, ...row.findSlots()];
     }
-    for (let x = 0; x < this.sizeX; x++) {
+    for (let x = 0; x < this.cols; x++) {
       let col = this.getCol(x);
       if (col.getAmountLeft() >= size)
         slots = [...slots, ...col.findSlots()];

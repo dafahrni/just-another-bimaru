@@ -63,8 +63,8 @@ export class GameModel {
 
   fillLineWithWater(index: number) {
     // index depends on label creation in Bimaru.setupHtml 
-    const sizeX = this.labels.sizeX;
-    const sizeY = this.labels.sizeY;
+    const sizeX = this.labels.cols;
+    const sizeY = this.labels.rows;
     if (index < 0 || index >= sizeX+sizeY) 
       return;
 

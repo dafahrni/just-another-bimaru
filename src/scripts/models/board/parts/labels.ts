@@ -30,11 +30,11 @@ export class Labels {
     return this.rowLabels[y];
   }
 
-  get sizeX() {
+  get cols() {
     return this.colLabels.length;
   }
 
-  get sizeY() {
+  get rows() {
     return this.rowLabels.length;
   }
 }
