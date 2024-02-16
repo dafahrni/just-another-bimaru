@@ -55,6 +55,14 @@ export class GameModel {
     return this.cells.length;
   }
 
+  getLabels() {
+    return this.labels;
+  }
+
+  getCells() {
+    return this.cells;
+  }
+
   getCell(index: number) {
     if (this.isValid(index))
       return this.cells[index];

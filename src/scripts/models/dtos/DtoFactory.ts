@@ -14,13 +14,12 @@ import { SizeDto } from "./SizeDto";
 export class DtoFactory {
 
   static mapGame(model: GameModel) {
-    // TODO: un-comment this code
-    //const labels = model.getLabels();
+    const labels = model.getLabels();
 
     const dto = new GameDto();
-    //dto.size = DtoFactory.mapSize(labels);
-    //dto.labels = DtoFactory.mapLabels(labels);
-    //dto.values = DtoFactory.mapCellsToValue(model.getCells());
+    dto.size = DtoFactory.mapSize(labels);
+    dto.labels = DtoFactory.mapLabels(labels);
+    dto.values = DtoFactory.mapCellsToValue(model.getCells());
     return dto;
   }
 
