@@ -87,28 +87,10 @@ export class GameModel {
       return false;
 
     const cell = this.cells[index];
-    // TODO: remove check (ships can always be placed)
-    // const shipIsOk = this.canPlaceShip(cell);
-    //if (!cell.tryChangeValue(shipIsOk))
     if (!cell.tryChangeValue())
       return false;
 
     console.info(this.field.asTextWithCheckMarks());
-    return true;
-  }
-
-  // TODO: remove this obsolete check
-  canPlaceShip(cell: Cell) {
-    // check col
-    const x = cell.getX();
-    const col = this.field.getCol(x);
-    if (col.isFull()) return false;
-    
-    // check row
-    const y = cell.getY();
-    const row = this.field.getRow(y);
-    if (row.isFull()) return false;
-
     return true;
   }
 

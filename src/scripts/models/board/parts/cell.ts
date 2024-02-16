@@ -107,11 +107,11 @@ export class Cell {
     this.isDirty = true;
   }
 
-  tryChangeValue(shipIsOk: boolean | null = null) {
+  tryChangeValue() {
     // used for player of the game
     if (this.isFix) return false;
 
-    // 1st step: use state machine to change cell value (don't apply logic)
+    // use state machine to change cell value
     if (this.isEmpty()) {
       this.value = CellValue.water;
       this.block?.correctCenter();
@@ -123,17 +123,6 @@ export class Cell {
     } else {
       throw new Error("Unexpected value: " + this.value);
     }
-
-    // 2nd steo: maybe correct cells (do apply logic)
-    //if (!shipIsOk) {
-    //  this.value = CellValue.empty;
-    // TODO: remove this check (corner check is obsolete as well)
-    //} else if (this.hasShipInCorner()) {
-    //  return false;
-    //} else {
-    //  this.block?.setCenter();
-    //  this.block?.correctCenter();
-    //}
 
     return true;
   }

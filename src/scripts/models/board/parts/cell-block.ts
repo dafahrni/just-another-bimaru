@@ -78,6 +78,7 @@ export class CellBlock {
 
     // get sides cells
     const side = this.getSideCellMap();
+    const sides = this.getSideCells();
     const center = this.center;
            if (side['n'].isWater() && side['s'].isShip()) {
       center.setValue(CellValue.north);
@@ -87,12 +88,7 @@ export class CellBlock {
       center.setValue(CellValue.south);
     } else if (side['e'].isShip() && side['w'].isWater()) {
       center.setValue(CellValue.west);
-    } else if (
-      side['n'].isWater() &&
-      side['e'].isWater() &&
-      side['s'].isWater() &&
-      side['w'].isWater()
-    ) {
+    } else if (sides.every(c => c.isWater())) {
       center.setValue(CellValue.single);
     } else if (
       (side['n'].isShip() && side['s'].isShip()) ||

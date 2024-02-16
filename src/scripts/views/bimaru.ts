@@ -160,7 +160,7 @@ export class Bimaru {
       label.changeText("✔️");
     } else if (state === LineState.isCrowded) {
       // if line has too many ships -> mark with '!'
-      label.changeText("⚠️");
+      label.changeText("❗");
     } else if (state === LineState.hasShipsToPlace) {
       label.changeText(`${amount}`);
     }
