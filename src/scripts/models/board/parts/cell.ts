@@ -148,6 +148,7 @@ export class Cell {
   }
 
   reset() {
+    if (this.isFix) return;
     this.value = CellValue.empty;
   }
 
