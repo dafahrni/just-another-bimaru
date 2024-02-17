@@ -28,6 +28,7 @@ export class GameController {
 
     if (this.model.checkForWinner()) {
       this.view.gameIsWon();
+      this.model.resetCells();
     }
   }
 
