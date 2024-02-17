@@ -6,6 +6,7 @@ import { ShipSet } from "./board/parts/ship-set.js";
 import { Cell } from "./board/parts/cell.js";
 import { Labels } from "./board/parts/labels.js";
 
+import { DtoFactory } from "./dtos/DtoFactory.js";
 export class GameModel {
 
   private field: Field;
@@ -25,6 +26,8 @@ export class GameModel {
     // TODO: remove this line after merger of Game and GameView classes
     this.game = new Game(this.field);
     this.game.initStatistics(definition.getShipSets());
+
+    const dto = DtoFactory.mapField(this.field);
   }
 
   initStatistics(shipSets: ShipSet[]) {
@@ -89,6 +92,9 @@ export class GameModel {
     const cell = this.cells[index];
     if (!cell.tryChangeValue())
       return false;
+
+    // send dto as message to update view
+    const dto = DtoFactory.mapCell(cell);
 
     console.info(this.field.asTextWithCheckMarks());
     return true;
