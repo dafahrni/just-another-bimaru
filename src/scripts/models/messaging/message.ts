@@ -3,7 +3,7 @@ import { GameDto } from "../dtos/GameDto";
 
 export enum MessageType {
   NewGame,
-  ResetCells,
+  RestartGame,
   ChangeCell,
   FillLineWithWater
 }
@@ -34,10 +34,10 @@ export class NewGameMessage extends Message {
   }
 }
 
-export class ResetCellsMessage extends Message {
+export class RestartGameMessage extends Message {
 
   constructor() {
-    super(MessageType.ResetCells);
+    super(MessageType.RestartGame);
   }
 }
 
