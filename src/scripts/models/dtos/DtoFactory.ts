@@ -13,7 +13,7 @@ import { Field } from "../board/field";
 
 export class DtoFactory {
 
-  static mapField(field: Field) {
+  static mapGame(field: Field) {
     const labels = field.getLabels();
 
     const dto = new GameDto();

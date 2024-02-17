@@ -32,7 +32,7 @@ export class GameModel {
     this.game = new Game(this.field);
     this.game.initStatistics(definition.getShipSets());
 
-    const dto = DtoFactory.mapField(this.field);
+    const dto = DtoFactory.mapGame(this.field);
     this.broker.publish(new NewGameMessage(dto));
   }
 
