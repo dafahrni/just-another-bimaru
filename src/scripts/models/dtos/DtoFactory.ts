@@ -9,17 +9,17 @@ import { GameDto } from "./GameDto";
 import { LabelsDto } from "./LabelsDto";
 import { Labels } from "../board/parts/labels";
 import { SizeDto } from "./SizeDto";
-import { Field } from "../board/field";
+import { GameModel } from "../game-model";
 
 export class DtoFactory {
 
-  static mapGame(field: Field) {
-    const labels = field.getLabels();
+  static mapGame(model: GameModel) {
+    const labels = model.getLabels();
 
     const dto = new GameDto();
     dto.size = DtoFactory.mapSize(labels);
     dto.labels = DtoFactory.mapLabels(labels);
-    dto.values = DtoFactory.mapCellsToValue(field.getCells());
+    dto.values = DtoFactory.mapCellsToValue(model.getCells());
     return dto;
   }
 
