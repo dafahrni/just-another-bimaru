@@ -3,14 +3,22 @@ import { GameDto } from "../dtos/GameDto";
 
 export enum MessageType {
   NewGame,
-  RestartGame,
+  //RestartGame,
   ChangeCell,
-  FillLineWithWater
+  //FillLineWithWater,
 }
 
 export type MessageCallback<T extends Message> = (message: T) => void;
 
 export class Message {
+
+  static newGame(dto: GameDto) {
+    return new NewGame(dto);
+  }
+
+  static changeCell(dto: CellDto) {
+    return new ChangeCell(dto);
+  }
 
   private type: MessageType;
   private timestamp: number;
@@ -24,7 +32,7 @@ export class Message {
   getTimestamp() { return this.timestamp; }
 }
 
-export class NewGameMessage extends Message {
+export class NewGame extends Message {
 
   public dto: GameDto;
 
@@ -34,14 +42,7 @@ export class NewGameMessage extends Message {
   }
 }
 
-export class RestartGameMessage extends Message {
-
-  constructor() {
-    super(MessageType.RestartGame);
-  }
-}
-
-export class ChangeCellMessage extends Message {
+export class ChangeCell extends Message {
 
   public dto!: CellDto;
 

@@ -6,18 +6,12 @@ import { ShipSet } from "./board/parts/ship-set.js";
 import { Cell } from "./board/parts/cell.js";
 import { Labels } from "./board/parts/labels.js";
 
-import { DtoFactory } from "./dtos/DtoFactory.js";
-import { BrokerFactory } from "./messaging/broker-factory.js";
-import { Broker } from "./messaging/broker.js";
-import { NewGameMessage, ChangeCellMessage } from "./messaging/message.js";
-
 export class GameModel {
 
   private field: Field;
   private labels: Labels;
   private cells: Cell[];
   private game: Game;
-  private broker: Broker = BrokerFactory.get();
   
   constructor(field: Field | null = null) {
     const index = 0;
@@ -31,9 +25,6 @@ export class GameModel {
     // TODO: remove this line after merger of Game and GameView classes
     this.game = new Game(this.field);
     this.game.initStatistics(definition.getShipSets());
-
-    const dto = DtoFactory.mapGame(this.field);
-    this.broker.publish(new NewGameMessage(dto));
   }
 
   initStatistics(shipSets: ShipSet[]) {
@@ -98,11 +89,6 @@ export class GameModel {
     const cell = this.cells[index];
     if (!cell.tryChangeValue())
       return false;
-
-    // send dto as message to update view
-    const dto = DtoFactory.mapCell(cell);
-    const msg = new ChangeCellMessage(dto);
-    this.broker.publish(msg);
 
     console.info(this.field.asTextWithCheckMarks());
     return true;

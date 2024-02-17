@@ -6,6 +6,15 @@ export class Broker {
   private subscribers: Map<MessageType, MessageCallback<any>[]> = new Map();
   private queues: Map<MessageType, MessageQueue> = new Map();
 
+  private static instance: Broker;
+
+  static get(): Broker {
+      if (!Broker.instance) {
+        Broker.instance = new Broker();
+      }
+      return Broker.instance;
+  }
+
   subscribe<T extends Message>(messageType: MessageType, callback: MessageCallback<T>) {
     if (!this.subscribers.has(messageType)) {
       this.subscribers.set(messageType, []);
