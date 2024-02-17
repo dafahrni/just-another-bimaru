@@ -5,21 +5,21 @@ import { BlockDto } from "./BlockDto";
 import { LineDto } from "./LineDto";
 import { ValueDto } from "./ValueDto";
 import { CellDto } from "./CellDto";
-import { GameModel } from "../game-model";
 import { GameDto } from "./GameDto";
 import { LabelsDto } from "./LabelsDto";
 import { Labels } from "../board/parts/labels";
 import { SizeDto } from "./SizeDto";
+import { Field } from "../board/field";
 
 export class DtoFactory {
 
-  static mapGame(model: GameModel) {
-    const labels = model.getLabels();
+  static mapField(field: Field) {
+    const labels = field.getLabels();
 
     const dto = new GameDto();
     dto.size = DtoFactory.mapSize(labels);
     dto.labels = DtoFactory.mapLabels(labels);
-    dto.values = DtoFactory.mapCellsToValue(model.getCells());
+    dto.values = DtoFactory.mapCellsToValue(field.getCells());
     return dto;
   }
 
