@@ -1,5 +1,5 @@
-import { MessageType, MessageCallback, Message } from "./message";
-import { MessageQueue } from "./message-queue";
+import { MessageType, MessageCallback, Message } from "./message.js";
+import { MessageQueue } from "./message-queue.js";
 
 export class Broker {
 
@@ -28,6 +28,9 @@ export class Broker {
       this.subscribers.get(type)?.forEach((callback) => callback(message));
     }
 
+    if (!this.queues.has(type)) {
+      this.queues.set(type, new MessageQueue());
+    }
     this.queues.get(type)?.publish(message);
   }
 

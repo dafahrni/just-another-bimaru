@@ -1,4 +1,4 @@
-import { ValueDto } from "./ValueDto";
+import { ValueDto } from "./value-dto.js";
 
 export class BlockDto {
 

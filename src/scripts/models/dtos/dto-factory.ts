@@ -1,15 +1,15 @@
-import { Cell } from "../board/parts/cell";
-import { CellBlock } from "../board/parts/cell-block";
-import { CellLine } from "../board/parts/cell-line";
-import { BlockDto } from "./BlockDto";
-import { LineDto } from "./LineDto";
-import { ValueDto } from "./ValueDto";
-import { CellDto } from "./CellDto";
-import { GameDto } from "./GameDto";
-import { LabelsDto } from "./LabelsDto";
-import { Labels } from "../board/parts/labels";
-import { SizeDto } from "./SizeDto";
-import { GameModel } from "../game-model";
+import { Cell } from "../board/parts/cell.js";
+import { CellBlock } from "../board/parts/cell-block.js";
+import { CellLine } from "../board/parts/cell-line.js";
+import { BlockDto } from "./block-dto.js";
+import { LineDto } from "./line-dto.js";
+import { ValueDto } from "./value-dto.js";
+import { CellDto } from "./cell-dto.js";
+import { GameDto } from "./game-dto.js";
+import { LabelsDto } from "./labels-dto.js";
+import { Labels } from "../board/parts/labels.js";
+import { SizeDto } from "./size-dto.js";
+import { GameModel } from "../game-model.js";
 
 export class DtoFactory {
 

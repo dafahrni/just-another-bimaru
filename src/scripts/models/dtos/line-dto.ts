@@ -1,5 +1,5 @@
-import { LineState } from "../board/parts/cell-line";
-import { ValueDto } from "./ValueDto";
+import { LineState } from "../board/parts/cell-line.js";
+import { ValueDto } from "./value-dto.js";
 
 export class LineDto {
 

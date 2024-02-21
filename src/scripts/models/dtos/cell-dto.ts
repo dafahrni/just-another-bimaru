@@ -1,6 +1,6 @@
-import { BlockDto } from "./BlockDto";
-import { LineDto } from "./LineDto";
-import { ValueDto } from "./ValueDto";
+import { BlockDto } from "./block-dto.js";
+import { LineDto } from "./line-dto.js";
+import { ValueDto } from "./value-dto.js";
 
 export class CellDto {
 

@@ -1,4 +1,4 @@
-import { Message, MessageType } from "./message";
+import { Message } from "./message.js";
 
 export class MessageQueue {
     
