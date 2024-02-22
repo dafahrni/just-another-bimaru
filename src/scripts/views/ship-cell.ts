@@ -22,7 +22,6 @@ export class ShipCell extends CellBase {
       .filter((child: any) => !child.classList.contains("cell"))
       .forEach((child: any) => this.tile.removeChild(child));
 
-    let part;
     switch (ch) {
       case "^": this.appendShip(0); break;
       case ">": this.appendShip(1); break;
