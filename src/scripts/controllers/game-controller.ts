@@ -42,6 +42,10 @@ export class GameController {
     }
   }
 
+  init() {
+    this.view.init();
+  }
+
   run() {
     // main wird regelmässig aufgerufen
     setInterval(() => this.view.main(), 100);

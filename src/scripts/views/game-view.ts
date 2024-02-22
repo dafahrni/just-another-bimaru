@@ -1,17 +1,14 @@
-import { GameModel } from "../models/game-model.js";
 import { Bimaru } from "./bimaru.js";
 import { ModalDialog } from "./modal-dialog.js";
 
 export class GameView {
   
-  private model: GameModel;
   private board: Bimaru;
   private dialog: ModalDialog;
   private ressources: any;
-  
-  constructor(model: GameModel) {
-    this.model = model;
-    this.board = new Bimaru(model);
+
+  constructor() {
+    this.board = new Bimaru();
     this.board.updateAll();
     this.dialog = new ModalDialog();
     this.ressources = {
@@ -21,6 +18,10 @@ export class GameView {
       bell: new Audio("assets/success.mp3"),
       draw: new Audio("assets/draw.mp3"),
     };
+  }
+
+  init() {
+    this.board.init();
   }
 
   main() {
@@ -51,8 +52,8 @@ export class GameView {
   gameIsWon() {
     this.playSound("bell");
     this.showAlert(`Alle Schiffe gefunden!`, () => {
-      this.model.resetCells();
-      this.board.updateAll();
+      // TODO: consider to make this parameter optional
+      // do nothing afting hiding
     });
   }
 

@@ -1,28 +1,39 @@
 import { ShipCell } from "./ship-cell.js";
 import { CellLabel } from "./cell-label.js";
 
-// TODO: avoid dependency on models, maybe use DTOs 
-import { Cell } from "../models/board/parts/cell.js";
-import { GameModel } from "../models/game-model.js";
+import { LineDto } from "../models/dtos/line-dto.js";
 import { LineState } from "../models/board/parts/cell-line.js";
+import { CellDto } from "../models/dtos/cell-dto.js";
+import { Broker } from "../models/messaging/broker.js";
+import { LabelsDto } from "../models/dtos/labels-dto.js";
+import { ChangeCell, MessageType, NewGame } from "../models/messaging/message.js";
 
 export class Bimaru {
 
-  private model: GameModel;
+  private rows: number;
   private cells: ShipCell[];
   private selectedCell: ShipCell | null;
   private notifySelectionChanged: any;
   private labels: CellLabel[];
   private notifyLabelClick: any;
+  private broker: Broker = Broker.get();
   
-  constructor(model: GameModel) {
-    this.model = model;
+  constructor() {
+    this.rows = -1;
     this.cells = [];
     this.selectedCell = null;
     this.notifySelectionChanged = null;
     this.labels = [];
     this.notifyLabelClick = null;
-    this.setupHtml(model.rows, model.cols);
+  }
+
+  init() {
+    const message = this.broker.consume(MessageType.NewGame);
+    const dto = (message as NewGame)?.dto;
+    if (!dto) return;
+
+    this.rows = dto.size.rows;
+    this.setupHtml(dto.labels);
   }
 
   bindLabelClick(handler: any) {
@@ -33,18 +44,10 @@ export class Bimaru {
     this.notifySelectionChanged = handler;
   }
 
-  updateSelectedTile() {
-    if (this.selectedCell) {
-      this.update(this.selectedCell);
-    }
-  }
-
-  updateAll() {
-    this.cells.forEach((cell) => this.update(cell));
-    this.selectedCell = null;
-  }
-
-  setupHtml(rows: number, cols: number) {
+  setupHtml(label: LabelsDto) {
+    const { colLabels, rowLabels } = label;
+    const cols = colLabels.length;
+    const rows = rowLabels.length;
     const grid: HTMLElement | null = document.getElementById("root");
     if (!grid) throw new Error("Root node is missing in HTML.");
     const templateColumns = `repeat(${cols + 1}, 1fr)`;
@@ -58,14 +61,14 @@ export class Bimaru {
         grid.appendChild(cell.getTile());
         this.cells.push(cell);
       }
-      const shipCount = this.model.rowLabels[row];
+      const shipCount = rowLabels[row];
       const label = new CellLabel(shipCount);
       grid.appendChild(label.getTile());
       this.labels.push(label); // defines index of row labels
     }
 
     for (let col = 0; col < cols; col++) {
-      const shipCount = this.model.colLabels[col];
+      const shipCount = colLabels[col];
       const label = new CellLabel(shipCount);
       grid.appendChild(label.getTile());
       this.labels.push(label); // defines index of col labels
@@ -106,63 +109,61 @@ export class Bimaru {
     }
   }
 
-  update(shipCell: ShipCell) {
-    // TODO: analyse and move interactions between view and its model to controller (!!)
-    const index = this.cells.indexOf(shipCell);
+  updateSelectedTile() {
+    if (this.selectedCell) {
+      this.updateCell(this.selectedCell);
+    }
+  }
 
-    // read cell from model
-    const cell = this.model.getCell(index);
-    const ch = cell.asSymbol();
-    const isFix = cell.getIsFix();
+  updateAll() {
+    this.cells.forEach((cell) => this.updateCell(cell));
+    this.selectedCell = null;
+  }
 
-    // write cell to view
+  updateCell(shipCell: ShipCell, dto: CellDto | null = null) {
+    if (dto === null) {
+      const type = ChangeCell;
+      const message = this.broker.consume(MessageType.ChangeCell);
+      if (message === undefined) {
+        console.error(`Message of ${type} is undefined.`);
+        return;
+      } else {
+        dto = (message as ChangeCell).dto;
+      }
+    }
+
+    const ch = dto.value.symbol;
+    const isFix = dto.isFix;
     shipCell.selectCellType(ch);
     shipCell.setFix(isFix);
 
-    // read neighbors from model
-    const block = cell.getBlock();
-    const neighbors = block
-      .getNeighborCells()
-      .filter((cell: Cell) => cell.asSymbol() != "x")
-      .map((cell: Cell) => {
-        if (!(cell instanceof Cell))
-          throw new Error("Instance must be of type 'Cell'!");
-        const i = cell.getIndex();
-        const ch = cell.asSymbol();
-        return [i, ch];
-      });
-
-    // write neighbors to view
-    neighbors.forEach((data: any[]) => {
-      const i = data[0];
-      const ch = data[1];
+    const neighbors = dto.block.neighbors;
+    neighbors.forEach((value) => {
+      const ch = value.symbol;
+      const i = value.index;
       const shipCell = this.cells[i];
       shipCell.selectCellType(ch);
     });
 
-    const row = cell.getRow();
-    const col = cell.getCol();
-    const pos = cell.getPos();
-    const x = pos.getX();
-    const y = pos.getY();
-    const sizeY = col.size;
+    const x = dto.posX;
+    const y = dto.posY;
     const rowLabel = this.labels[y];
-    const colLabel = this.labels[x + sizeY];
+    const colLabel = this.labels[x + this.rows];
     if (!rowLabel || !colLabel)
       throw new Error("Some error in index calculation!");
-    this.updateLineTargetLabel(row.getTargetAmount(), row.state, rowLabel);
-    this.updateLineTargetLabel(col.getTargetAmount(), col.state, colLabel);
+    this.updateLineTargetLabel(dto.row, rowLabel);
+    this.updateLineTargetLabel(dto.col, colLabel);
   }
 
-  updateLineTargetLabel(amount: number, state: LineState, label: CellLabel) {
-    if (state === LineState.isFull) {
+  updateLineTargetLabel(dto: LineDto, label: CellLabel) {
+    if (dto.state === LineState.isFull) {
       // if line is complete -> mark with '√'
       label.changeText("✔️");
-    } else if (state === LineState.isCrowded) {
+    } else if (dto.state === LineState.isCrowded) {
       // if line has too many ships -> mark with '!'
       label.changeText("❗");
-    } else if (state === LineState.hasShipsToPlace) {
-      label.changeText(`${amount}`);
+    } else if (dto.state === LineState.hasShipsToPlace) {
+      label.changeText(`${dto.targetAmount}`);
     }
   }
 }

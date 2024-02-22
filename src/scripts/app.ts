@@ -10,8 +10,12 @@ export class App {
 
     constructor() {
         this.model = new GameModel();
-        this.view = new GameView(this.model);
+        this.view = new GameView();
         this.controller = new GameController(this.model, this.view);
+    }
+
+    public init(): void {
+        this.controller.init();
     }
 
     public run(): void {
@@ -19,7 +23,7 @@ export class App {
     }
 }
 
-new App();
+new App().init();
 
 // F E A T U R E S
 // ---------------
@@ -41,6 +45,7 @@ new App();
 
 // I M P R O V E M E N T S
 // -----------------------
+// TODO: consider to provide DtoFactory as Singleton to avoid static dependencies
 // TODO: document message flow of cell selection between view and model
 // TODO: merge Game and GameModel
 // TODO: simplify naming (make it consistent, use same name for same things!)
