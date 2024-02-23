@@ -1,5 +1,10 @@
 # Just another Bimaru
 
+## Deployment
+
+- visit [Pages Demo](https://dafahrni.github.io/just-another-bimaru/)
+
+
 ## Setup
 
 - install [node.js](https://nodejs.org/en/download)

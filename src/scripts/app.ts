@@ -27,7 +27,6 @@ new App().init();
 
 // F E A T U R E S
 // ---------------
-// TODO: implement binding to keep view in sync with its model
 // TODO: allocate player name and date with the game
 // TODO: keep history of game (e.g. to navigate between the moves or for speed analysis)
 // TODO: persist game definitions on local store
@@ -37,6 +36,7 @@ new App().init();
 // TODO: create API with source for game definitions
 // TODO: create API with node.js and use Unit Tests in Postman
 // TODO: implement scaling according to screen size
+// TODO: provide VUI for accoustic game control
 
 // I S S U E S
 // -----------
