@@ -9,7 +9,6 @@ export class GameView {
 
   constructor() {
     this.board = new Bimaru();
-    this.board.updateAll();
     this.dialog = new ModalDialog();
     this.ressources = {
       click: new Audio("assets/click.mp3"),
@@ -39,14 +38,12 @@ export class GameView {
     this.playSound("wrong");
   }
 
-  updateBoard() {
+  lineWasUpdated() {
     this.playSound("clack");
-    this.board.updateAll();
   }
 
-  updateTile() {
+  cellWasUpdated() {
     this.playSound("click");
-    this.board.updateSelectedTile();
   }
 
   gameIsWon() {
@@ -65,5 +62,13 @@ export class GameView {
     if (key in this.ressources) {
       this.ressources[key].play();
     }
+  }
+
+  getCells() {
+    return this.board.getCells();
+  }
+
+  getLabels() {
+    return this.board.getLabels();
   }
 }

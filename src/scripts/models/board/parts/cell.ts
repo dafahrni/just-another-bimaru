@@ -190,7 +190,7 @@ export class Cell {
   }
 
   asText() {
-    return `${this.value.getSymbol()} (${this.pos})`;
+    return `${this.asSymbol()} (${this.pos}, ${this.index})`;
   }
 
   toString() {

@@ -1,27 +1,20 @@
 import { ShipCell } from "./ship-cell.js";
 import { CellLabel } from "./cell-label.js";
 
-import { LineDto } from "../models/dtos/line-dto.js";
-import { LineState } from "../models/board/parts/cell-line.js";
-import { CellDto } from "../models/dtos/cell-dto.js";
 import { Broker } from "../models/messaging/broker.js";
 import { LabelsDto } from "../models/dtos/labels-dto.js";
-import { ChangeCell, MessageType, NewGame } from "../models/messaging/message.js";
+import { MessageType, NewGame } from "../models/messaging/message.js";
 
 export class Bimaru {
 
-  private rows: number;
   private cells: ShipCell[];
-  private selectedCell: ShipCell | null;
   private notifySelectionChanged: any;
   private labels: CellLabel[];
   private notifyLabelClick: any;
   private broker: Broker = Broker.get();
   
   constructor() {
-    this.rows = -1;
     this.cells = [];
-    this.selectedCell = null;
     this.notifySelectionChanged = null;
     this.labels = [];
     this.notifyLabelClick = null;
@@ -32,7 +25,6 @@ export class Bimaru {
     const dto = (message as NewGame)?.dto;
     if (!dto) return;
 
-    this.rows = dto.size.rows;
     this.setupHtml(dto.labels);
   }
 
@@ -50,6 +42,18 @@ export class Bimaru {
     const rows = rowLabels.length;
     const grid: HTMLElement | null = document.getElementById("root");
     if (!grid) throw new Error("Root node is missing in HTML.");
+
+    // reset data and remove all tiles and labels
+    this.cells.length = 0;
+    this.labels.length = 0;
+    const childrenToRemove = Array
+      .from(grid.children)
+      .filter(child =>
+        child.classList.contains("tile") || 
+        child.classList.contains("label")
+      );
+    childrenToRemove.forEach(child => grid.removeChild(child));
+
     const templateColumns = `repeat(${cols + 1}, 1fr)`;
     grid.style.gridTemplateColumns = templateColumns;
     grid.addEventListener("click", this.labelSelected.bind(this));
@@ -102,68 +106,16 @@ export class Bimaru {
       .map(cell => cell.getTile())
       .indexOf(selectedTile);
 
-    this.selectedCell = this.cells[index];
-
     if (this.notifySelectionChanged) {
       this.notifySelectionChanged(index);
     }
   }
 
-  updateSelectedTile() {
-    if (this.selectedCell) {
-      this.updateCell(this.selectedCell);
-    }
+  getCells() {
+    return this.cells;
   }
 
-  updateAll() {
-    this.cells.forEach((cell) => this.updateCell(cell));
-    this.selectedCell = null;
-  }
-
-  updateCell(shipCell: ShipCell, dto: CellDto | null = null) {
-    if (dto === null) {
-      const type = ChangeCell;
-      const message = this.broker.consume(MessageType.ChangeCell);
-      if (message === undefined) {
-        console.error(`Message of ${type} is undefined.`);
-        return;
-      } else {
-        dto = (message as ChangeCell).dto;
-      }
-    }
-
-    const ch = dto.value.symbol;
-    const isFix = dto.isFix;
-    shipCell.selectCellType(ch);
-    shipCell.setFix(isFix);
-
-    const neighbors = dto.block.neighbors;
-    neighbors.forEach((value) => {
-      const ch = value.symbol;
-      const i = value.index;
-      const shipCell = this.cells[i];
-      shipCell.selectCellType(ch);
-    });
-
-    const x = dto.posX;
-    const y = dto.posY;
-    const rowLabel = this.labels[y];
-    const colLabel = this.labels[x + this.rows];
-    if (!rowLabel || !colLabel)
-      throw new Error("Some error in index calculation!");
-    this.updateLineTargetLabel(dto.row, rowLabel);
-    this.updateLineTargetLabel(dto.col, colLabel);
-  }
-
-  updateLineTargetLabel(dto: LineDto, label: CellLabel) {
-    if (dto.state === LineState.isFull) {
-      // if line is complete -> mark with '√'
-      label.changeText("✔️");
-    } else if (dto.state === LineState.isCrowded) {
-      // if line has too many ships -> mark with '!'
-      label.changeText("❗");
-    } else if (dto.state === LineState.hasShipsToPlace) {
-      label.changeText(`${dto.targetAmount}`);
-    }
+  getLabels() {
+    return this.labels;
   }
 }

@@ -3,10 +3,12 @@ import { CellBase } from "./cell-base.js";
 export class ShipCell extends CellBase {
 
   private cell: Element;
+  private symbol: string;
 
   constructor() {
     super();
     
+    this.symbol = "";
     this.cell = document.createElementNS(this.svgNamespace, "rect");
     this.cell.setAttribute("class", "cell");
     this.cell.setAttribute("width", `${this.size}`);
@@ -16,13 +18,17 @@ export class ShipCell extends CellBase {
     this.selectCellType(".");
   }
 
-  selectCellType(ch: string) {
+  selectCellType(newSymbol: string) {
+    if (newSymbol === this.symbol)
+      return;
+
     // alles löschen ausser den Hintergrund
     Array.from(this.tile.children)
       .filter((child: any) => !child.classList.contains("cell"))
       .forEach((child: any) => this.tile.removeChild(child));
 
-    switch (ch) {
+    this.symbol = newSymbol;
+    switch (newSymbol) {
       case "^": this.appendShip(0); break;
       case ">": this.appendShip(1); break;
       case "v": this.appendShip(2); break;

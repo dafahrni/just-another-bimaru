@@ -89,7 +89,7 @@ export class CellValue {
   }
 
   asText() {
-    return `$(getSymbol())`;
+    return `${this.symbol}`;
   }
 
   toString() {

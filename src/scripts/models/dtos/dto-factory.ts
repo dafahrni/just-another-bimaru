@@ -40,6 +40,9 @@ export class DtoFactory {
   static mapCell(cell: Cell) {
     const dto = new CellDto();
     dto.value = DtoFactory.mapValue(cell.asSymbol());
+    dto.posX = cell.getX();
+    dto.posY = cell.getY();
+    dto.isFix = cell.getIsFix();
     dto.block = DtoFactory.mapBlock(cell.getBlock());
     dto.row = DtoFactory.mapLine(cell.getRow());
     dto.col = DtoFactory.mapLine(cell.getCol());
@@ -48,7 +51,10 @@ export class DtoFactory {
 
   static mapBlock(block: CellBlock) {
     const dto = new BlockDto();
-    dto.center = DtoFactory.mapValue(block.getCenterCell().asSymbol());
+    const center = block.getCenterCell();
+    const ch = center.asSymbol();
+    const i = center.getIndex();
+    dto.center = DtoFactory.mapValue(ch, i);
     dto.neighbors = block
       .getNeighborCells()
       .filter((cell) => cell.asSymbol() != "x")
@@ -76,7 +82,7 @@ export class DtoFactory {
   static mapValue(symbol: string, index: number | null = null) {
     const dto = new ValueDto();
     dto.symbol = symbol;
-    dto.index = index ? index : -1;
+    dto.index = index != null ? index : -1;
     return dto;
   }
 }

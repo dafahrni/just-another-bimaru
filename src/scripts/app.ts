@@ -27,6 +27,7 @@ new App().init();
 
 // F E A T U R E S
 // ---------------
+// TODO: implement binding to keep view in sync with its model
 // TODO: allocate player name and date with the game
 // TODO: keep history of game (e.g. to navigate between the moves or for speed analysis)
 // TODO: persist game definitions on local store
@@ -51,3 +52,4 @@ new App().init();
 // TODO: simplify naming (make it consistent, use same name for same things!)
 //       - e.g. Grid, Field, Board, Bimaru
 //       - e.g. Tile, Parent, Cell, CellElement, ShipCell
+//       - e.g. CellType, Symbol, ch, Value
