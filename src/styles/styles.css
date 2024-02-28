@@ -3,6 +3,48 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+
+  font-family: Arial;
+}
+
+.content {
+  margin-left: 0;
+  transition: margin-left 0.3s ease; /* Smooth transition for content movement */
+}
+
+.content-open {
+  margin-left: 250px; /* Move the content to make space for the menu */
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Initially hide the menu off-screen */
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  transition: left 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+.menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menu .disabled {
+  color: #555; /* gray color for inactive menu items */
+  pointer-events: none; /* avoid actions after mouse klicks on inactive menu items */
 }
 
 .grid {
@@ -22,7 +64,6 @@ html {
 } 
 
 .label {
-  font-family: Arial;
   font-weight: lighter;
   font-size: 16;
   user-select: none;

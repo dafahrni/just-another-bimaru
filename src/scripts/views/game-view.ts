@@ -1,8 +1,10 @@
+import { MenuView } from "./menu-view.js";
 import { Bimaru } from "./bimaru.js";
 import { ModalDialog } from "./modal-dialog.js";
 
 export class GameView {
   
+  private menu: MenuView;
   private board: Bimaru;
   private dialog: ModalDialog;
   private ressources: any;
@@ -16,7 +18,9 @@ export class GameView {
       wrong: new Audio("assets/buzz.mp3"),
       bell: new Audio("assets/success.mp3"),
       draw: new Audio("assets/draw.mp3"),
+      music: new Audio("assets/music.mp3"),
     };
+    this.menu = new MenuView(this.ressources["music"]);
   }
 
   init() {
@@ -32,6 +36,10 @@ export class GameView {
 
   bindSelectionChanged(handler: any) {
     this.board.bindSelectionChanged(handler);
+  }
+
+  bindRestartGameClick(handler: any) {
+    this.menu.bindRestartGameClick(handler);
   }
 
   wrongMove() {

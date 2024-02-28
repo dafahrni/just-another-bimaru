@@ -17,6 +17,7 @@ export class GameController {
     this.view = view;
     this.view.bindSelectionChanged((i: number) => this.nextMove(i));
     this.view.bindLabelClick((i: number) => this.fillLineWithWater(i));
+    this.view.bindRestartGameClick(() => this.restartGame());
 
     this.cells = new CellRelations(model, view);
   }
@@ -56,5 +57,9 @@ export class GameController {
     this.model.fillLineWithWater(index);
     this.cells.updateAll();
     this.view.lineWasUpdated();
+  }
+
+  restartGame() {
+    this.init();
   }
 }
