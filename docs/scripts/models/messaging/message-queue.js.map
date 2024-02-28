@@ -1,0 +1,1 @@
+{"version":3,"file":"message-queue.js","sourceRoot":"","sources":["../../../../../src/scripts/models/messaging/message-queue.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,YAAY;IAAzB;QAEY,aAAQ,GAAc,EAAE,CAAC;IASrC,CAAC;IAPG,OAAO,CAAC,OAAgB;QACpB,IAAI,CAAC,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;IAChC,CAAC;IAED,OAAO;QACH,OAAO,IAAI,CAAC,QAAQ,CAAC,KAAK,EAAE,CAAC;IACjC,CAAC;CACJ"}
