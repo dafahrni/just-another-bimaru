@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Edit View</title>
+    <link rel="stylesheet" href="styles/edit.css">
+</head>
+<body>
+    <div id="editView">
+        <label for="gridSize">Grid Size:</label>
+        <button id="decreaseButton">-</button>
+        <input type="number" id="gridSize" min="8" max="12" value="10">
+        <button id="increaseButton">+</button><br>
+
+        <label>Ship Amount:</label>
+        <span id="shipAmount">Default value</span><br>
+        
+        <label for="rowTargets">Row Targets:</label>
+        <input type="number" id="rowTargets" min="0" max="8" value="0"><br>
+        
+        <label for="colTargets">Col Targets:</label>
+        <input type="number" id="colTargets" min="0" max="8" value="0"><br>
+    </div>
+
+    <script src="scripts/views/edit/edit-view.js"></script>
+</body>
+</html>
