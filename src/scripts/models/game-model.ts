@@ -14,7 +14,7 @@ export class GameModel {
   private game: Game;
   
   constructor(field: Field | null = null) {
-    const index = 2;
+    const index = 0;
     const definition = GameDefinition.default(index);
     this.field = field 
       ? field

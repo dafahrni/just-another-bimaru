@@ -13,11 +13,17 @@ html {
 
 .content {
   margin-left: 0;
-  transition: margin-left 0.3s ease; /* Smooth transition for content movement */
+  margin-right: 0;
 }
 
-.content-open {
-  margin-left: 250px; /* Move the content to make space for the menu */
+.content-with-menu {
+  transition: margin-left 0.3s ease; /* Smooth transition for content movement */
+  margin-left: 250px; /* Move the content to make space for the menu view */
+}
+
+.content-with-config {
+  transition: margin-right 0.3s ease; /* Smooth transition for content movement */
+  margin-right: 350px; /* Move the content to make space for the config view */
 }
 
 .menu {
@@ -47,6 +53,55 @@ html {
   pointer-events: none; /* avoid actions after mouse klicks on inactive menu items */
 }
 
+.config {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Initially hide the config off-screen */
+  width: 350px;
+  height: 100%;
+  background-color: #333;
+  transition: right 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+.config ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.config li {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.config .disabled {
+  color: #555; /* gray color for inactive menu items */
+  pointer-events: none; /* avoid actions after mouse klicks on inactive menu items */
+}
+
+.config label {
+  display: inline-block;
+  width: 120px;
+}
+
+.config input[type="number"] {
+  padding-top: 2px;
+  width: 50px;
+  height: 20px;
+}
+
+.config button {
+  background-color: darkorange;
+  width: 26px;
+  height: 26px;
+  font-size: 15px; /* Schriftgröße fix */
+  border: none;
+  border-radius: 0.5vmin;
+  cursor: pointer;
+  /*font-size: 2vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -61,7 +116,7 @@ html {
 
 .semi-transparent {
   opacity: 0.5;
-} 
+}
 
 .label {
   font-weight: lighter;
@@ -139,7 +194,7 @@ p {
   position: absolute;
 }
 
-button {
+.button-container button {
   padding: 1vmin 2vmin;
   margin: 1vmin;
   background-color: #4caf50;

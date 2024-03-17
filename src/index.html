@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Just another Bimaru</title>
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
     <link rel="stylesheet" href="styles/styles.css" />
   </head>
   <body>
@@ -18,6 +18,40 @@
         <li class="disabled">Sound off</li>
         <li>Music on</li>
         <li class="disabled">Further Options</li>
+      </ul>
+    </div>
+    <div id="config" class="config">
+      <ul>
+        <li>
+          <div>
+            <label for="gridSize">Grid Size:</label>
+            <button id="decreaseButton">-</button>
+            <input type="number" id="gridSize" min="8" max="12" value="10" readonly />
+            <button id="increaseButton">+</button><br />
+          </div>
+        </li>
+        <li class="disabled">
+          <div>
+            <label for="rowTargets">Row Targets:</label>
+            <button id="decreaseButton">-</button>
+            <input type="number" id="rowTargets" min="0" max="8" value="0" readonly />
+            <button id="increaseButton">+</button><br />
+          </div>
+        </li>
+        <li class="disabled">
+          <div>
+            <label for="colTargets">Col Targets:</label>
+            <button id="decreaseButton">-</button>
+            <input type="number" id="colTargets" min="0" max="8" value="0" readonly />
+            <button id="increaseButton">+</button><br />
+          </div>
+        </li>
+        <li class="disabled">
+          <div>
+            <label>Ship Amount:</label>
+            <span id="shipAmount">Default value</span>
+          </div>
+        </li>
       </ul>
     </div>
     <script type="module" src="scripts/app.js"></script>

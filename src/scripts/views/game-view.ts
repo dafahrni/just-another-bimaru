@@ -1,10 +1,14 @@
 import { MenuView } from "./menu-view.js";
+import { ConfigView } from "./config-view.js";
 import { Bimaru } from "./bimaru.js";
 import { ModalDialog } from "./modal-dialog.js";
+import { SideView } from "./side-view.js";
 
 export class GameView {
   
   private menu: MenuView;
+  private config: ConfigView; 
+  private sides: SideView;
   private board: Bimaru;
   private dialog: ModalDialog;
   private ressources: any;
@@ -21,6 +25,8 @@ export class GameView {
       music: new Audio("assets/music.mp3"),
     };
     this.menu = new MenuView(this.ressources["music"]);
+    this.config = new ConfigView();
+    this.sides = new SideView();
   }
 
   init() {
