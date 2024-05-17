@@ -4,8 +4,8 @@ import { ShipSet } from "../../../src/scripts/models/board/parts/ship-set.js";
 import { GameModel } from "../../../src/scripts/models/game-model.js";
 
 describe("GameModel", () => {
-  describe("#rowCount()", () => {
-    it("should return expected row labels", () => {
+  describe("#rows", () => {
+    it("should return expected value", () => {
       const cols = 3;
       const rows = 4;
       let testee = new GameModel(FieldFactory.from(cols, rows));

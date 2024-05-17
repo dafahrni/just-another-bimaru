@@ -69,8 +69,9 @@ export class GameModel {
     else throw new Error(`No cell with index ${index} available.`);
   }
 
-  fillLineWithWater(index: number) {
-    // index depends on label creation in Bimaru.setupHtml 
+  fillLineWithWater(labelIndex: number) {
+    // index depends on label creation in Bimaru.setupHtml
+    const index = labelIndex; 
     const sizeX = this.labels.cols;
     const sizeY = this.labels.rows;
     if (index < 0 || index >= sizeX+sizeY) 
