@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { CellValue } from "../../../../src/scripts/models/board/parts/cell-value.js";
-import { DtoFactory } from "../../../../src/scripts/models/dtos/dto-factory.js";
+import { DtoFactory } from "../../../../src/scripts/controllers/dtos/dto-factory.js";
 import { Labels } from "../../../../src/scripts/models/board/parts/labels.js";
 
 describe("DtoFactory", () => {

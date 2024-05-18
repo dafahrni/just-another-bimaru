@@ -1,17 +1,15 @@
 import { GameView } from "./views/game-view.js";
-import { GameModel } from "./models/game-model.js";
+import { GameApi } from "./controllers/game-api.js";
 import { GameController} from "./controllers/game-controller.js";
 
 export class App {
     
-    private model: GameModel;
-    private view: GameView;
     private controller: GameController;
 
     constructor() {
-        this.model = new GameModel();
-        this.view = new GameView();
-        this.controller = new GameController(this.model, this.view);
+        let model = new GameApi();
+        let view = new GameView();
+        this.controller = new GameController(model, view);
     }
 
     public init(): void {

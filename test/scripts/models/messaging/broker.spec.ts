@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import { DtoFactory } from "../../../../src/scripts/models/dtos/dto-factory.js";
-import { Message, MessageType, NewGame } from "../../../../src/scripts/models/messaging/message.js";
+import { DtoFactory } from "../../../../src/scripts/controllers/dtos/dto-factory.js";
+import { Message, MessageType, NewGame } from "../../../../src/scripts/messaging/message.js";
 import { GameModel } from "../../../../src/scripts/models/game-model.js";
-import { Broker } from "../../../../src/scripts/models/messaging/broker.js";
+import { Broker } from "../../../../src/scripts/messaging/broker.js";
 
 describe("Broker", () => {
 

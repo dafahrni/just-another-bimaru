@@ -70,11 +70,6 @@ export class FieldBase {
     }
   }
 
-  getCellValue(x: number, y: number) {
-    const cell = this.getCell(x, y);
-    return cell.getValue();
-  }
-
   getCell(x: number, y: number) {
     const pos = new Position(x, y);
     const matchingCells = this.cells.filter((c) => c.getPos().isSameAs(pos));
@@ -134,8 +129,8 @@ export class FieldBase {
       let line =
         (withCheckMarks && row.isFull() ? "√" : this.labels.ofRow(y)) + " | ";
       for (let x = 0; x < this.cols; x++) {
-        let value = this.getCellValue(x, y);
-        line += value.getSymbol() + " ";
+        let cell = this.getCell(x, y);
+        line += cell.asSymbol() + " ";
       }
       text += line + "\n";
     }

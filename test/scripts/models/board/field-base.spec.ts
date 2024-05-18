@@ -29,7 +29,8 @@ describe("FieldBase", () => {
 
       testee.setFixCellValue(2, 1, value);
 
-      expect(testee.getCellValue(2, 1)).to.be.equal(value);
+      let cell = testee.getCell(2, 1);
+      expect(cell.getValue()).to.be.equal(value);
     });
   });
 

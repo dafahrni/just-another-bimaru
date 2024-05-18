@@ -1,18 +1,18 @@
-import { DtoFactory } from "../models/dtos/dto-factory.js";
-import { GameModel } from "../models/game-model.js";
-import { Broker } from "../models/messaging/broker.js";
-import { Message } from "../models/messaging/message.js";
+import { DtoFactory } from "./dtos/dto-factory.js";
+import { GameApi } from "./game-api.js";
+import { Broker } from "../messaging/broker.js";
+import { Message } from "../messaging/message.js";
 import { GameView } from "../views/game-view.js";
 import { CellRelations } from "./cell-relations.js";
 
 export class GameController {
 
-  private model: GameModel;
+  private model: GameApi;
   private view: GameView;
   private cells: CellRelations;
   private broker: Broker = Broker.get();
   
-  constructor(model: GameModel, view: GameView) {
+  constructor(model: GameApi, view: GameView) {
     this.model = model;
     this.view = view;
     this.view.bindSelectionChanged((i: number) => this.nextMove(i));
@@ -25,7 +25,7 @@ export class GameController {
   init() {
     this.model.resetCells();
 
-    const dto = DtoFactory.mapGame(this.model);
+    const dto = this.model.getGame();
     this.broker.publish(Message.newGame(dto));
 
     this.view.init();

@@ -1,9 +1,9 @@
 import { ShipCell } from "./ship-cell.js";
 import { CellLabel } from "./cell-label.js";
 
-import { Broker } from "../models/messaging/broker.js";
-import { LabelsDto } from "../models/dtos/labels-dto.js";
-import { MessageType, NewGame } from "../models/messaging/message.js";
+import { Broker } from "../messaging/broker.js";
+import { LabelsDto } from "../controllers/dtos/labels-dto.js";
+import { MessageType, NewGame } from "../messaging/message.js";
 
 export class Bimaru {
 

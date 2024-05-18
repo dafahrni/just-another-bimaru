@@ -26,12 +26,15 @@ export class Game {
   }
 
   placeShip(size: number) {
+    // for solver only (must not be used for playing!!)
+
     // find slots with given size
     const slots = this.field.getSlotsOfSize(size);
     if (!slots || slots.length < 1) return;
 
     // place ship on first suitable slot
     slots[0].placeShip();
+    
     // set determined cells
     this.setDeterminedCells();
   }

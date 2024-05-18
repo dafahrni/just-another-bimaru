@@ -1,5 +1,5 @@
-import { CellDto } from "../dtos/cell-dto.js";
-import { GameDto } from "../dtos/game-dto.js";
+import { CellDto } from "../controllers/dtos/cell-dto.js";
+import { GameDto } from "../controllers/dtos/game-dto.js";
 
 export enum MessageType {
   NewGame,
