@@ -41,7 +41,6 @@ new App().init();
 // I S S U E S
 // -----------
 // TODO: consider to correct ships when water is placed
-// TODO: placement of water tiles does not correct ships with direction
 // TODO: placement of tiles should be as free as possible (keep the flow in the game)
 
 // I M P R O V E M E N T S

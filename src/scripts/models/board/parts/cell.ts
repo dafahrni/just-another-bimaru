@@ -114,7 +114,7 @@ export class Cell {
     // use state machine to change cell value
     if (this.isEmpty()) {
       this.value = CellValue.water;
-      this.block?.correctCenter();
+      this.block?.correctCenterAfterUserSelection();
     } else if (this.isWater()) {
       this.value = CellValue.ship;
       this.block?.setCenter();
@@ -178,7 +178,7 @@ export class Cell {
   }
 
   hasSymbol(symbol: string) {
-    return this.asSymbol() == symbol;
+    return symbol.includes(this.asSymbol());
   }
 
   getDirtyFlag() {
