@@ -28,3 +28,47 @@
 
 - go to marketplace and install *Live Server* extension
 - right mouse click on `index.html` to open with *Live Server*
+
+---
+
+# Appendix
+
+### Class Diagram
+
+This creates only an extract of some classes.
+
+``` PlantUML
+@startuml
+
+title Just another Bimaru - Code
+
+class FieldFactory {
+  +parse(text): Field
+}
+
+class Field {
++ checkForWinner()
+}
+
+class Field {
+
+}
+
+class GameModel {
++ changeCell()
++ checkForWinner()
+}
+
+class GameApi {
++ changeCell()
++ checkForWinner()
+}
+
+FieldBase <|-- Field
+FieldFactory - Field
+Field -- Game
+Game -- GameModel
+GameApi - GameModel
+
+@enduml
+```
