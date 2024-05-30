@@ -15,6 +15,11 @@ export class ElementBuilder {
       this.child.classList.add(elementClass);
       return this;
     }
+
+    setAttribut(name: string, value: any) {
+      this.child.setAttribute(name, value);
+      return this;
+    }
   
     setText(text: string | null) {
       this.child.textContent = text;

@@ -37,4 +37,16 @@ export class Labels {
   get rows() {
     return this.rowLabels.length;
   }
+
+  increaseRowTarget(index: number) {
+    this.rowLabels[index] = index < this.rows
+      ? this.rowLabels[index] + 1
+      : 0;
+  }
+
+  increaseColTarget(index: number) {
+    this.colLabels[index] = index < this.cols
+      ? this.colLabels[index] + 1
+      : 0;
+  }
 }

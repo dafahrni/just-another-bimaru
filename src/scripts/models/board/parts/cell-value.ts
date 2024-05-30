@@ -45,6 +45,13 @@ export class CellValue {
     return value;
   }
 
+  static selectableSymbols(): string[] {
+    const symbols = CellValue.all.map(v => v.getSymbol());
+    const outer = CellValue.outer.getSymbol();
+    const ship = CellValue.ship.getSymbol()
+    return symbols.filter(s => s !== outer && s !== ship);
+  }
+
   constructor(symbol: string, name: string) {
     this.symbol = symbol;
     this.name = name;
@@ -56,6 +63,14 @@ export class CellValue {
 
   getName() {
     return this.name;
+  }
+
+  getNext() {
+    const symbols = CellValue.selectableSymbols();
+    let index = symbols.indexOf(this.symbol);
+    return index < 0
+      ? CellValue.outer
+      : CellValue.from(symbols[index + 1 >= symbols.length? 0 : index + 1]);
   }
 
   isShip() {

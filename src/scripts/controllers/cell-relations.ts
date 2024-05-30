@@ -1,15 +1,17 @@
 import { LineState } from "../models/board/parts/cell-line.js";
 import { LineDto } from "./dtos/line-dto.js";
+import { CellDto } from "./dtos/cell-dto.js";
 import { GameApi } from "./game-api.js";
-import { CellLabel } from "../views/cell-label.js";
 import { GameView } from "../views/game-view.js";
 import { ShipCell } from "../views/ship-cell.js";
+import { CellLabel } from "../views/cell-label.js";
 
 export class CellRelations {
 
   private model: GameApi;
   private cells: ShipCell[];
   private labels: CellLabel[];
+  private editMode: boolean = false;
 
   constructor(model: GameApi, view: GameView) {
     this.model = model;
@@ -17,9 +19,23 @@ export class CellRelations {
     this.labels = view.getLabels();
   }
 
-  updateAll() {
-    for (let i = 0; i < this.cells.length; i++) {
-        this.updateCell(i);   
+  updateAll(editMode: boolean) {
+    this.editMode = editMode;
+    if (this.editMode)
+      this.updateLabels();
+
+    for (let i = 0; i < this.cells.length; i++)
+        this.updateCell(i);
+  }
+
+  updateLabels() {
+    const dto = this.model.getLabels();
+    const rows = dto.rowLabels.length;
+    for (let i = 0; i < this.labels.length; i++) {
+      const targetAmount = i < rows
+        ? dto.rowLabels[i]
+        : dto.colLabels[i - rows];
+      this.labels[i].changeText(`${targetAmount}`);
     }
   }
 
@@ -51,7 +67,13 @@ export class CellRelations {
       }
     });
 
-    // update labels
+    this.updateLabelsOfCell(dto);
+  }
+
+  updateLabelsOfCell(dto: CellDto) {
+    if (this.editMode)
+      return;
+
     const x = dto.posX;
     const y = dto.posY;
     const rows = dto.col.values.length;

@@ -108,8 +108,9 @@ export class SideView {
         this.viewMode = ViewMode.ContentOnly;
         break;
       case ViewMode.ContentOnly:
-        this.openConfig();
-        this.viewMode = ViewMode.ContentAndRightSideView;
+        // TODO: un-comment if conig view is should be accessible
+        //this.openConfig();
+        //this.viewMode = ViewMode.ContentAndRightSideView;
         break;
       case ViewMode.ContentAndRightSideView:
         // do nothing

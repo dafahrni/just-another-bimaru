@@ -97,6 +97,10 @@ export class Cell {
     return this.value;
   }
 
+  getNextValue(): CellValue {
+    return this.value.getNext();
+  }
+
   setValue(value: CellValue) {
     // used for object creation in Field class, unit testing, solver ...
     if (this.isFix) return;

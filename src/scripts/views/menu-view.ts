@@ -1,6 +1,8 @@
 export class MenuView {
   private menu: HTMLElement;
   private notifyRestartGame: any;
+  private notifyEditGame: any;
+  private editMode: boolean;
   private music: HTMLAudioElement;
   private musicPlaying: boolean;
   
@@ -12,6 +14,8 @@ export class MenuView {
 
     this.menu = menu;
     this.notifyRestartGame = null;
+    this.notifyEditGame = null;
+    this.editMode = false;
     this.music = music;
     this.musicPlaying = false;
 
@@ -24,6 +28,10 @@ export class MenuView {
 
   bindRestartGameClick(handler: any) {
     this.notifyRestartGame = handler;
+  }
+
+  bindEditGameClick(handler: any) {
+    this.notifyEditGame = handler;
   }
 
   addEventListeners() {
@@ -46,7 +54,7 @@ export class MenuView {
         this.restartGame();
         break;
       case 1:
-        alert("Edit Game clicked!");
+        this.editGame();
         break;
       case 2:
         alert("Sound off clicked!");
@@ -72,6 +80,21 @@ export class MenuView {
     if (this.notifyRestartGame) {
       this.notifyRestartGame();
     }
+  }
+
+  editGame() {
+    if (this.notifyEditGame) {
+      this.notifyEditGame(this.editMode);
+    }
+  }
+
+  changeEditMode() {
+    this.editMode = !this.editMode;
+
+    const menuItems = this.menu.querySelectorAll("li");
+    menuItems[1].innerText = this.editMode
+        ? "Save Game"
+        : "Edit Game";
   }
 
   startMusic() {

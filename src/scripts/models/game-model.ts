@@ -5,6 +5,7 @@ import { GameDefinition } from "./board/game-definition.js";
 import { ShipSet } from "./board/parts/ship-set.js";
 import { Cell } from "./board/parts/cell.js";
 import { Labels } from "./board/parts/labels.js";
+import { CellValue } from "./board/parts/cell-value.js";
 
 export class GameModel {
 
@@ -12,19 +13,26 @@ export class GameModel {
   private labels: Labels;
   private cells: Cell[];
   private game: Game;
+  private config: GameDefinition;
   
-  constructor(field: Field | null = null) {
-    const index = 0;
-    const definition = GameDefinition.default(index);
-    this.field = field 
-      ? field
-      : FieldFactory.createWith(definition);
+  constructor(config: GameDefinition | null = null) {
+    config = config 
+      ? config 
+      : GameDefinition.default(2);
+    this.field = FieldFactory.createWith(config);
     this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
-
-    // TODO: remove this line after merger of Game and GameView classes
     this.game = new Game(this.field);
-    this.game.initStatistics(definition.getShipSets());
+    this.game.initStatistics(config.getShipSets());
+    this.config = config;
+  }
+
+  safeConfig() {
+    this.config = GameDefinition.extract(this.field);
+  }
+
+  loadConfig() {
+    return this.config;
   }
 
   initStatistics(shipSets: ShipSet[]) {
@@ -81,6 +89,32 @@ export class GameModel {
       ? this.field.getRow(index)
       : this.field.getCol(index - sizeY);
     line.changeEmptyToWater();
+  }
+
+  increaseTargetValue(labelIndex: number) {
+    // index depends on label creation in Bimaru.setupHtml
+    const index = labelIndex; 
+    const sizeX = this.labels.cols;
+    const sizeY = this.labels.rows;
+    if (index < 0 || index >= sizeX+sizeY) 
+      return;
+
+    if (index < sizeY)
+      this.labels.increaseRowTarget(index)
+    else
+      this.labels.increaseColTarget(index - sizeY);
+  }
+
+  setCell(index: number, symbol: string | null = null) {
+    if (!this.isValid(index))
+      return;
+
+    const cell = this.cells[index];
+    const nextValue = symbol 
+      ? CellValue.from(symbol)
+      : cell.getNextValue();
+
+    cell.setValue(nextValue);
   }
 
   changeCell(index: number) {

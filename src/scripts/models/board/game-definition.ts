@@ -50,8 +50,10 @@ export class GameDefinition {
     return new GameDefinition(new Labels(Array(10), Array(10)), []);
   }
 
-  static extract(field: Field) {
-    return new GameDefinition(field.getLabels(), field.getCellsWithFixedValue());
+  static extract(field: Field, basedOnNoneEmptyCells = true) {
+    return new GameDefinition(field.getLabels(), basedOnNoneEmptyCells
+      ? field.getNoneEmptyCells()
+      : field.getCellsWithFixedValue());
   }
 
   static from(labels: Labels, predefinedCells: Cell[]) {

@@ -12,22 +12,35 @@ describe("FieldBase", () => {
     "    1 2 1";
   
   describe("#setPredefinedCells()", () => {
-    it("should create field with ", () => {
+    it("should create field with 5 none empty cells", () => {
       let testee = FieldFactory.parse(fieldText);
 
       testee.setPredefinedCells();
 
-      const fixedCells = testee.getCellsWithFixedValue();
-      expect(fixedCells.length).to.be.equal(5);
+      const noneEmptyCells = testee.getNoneEmptyCells();
+      expect(noneEmptyCells.length).to.be.equal(5);
     });
   });
 
-  describe("#setFixCellValue()", () => {
+  describe("#setCellValue()", () => {
     it("should change cell value", () => {
       let value = CellValue.center;
       let testee = FieldFactory.from(3, 2);
 
-      testee.setFixCellValue(2, 1, value);
+      testee.setCellValue(2, 1, value);
+
+      let cell = testee.getCell(2, 1);
+      expect(cell.getValue()).to.be.equal(value);
+    });
+  });
+
+  describe("#setCellValue()", () => {
+    it("must not change cell value on fix cell", () => {
+      let value = CellValue.center;
+      let testee = FieldFactory.from(3, 2);
+      testee.setCellValueFix(2, 1, value);
+
+      testee.setCellValue(2, 1, CellValue.east);
 
       let cell = testee.getCell(2, 1);
       expect(cell.getValue()).to.be.equal(value);

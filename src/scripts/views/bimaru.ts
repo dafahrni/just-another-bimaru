@@ -12,15 +12,21 @@ export class Bimaru {
   private labels: CellLabel[];
   private notifyLabelClick: any;
   private broker: Broker = Broker.get();
+  private editMode: boolean;
+  private boundLabelSelected: any = null;
+  private boundTileSelected: any = null;
   
   constructor() {
     this.cells = [];
     this.notifySelectionChanged = null;
     this.labels = [];
     this.notifyLabelClick = null;
+    this.editMode = false;
   }
 
-  init() {
+  init(editMode: boolean = false) {
+    this.editMode = editMode;
+
     const message = this.broker.consume(MessageType.NewGame);
     const dto = (message as NewGame)?.dto;
     if (!dto) return;
@@ -56,8 +62,18 @@ export class Bimaru {
 
     const templateColumns = `repeat(${cols + 1}, 1fr)`;
     grid.style.gridTemplateColumns = templateColumns;
-    grid.addEventListener("click", this.labelSelected.bind(this));
-    grid.addEventListener("click", this.tileSelected.bind(this));
+
+    // Remove existing event listeners if they exist
+    grid.removeEventListener("click", this.boundLabelSelected);
+    grid.removeEventListener("click", this.boundTileSelected);
+
+    // Bind and store the bound functions
+    this.boundLabelSelected = this.labelSelected.bind(this);
+    this.boundTileSelected = this.tileSelected.bind(this);
+
+    // Add the new event listeners
+    grid.addEventListener("click", this.boundLabelSelected);
+    grid.addEventListener("click", this.boundTileSelected);
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -92,7 +108,7 @@ export class Bimaru {
     if (this.notifyLabelClick) {
       // index consists of row labels first and col label second
       // important for code used in GameModel.fillLineWithWater
-      this.notifyLabelClick(index);
+      this.notifyLabelClick(index, this.editMode);
     }
   }
 
@@ -107,7 +123,7 @@ export class Bimaru {
       .indexOf(selectedTile);
 
     if (this.notifySelectionChanged) {
-      this.notifySelectionChanged(index);
+      this.notifySelectionChanged(index, this.editMode);
     }
   }
 

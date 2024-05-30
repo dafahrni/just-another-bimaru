@@ -8,6 +8,8 @@ export class App {
 
     constructor() {
         let model = new GameApi();
+        model.applySomeMoves(); // TODO: remove this line
+
         let view = new GameView();
         this.controller = new GameController(model, view);
     }
@@ -42,6 +44,7 @@ new App().init();
 // -----------
 // TODO: consider to correct ships when water is placed
 // TODO: placement of tiles should be as free as possible (keep the flow in the game)
+// TODO: labels of model should be called targets
 
 // I M P R O V E M E N T S
 // -----------------------

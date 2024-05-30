@@ -52,11 +52,11 @@ export class FieldBase {
     
     predefinedCells.forEach((predefinedCell) => {
       const pos = predefinedCell.getPos();
-      this.setFixCellValue(pos.getX(), pos.getY(), predefinedCell.getValue());
+      this.setCellValueFix(pos.getX(), pos.getY(), predefinedCell.getValue());
     });
   }
 
-  setFixCellValue(x: number, y: number, value: CellValue) {
+  setCellValueFix(x: number, y: number, value: CellValue) {
     this.setCellValue(x, y, value, true);
   }
 
@@ -86,6 +86,10 @@ export class FieldBase {
 
   getCellsWithFixedValue() {
     return this.cells.filter(cell => cell.getIsFix());
+  }
+
+  getNoneEmptyCells() {
+    return this.cells.filter(cell => !cell.isEmpty());
   }
 
   getRow(y: number) {

@@ -29,8 +29,8 @@ export class GameView {
     this.sides = new SideView();
   }
 
-  init() {
-    this.board.init();
+  init(editMode: boolean) {
+    this.board.init(editMode);
   }
 
   main() {
@@ -48,6 +48,10 @@ export class GameView {
     this.menu.bindRestartGameClick(handler);
   }
 
+  bindEditGameClick(handler: any) {
+    this.menu.bindEditGameClick(handler);
+  }
+
   wrongMove() {
     this.playSound("wrong");
   }
@@ -60,16 +64,29 @@ export class GameView {
     this.playSound("click");
   }
 
-  gameIsWon() {
+  gameIsWon(action: () => void) {
     this.playSound("bell");
-    this.showAlert(`Alle Schiffe gefunden!`, () => {
-      // TODO: consider to make this parameter optional
-      // do nothing afting hiding
-    });
+    this.dialog.showInfo(`Alle Schiffe gefunden!`, action);
   }
 
-  showAlert(message: string, performAfterHiding: () => void) {
-    this.dialog.showAlert(message, performAfterHiding);
+  stopGame(action: () => void) {
+    this.dialog.confirmAction(`Laufendes Spiel beenden?`, action);
+  }
+
+  changeMenu() {
+    this.menu.changeEditMode();
+  }
+
+  requestGridSize(action: () => void) {
+    this.dialog.requestAmount(`Bitte Grösse festlegen`, action);
+  }
+
+  getGridSize() {
+    return this.dialog.getValue();
+  }
+
+  safeConfig(action: () => void) {
+    this.dialog.confirmAction(`Konfiguration übernehmen?`, action);
   }
 
   playSound(key: string) {

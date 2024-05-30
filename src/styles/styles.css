@@ -164,8 +164,7 @@ html {
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 100vmin;
-  width: 80vmin;
+  max-width: 80vmin;
   text-align: center;
   z-index: 1001;
 }
@@ -183,7 +182,36 @@ html {
 
 p {
   margin: 0;
+  margin-bottom: 7vmin;
   font-size: 5vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
+}
+
+.amount-control {
+  display: flex;
+  flex-direction: row;
+  bottom: 1.5vmin;
+  left: 1vmin;
+  position: absolute;
+}
+
+.amount-control button {
+  margin: 1vmin;
+  background-color: darkorange;
+  color: white;
+  border: none;
+  border-radius: 0.5vmin;
+  cursor: pointer;
+  font-size: 2vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
+  width: 4vmin;
+}
+
+.amount-control input {
+  padding: 1vmin 1vmin;
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  margin-left: 0vmin;
+  margin-right: 0vmin;
+  width: 3.5vmin;
 }
 
 .button-container {
@@ -198,7 +226,7 @@ p {
   padding: 1vmin 2vmin;
   margin: 1vmin;
   background-color: #4caf50;
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 1vmin;
   cursor: pointer;
