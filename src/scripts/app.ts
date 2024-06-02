@@ -29,6 +29,7 @@ new App().init();
 // ---------------
 // TODO: display of entire field in the screen center
 // TODO: persistance of configurations
+// TODO: config selection view
 // TODO: draw ships to find and keep statistics (4-1, 3-2, etc.)
 // TODO: add splash screen with sound
 // TODO: allocate player name and date with the game

@@ -103,6 +103,7 @@ html {
 }
 
 .grid {
+  padding: 10vmin;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
 }
@@ -120,7 +121,7 @@ html {
 
 .label {
   font-weight: lighter;
-  font-size: 16;
+  font-size: 18;
   user-select: none;
 }
 
@@ -202,7 +203,7 @@ p {
   border-radius: 0.5vmin;
   cursor: pointer;
   font-size: 2vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
-  width: 4vmin;
+  width: 4.5vmin;
 }
 
 .amount-control input {
@@ -211,7 +212,7 @@ p {
   margin-bottom: 1vmin;
   margin-left: 0vmin;
   margin-right: 0vmin;
-  width: 3.5vmin;
+  width: 6vmin;
 }
 
 .button-container {

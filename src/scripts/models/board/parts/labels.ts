@@ -39,14 +39,22 @@ export class Labels {
   }
 
   increaseRowTarget(index: number) {
-    this.rowLabels[index] = index < this.rows
-      ? this.rowLabels[index] + 1
+    if (index < 0 || index >= this.rows)
+      return;
+
+    let target = this.rowLabels[index];
+    this.rowLabels[index] = target < 9 
+      ? target + 1
       : 0;
   }
 
   increaseColTarget(index: number) {
-    this.colLabels[index] = index < this.cols
-      ? this.colLabels[index] + 1
+    if (index < 0 || index >= this.cols)
+      return;
+
+    let target = this.colLabels[index];
+    this.colLabels[index] = target < 9 
+      ? target + 1
       : 0;
   }
 }
