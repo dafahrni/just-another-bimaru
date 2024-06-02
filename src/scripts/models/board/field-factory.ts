@@ -35,7 +35,7 @@ export class FieldFactory {
     return FieldFactory.createWith(definition);
   }
 
-  static createWith(definition: GameDefinition | null = null) {
+  static createWith(definition?: GameDefinition) {
     definition = definition
       ? definition
       : GameDefinition.default();

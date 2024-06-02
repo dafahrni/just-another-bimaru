@@ -89,6 +89,10 @@ export class GameView {
     this.dialog.confirmAction(`Konfiguration übernehmen?`, action);
   }
 
+  nextConfig(action: () => void) {
+    this.dialog.confirmAction(`Nächste Konfiguration anzeigen?`, action);
+  }
+
   playSound(key: string) {
     if (key in this.ressources) {
       this.ressources[key].play();

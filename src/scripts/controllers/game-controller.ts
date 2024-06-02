@@ -6,24 +6,24 @@ import { CellRelations } from "./cell-relations.js";
 
 export class GameController {
 
-  private model: GameApi;
+  private api: GameApi;
   private view: GameView;
   private cells: CellRelations;
   private broker: Broker = Broker.get();
   
-  constructor(model: GameApi, view: GameView) {
-    this.model = model;
+  constructor(api: GameApi, view: GameView) {
+    this.api = api;
     this.view = view;
     this.view.bindSelectionChanged((i: number, m: boolean) => this.nextMove(i, m));
     this.view.bindLabelClick((i: number, m: boolean) => this.fillLineWithWater(i, m));
     this.view.bindRestartGameClick(() => this.restartGame());
-    this.view.bindEditGameClick((m: boolean) => this.editGame(m));
+    this.view.bindEditGameClick((m: boolean) => this.editConfig(m));
 
-    this.cells = new CellRelations(model, view);
+    this.cells = new CellRelations(api, view);
   }
 
   init(editMode: boolean = false) {
-    const dto = this.model.getGame();
+    const dto = this.api.getGame();
     this.broker.publish(Message.newGame(dto));
 
     this.view.init(editMode);
@@ -37,13 +37,13 @@ export class GameController {
 
   nextMove(index: number, editMode: boolean) {
     if (editMode) {
-      this.model.setCell(index);
+      this.api.setCell(index);
       this.cells.updateCell(index);
       this.view.cellWasUpdated();
       return;
     }
 
-    if (this.model.changeCell(index)) {
+    if (this.api.changeCell(index)) {
       this.cells.updateCell(index);
       this.view.cellWasUpdated();
     } else {
@@ -51,35 +51,36 @@ export class GameController {
       return;
     }
 
-    if (this.model.checkForWinner()) {
-      this.view.gameIsWon(() => this.executeRestartGame());
+    if (this.api.checkForWinner()) {
+      this.view.gameIsWon(() => this.executeSelectConfig());
     }
   }
 
   fillLineWithWater(index: number, editMode: boolean) {
     if (editMode)
-      this.model.increaseTargetValue(index);
+      this.api.increaseTargetValue(index);
     else
-      this.model.fillLineWithWater(index);
+      this.api.fillLineWithWater(index);
     
     this.cells.updateAll(editMode);
     this.view.lineWasUpdated();
   }
 
   restartGame() {
-    this.view.stopGame(() => this.executeRestartGame());
+    this.view.stopGame(() => this.executeSelectConfig());
   }
 
-  editGame(editMode: boolean) {
+  editConfig(editMode: boolean) {
     if (!editMode)
       this.view.stopGame(() => this.executeGrizSizeRequest());
     else 
       this.view.safeConfig(() => this.executeSaveConfig());
   }
 
-  executeRestartGame() {
-    this.model.playGame();
+  executeSelectConfig() {
+    this.api.selectNextConfig();
     this.init(false);
+    this.view.nextConfig(() => this.executeSelectConfig());
   }
 
   executeGrizSizeRequest() {
@@ -89,14 +90,14 @@ export class GameController {
 
   executeEditConfig() {
     const size = this.view.getGridSize();
-    this.model.editConfig(size);
+    this.api.editConfig(size);
     this.init(true);
   }
 
   executeSaveConfig() {
     this.view.changeMenu();
-    this.model.saveConfig();
-    this.model.playGame();
+    this.api.saveConfig();
+    this.api.selectConfig();
     this.init(false);
   }
 }

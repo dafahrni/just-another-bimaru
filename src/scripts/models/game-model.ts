@@ -14,25 +14,33 @@ export class GameModel {
   private cells: Cell[];
   private game: Game;
   private config: GameDefinition;
+  private configIndex: number;
   
-  constructor(config: GameDefinition | null = null) {
-    config = config 
+  constructor(config?: GameDefinition, index?: number | null) {
+    this.config = config 
       ? config 
       : GameDefinition.default(2);
-    this.field = FieldFactory.createWith(config);
+    this.configIndex = config && index != null && index >= 0 
+      ? index
+      : -1;
+    this.field = FieldFactory.createWith(this.config);
     this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
     this.game = new Game(this.field);
-    this.game.initStatistics(config.getShipSets());
-    this.config = config;
+    this.game.initStatistics(this.config.getShipSets());
   }
 
-  safeConfig() {
-    this.config = GameDefinition.extract(this.field);
+  extractConfig() {
+    const config = GameDefinition.extract(this.field);
+    return config;
   }
 
-  loadConfig() {
+  getConfig() {
     return this.config;
+  }
+
+  getConfigIndex() {
+    return this.configIndex;
   }
 
   initStatistics(shipSets: ShipSet[]) {

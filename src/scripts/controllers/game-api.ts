@@ -5,13 +5,21 @@ import { GameModel } from "../models/game-model.js";
 import { DtoFactory } from "./dtos/dto-factory.js";
 import { FieldFactory } from "../models/board/field-factory.js";
 import { GameDefinition } from "../models/board/game-definition.js";
+import { IRepoFactory, RepoFactory } from "../models/repos/repo-factory.js";
+import { IRepo } from "../models/repos/repo.js";
 
 export class GameApi {
 
     private model: GameModel;
+    private configs: IRepo<GameDefinition>;
+    private repoFactory: IRepoFactory;
 
-    constructor(model?: GameModel) {
+    constructor(model?: GameModel, repoFactory?: IRepoFactory) {
         this.model = model ? model : new GameModel();
+        this.repoFactory = repoFactory 
+            ? repoFactory 
+            : new RepoFactory();
+        this.configs = this.repoFactory.configs;
     }
 
     // TODO: remove these lines
@@ -29,16 +37,27 @@ export class GameApi {
     editConfig(size: number) {
         const field = FieldFactory.from(size, size);
         const config = GameDefinition.extract(field, false);
-        this.model = new GameModel(config);
+        this.model = new GameModel(config, -1);
     }
 
     saveConfig() {
-        this.model.safeConfig();
+        const config = this.model.extractConfig();
+        this.configs.add(config);
     }
 
-    playGame() {
-        const config = this.model.loadConfig();
+    selectConfig() {
+        const config = this.model.getConfig();
         this.model = new GameModel(config);
+    }
+
+    selectNextConfig() {
+        const length = this.configs.length;
+        let index = this.model.getConfigIndex() + 1;
+        index = index >= 0 && index < length
+            ? index
+            : 0;
+        const config = this.configs.get(index);
+        this.model = new GameModel(config, index);
     }
 
     getGame(): GameDto {

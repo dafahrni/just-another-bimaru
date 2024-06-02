@@ -1,17 +1,26 @@
 import { GameView } from "./views/game-view.js";
 import { GameApi } from "./controllers/game-api.js";
 import { GameController} from "./controllers/game-controller.js";
+import { GameModel } from "./models/game-model.js";
+import { RepoFactory } from "./models/repos/repo-factory.js";
+import { ConfigStore } from "./db/config-store.js";
+import { FieldStore } from "./db/field-store.js";
 
 export class App {
     
     private controller: GameController;
 
     constructor() {
-        let model = new GameApi();
-        model.applySomeMoves(); // TODO: remove this line
+        const repoFactory = new RepoFactory(
+            new ConfigStore(),
+            new FieldStore());
+        repoFactory.initWithDefaultData();
 
-        let view = new GameView();
-        this.controller = new GameController(model, view);
+        const api = new GameApi(new GameModel(), repoFactory);
+        api.applySomeMoves(); // TODO: remove this line
+
+        const view = new GameView();
+        this.controller = new GameController(api, view);
     }
 
     public init(): void {
@@ -28,7 +37,6 @@ new App().init();
 // F E A T U R E S
 // ---------------
 // TODO: display of entire field in the screen center
-// TODO: persistance of configurations
 // TODO: config selection view
 // TODO: draw ships to find and keep statistics (4-1, 3-2, etc.)
 // TODO: add splash screen with sound
