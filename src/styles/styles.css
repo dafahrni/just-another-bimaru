@@ -4,6 +4,7 @@ html {
   align-items: center;
   justify-content: center;
 
+  height: 100%;
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scroll */
@@ -25,6 +26,8 @@ html {
   transition: margin-right 0.3s ease; /* Smooth transition for content movement */
   margin-right: 350px; /* Move the content to make space for the config view */
 }
+
+/* main menu */
 
 .menu {
   position: fixed;
@@ -52,6 +55,8 @@ html {
   color: #555; /* gray color for inactive menu items */
   pointer-events: none; /* avoid actions after mouse klicks on inactive menu items */
 }
+
+/* config editing */
 
 .config {
   position: fixed;
@@ -95,15 +100,15 @@ html {
   background-color: darkorange;
   width: 26px;
   height: 26px;
-  font-size: 15px; /* Schriftgröße fix */
+  font-size: 15px;
   border: none;
   border-radius: 0.5vmin;
   cursor: pointer;
-  /*font-size: 2vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
 }
 
+/* bimaru board */ 
+
 .grid {
-  padding: 10vmin;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
 }
@@ -151,10 +156,11 @@ html {
 }
 
 .selected {
-  fill: #ffcc00; /* Farbe für ausgewählte Zellen */
+  fill: #ffcc00;
 }
 
-/* CSS für die Modal-Box */
+/* modal dialog */
+
 .modal {
   display: none;
   position: fixed;
@@ -184,7 +190,7 @@ html {
 p {
   margin: 0;
   margin-bottom: 7vmin;
-  font-size: 5vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
+  font-size: 5vmin;
 }
 
 .amount-control {
@@ -202,7 +208,7 @@ p {
   border: none;
   border-radius: 0.5vmin;
   cursor: pointer;
-  font-size: 2vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
+  font-size: 2vmin;
   width: 4.5vmin;
 }
 
@@ -231,5 +237,5 @@ p {
   border: none;
   border-radius: 1vmin;
   cursor: pointer;
-  font-size: 3vmin; /* Schriftgröße basierend auf der Größe des Spielfelds */
+  font-size: 3vmin;
 }

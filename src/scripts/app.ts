@@ -36,7 +36,6 @@ new App().init();
 
 // F E A T U R E S
 // ---------------
-// TODO: display of entire field in the screen center
 // TODO: config selection view
 // TODO: draw ships to find and keep statistics (4-1, 3-2, etc.)
 // TODO: add splash screen with sound
@@ -59,6 +58,7 @@ new App().init();
 
 // I M P R O V E M E N T S
 // -----------------------
+// TODO: use messaging to replace observer pattern in view
 // TODO: consider to provide DtoFactory as Singleton to avoid static dependencies
 // TODO: document message flow of cell selection between view and model
 // TODO: merge Game and GameModel
