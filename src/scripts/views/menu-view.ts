@@ -1,10 +1,10 @@
 export class MenuView {
-  private menu: HTMLElement;
-  private notifyRestartGame: any;
-  private notifyEditGame: any;
-  private editMode: boolean;
-  private music: HTMLAudioElement;
-  private musicPlaying: boolean;
+  menu: HTMLElement;
+  notifyRestartGame: any;
+  notifyEditGame: any;
+  editMode: boolean;
+  music: HTMLAudioElement;
+  musicPlaying: boolean;
   
   constructor(music: HTMLAudioElement) {
     const menu = document.getElementById("menu");

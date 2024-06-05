@@ -1,8 +1,8 @@
 class ValueControl {
 
-    private inputElement: HTMLInputElement;
-    private decreaseButton: HTMLButtonElement;
-    private increaseButton: HTMLButtonElement;
+    inputElement: HTMLInputElement;
+    decreaseButton: HTMLButtonElement;
+    increaseButton: HTMLButtonElement;
 
     constructor(inputId: string, decreaseButtonId: string, increaseButtonId: string) {
         this.inputElement = document.getElementById(inputId) as HTMLInputElement;
@@ -25,7 +25,7 @@ class ValueControl {
         this.inputElement.addEventListener(type, listener);
     }
 
-    private decreaseValue() {
+    decreaseValue() {
         let currentValue = parseInt(this.inputElement.value);
         if (currentValue > parseInt(this.inputElement.min)) {
             currentValue--;
@@ -34,7 +34,7 @@ class ValueControl {
         }
     }
 
-    private increaseValue() {
+    increaseValue() {
         let currentValue = parseInt(this.inputElement.value);
         if (currentValue < parseInt(this.inputElement.max)) {
             currentValue++;
@@ -43,7 +43,7 @@ class ValueControl {
         }
     }
 
-    private dispatchEvent() {
+    dispatchEvent() {
         const event = new Event("input", { bubbles: true });
         this.inputElement.dispatchEvent(event);
     }

@@ -6,9 +6,9 @@ import { ShipSet } from "./parts/ship-set.js";
 
 export class Game {
 
-  private field: Field;
-  private cells: Cell[];
-  private statistics: ShipStatistics;
+  field: Field;
+  cells: Cell[];
+  statistics: ShipStatistics;
   
   constructor(field: Field | null = null) {
     this.field = field ? field : FieldFactory.default();

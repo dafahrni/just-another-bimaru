@@ -7,14 +7,14 @@ import { MessageType, NewGame } from "../messaging/message.js";
 
 export class Bimaru {
 
-  private cells: ShipCell[];
-  private notifySelectionChanged: any;
-  private labels: CellLabel[];
-  private notifyLabelClick: any;
-  private broker: Broker = Broker.get();
-  private editMode: boolean;
-  private boundLabelSelected: any = null;
-  private boundTileSelected: any = null;
+  cells: ShipCell[];
+  notifySelectionChanged: any;
+  labels: CellLabel[];
+  notifyLabelClick: any;
+  broker: Broker = Broker.get();
+  editMode: boolean;
+  boundLabelSelected: any = null;
+  boundTileSelected: any = null;
   
   constructor() {
     this.cells = [];

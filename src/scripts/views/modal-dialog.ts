@@ -3,22 +3,22 @@ import { ModalConfig } from "./modal-config.js";
 
 export class ModalDialog {
 
-    private notification: any = null;
-    private overlay: any = null;
-    private text: any = null;
-    private amount: any = null;
-    private field: any = null;
-    private ok: any = null;
-    private cancel: any = null;
+    notification: any = null;
+    overlay: any = null;
+    text: any = null;
+    amount: any = null;
+    field: any = null;
+    ok: any = null;
+    cancel: any = null;
 
-    private hasCancel: boolean = false;
-    private confirmed: boolean = false;
-    private minValue: number = 6;
-    private maxValue: number = 12;
-    private choosenValue: number = this.minValue;
+    hasCancel: boolean = false;
+    confirmed: boolean = false;
+    minValue: number = 6;
+    maxValue: number = 12;
+    choosenValue: number = this.minValue;
 
-    private timeout: any = null;
-    private action: any = null;
+    timeout: any = null;
+    action: any = null;
 
     constructor() {
       this.setupHtml();

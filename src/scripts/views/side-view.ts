@@ -5,13 +5,13 @@ enum ViewMode {
 }
 
 export class SideView {
-  private menu: HTMLElement;
-  private config: HTMLElement;
-  private content: HTMLElement;
+  menu: HTMLElement;
+  config: HTMLElement;
+  content: HTMLElement;
 
-  private viewMode: ViewMode;
-  private startX: number;
-  private startY: number;
+  viewMode: ViewMode;
+  startX: number;
+  startY: number;
 
   constructor() {
     const menu = document.getElementById("menu");

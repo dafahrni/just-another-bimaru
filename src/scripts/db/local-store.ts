@@ -1,7 +1,7 @@
 import { IDict, IRepo } from "../models/repos/repo.js";
 
 export class LocalStore<T> {
-  private storageKey: string;
+  storageKey: string;
 
   constructor(storageKey: string, items?: IDict<T>) {
     this.storageKey = storageKey;

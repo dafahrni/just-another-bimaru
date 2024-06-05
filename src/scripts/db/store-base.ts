@@ -2,7 +2,7 @@ import { IRepo, IDict } from "../models/repos/repo.js";
 import { LocalStore } from "./local-store.js";
 
 export class StoreBase<M, E> implements IRepo<M> {
-  private store: LocalStore<E>;
+  store: LocalStore<E>;
 
   constructor(storageKey: string) {
     this.store = new LocalStore<E>(storageKey);

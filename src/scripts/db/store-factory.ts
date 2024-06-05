@@ -6,19 +6,19 @@ import { ConfigStore } from "./config-store.js";
 import { FieldStore } from "./field-store.js";
 
 export class StoreFactory {
-    private fields: IRepo<FieldBase>;
-    private configs: IRepo<GameDefinition>;
+    fields: IRepo<FieldBase>;
+    configs: IRepo<GameDefinition>;
 
     constructor() {
         this.fields = new FieldStore();
         this.configs = new ConfigStore();
     }
 
-    public get fieldRepo(): IRepo<FieldBase> {
+    get fieldRepo(): IRepo<FieldBase> {
         return this.fields;
     }
 
-    public get configRepo(): IRepo<GameDefinition> {
+    get configRepo(): IRepo<GameDefinition> {
         return this.configs;
     }
 }

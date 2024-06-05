@@ -3,9 +3,9 @@ import { Cell } from "./cell.js";
 
 export class CellBlock {
   
-  private center: Cell;
-  private neighbors: Cell[];
-  private cells: Cell[];
+  center: Cell;
+  neighbors: Cell[];
+  cells: Cell[];
 
   constructor(centerCell: Cell, neighborCells: Cell[]) {
     this.center = centerCell;

@@ -3,7 +3,7 @@ import { ValueDto } from "./value-dto.js";
 
 export class LineDto {
 
-  public targetAmount!: number;
-  public values!: ValueDto[];
-  public state!: LineState;
+  targetAmount!: number;
+  values!: ValueDto[];
+  state!: LineState;
 }

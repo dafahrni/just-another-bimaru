@@ -8,10 +8,10 @@ import { CellLabel } from "../views/cell-label.js";
 
 export class CellRelations {
 
-  private model: GameApi;
-  private cells: ShipCell[];
-  private labels: CellLabel[];
-  private editMode: boolean = false;
+  model: GameApi;
+  cells: ShipCell[];
+  labels: CellLabel[];
+  editMode: boolean = false;
 
   constructor(model: GameApi, view: GameView) {
     this.model = model;

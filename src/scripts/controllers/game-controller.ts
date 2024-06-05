@@ -6,10 +6,10 @@ import { CellRelations } from "./cell-relations.js";
 
 export class GameController {
 
-  private api: GameApi;
-  private view: GameView;
-  private cells: CellRelations;
-  private broker: Broker = Broker.get();
+  api: GameApi;
+  view: GameView;
+  cells: CellRelations;
+  broker: Broker = Broker.get();
   
   constructor(api: GameApi, view: GameView) {
     this.api = api;

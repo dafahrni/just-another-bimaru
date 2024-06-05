@@ -3,10 +3,10 @@ import { MessageQueue } from "./message-queue.js";
 
 export class Broker {
 
-  private subscribers: Map<MessageType, MessageCallback<any>[]> = new Map();
-  private queues: Map<MessageType, MessageQueue> = new Map();
+  subscribers: Map<MessageType, MessageCallback<any>[]> = new Map();
+  queues: Map<MessageType, MessageQueue> = new Map();
 
-  private static instance: Broker;
+  static instance: Broker;
 
   static get(): Broker {
       if (!Broker.instance) {

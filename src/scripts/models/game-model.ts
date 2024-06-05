@@ -9,12 +9,12 @@ import { CellValue } from "./board/parts/cell-value.js";
 
 export class GameModel {
 
-  private field: Field;
-  private labels: Labels;
-  private cells: Cell[];
-  private game: Game;
-  private config: GameDefinition;
-  private configIndex: number;
+  field: Field;
+  labels: Labels;
+  cells: Cell[];
+  game: Game;
+  config: GameDefinition;
+  configIndex: number;
   
   constructor(config?: GameDefinition, index?: number | null) {
     this.config = config 

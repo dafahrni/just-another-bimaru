@@ -8,7 +8,7 @@ import { FieldStore } from "./db/field-store.js";
 
 export class App {
     
-    private controller: GameController;
+    controller: GameController;
 
     constructor() {
         const repoFactory = new RepoFactory(
@@ -23,11 +23,11 @@ export class App {
         this.controller = new GameController(api, view);
     }
 
-    public init(): void {
+    init(): void {
         this.controller.init();
     }
 
-    public run(): void {
+    run(): void {
         this.controller.run();
     }
 }

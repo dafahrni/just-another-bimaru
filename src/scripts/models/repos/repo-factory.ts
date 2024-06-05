@@ -12,19 +12,19 @@ export interface IRepoFactory {
 }
 
 export class RepoFactory implements IRepoFactory {
-  private configRepo: IRepo<GameDefinition>;
-  private fieldRepo: IRepo<FieldBase>;
+  configRepo: IRepo<GameDefinition>;
+  fieldRepo: IRepo<FieldBase>;
 
   constructor(configs?: IRepo<GameDefinition>, fields?: IRepo<FieldBase>) {
     this.configRepo = configs ? configs : new ConfigRepo("config");
     this.fieldRepo = fields ? fields : new FieldRepo("field");
   }
 
-  public get configs(): IRepo<GameDefinition> {
+  get configs(): IRepo<GameDefinition> {
     return this.configRepo;
   }
 
-  public get fields(): IRepo<FieldBase> {
+  get fields(): IRepo<FieldBase> {
     return this.fieldRepo;
   }
 

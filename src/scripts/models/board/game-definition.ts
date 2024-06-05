@@ -7,9 +7,9 @@ import { Field } from "./field.js";
 
 export class GameDefinition {
 
-  private labels: Labels;
-  private predefinedCells: Cell[];
-  private shipSets: ShipSet[];
+  labels: Labels;
+  predefinedCells: Cell[];
+  shipSets: ShipSet[];
 
   static default(index = 0) {
     const definitions = [

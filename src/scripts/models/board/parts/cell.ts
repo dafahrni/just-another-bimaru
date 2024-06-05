@@ -5,14 +5,14 @@ import { CellLine } from "./cell-line.js";
 
 export class Cell {
 
-  private pos: Position;
-  private value: CellValue;
-  private isFix: boolean;
-  private isDirty: boolean;
-  private block: CellBlock | null;
-  private index: number;
-  private row: CellLine | null;
-  private col: CellLine | null;
+  pos: Position;
+  value: CellValue;
+  isFix: boolean;
+  isDirty: boolean;
+  block: CellBlock | null;
+  index: number;
+  row: CellLine | null;
+  col: CellLine | null;
 
   static isHorizontal(cells: Cell[]) {
     if (cells.length <= 0) return false;

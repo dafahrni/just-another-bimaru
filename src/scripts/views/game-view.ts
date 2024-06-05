@@ -6,12 +6,12 @@ import { SideView } from "./side-view.js";
 
 export class GameView {
   
-  private menu: MenuView;
-  private config: ConfigView; 
-  private sides: SideView;
-  private board: Bimaru;
-  private dialog: ModalDialog;
-  private ressources: any;
+  menu: MenuView;
+  config: ConfigView; 
+  sides: SideView;
+  board: Bimaru;
+  dialog: ModalDialog;
+  ressources: any;
 
   constructor() {
     this.board = new Bimaru();

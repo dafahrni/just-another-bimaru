@@ -4,8 +4,8 @@ import { ValueDto } from "./value-dto.js";
 
 export class GameDto {
 
-    public size!: SizeDto;
-    public labels!: LabelsDto;
-    public values!: ValueDto[];
+    size!: SizeDto;
+    labels!: LabelsDto;
+    values!: ValueDto[];
 
 }

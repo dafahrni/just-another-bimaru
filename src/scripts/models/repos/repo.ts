@@ -12,8 +12,8 @@ export interface IRepo<T> {
 }
 
 export class Repo<T> implements IRepo<T> {
-  private allItems: IDict<T>;
-  private prefix: string;
+  allItems: IDict<T>;
+  prefix: string;
 
   constructor(prefix: string, items?: IDict<T>) {
     this.allItems = items ? items : {};

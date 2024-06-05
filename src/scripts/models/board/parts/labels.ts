@@ -1,7 +1,7 @@
 export class Labels {
 
-  private colLabels: number[];
-  private rowLabels: number[];
+  colLabels: number[];
+  rowLabels: number[];
 
   static default() {
     const colShipCount = [2, 3, 2, 3, 4, 2, 2, 2];

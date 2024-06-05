@@ -2,7 +2,7 @@ import { Field } from "../board/field.js";
 
 export class SolverResult {
 
-    private solutions: Field[];
+    solutions: Field[];
 
     constructor() {
         this.solutions = [];

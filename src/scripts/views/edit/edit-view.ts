@@ -1,9 +1,9 @@
 class EditView {
 
-    private gridSizeControl: ValueControl;
-    private shipAmountSpan: HTMLSpanElement;
-    private rowTargetsSelect: HTMLSelectElement;
-    private colTargetsSelect: HTMLSelectElement;
+    gridSizeControl: ValueControl;
+    shipAmountSpan: HTMLSpanElement;
+    rowTargetsSelect: HTMLSelectElement;
+    colTargetsSelect: HTMLSelectElement;
 
     constructor() {
         this.gridSizeControl = new ValueControl("gridSize", "decreaseButton", "increaseButton");
@@ -16,7 +16,7 @@ class EditView {
         this.gridSizeControl.registerForInputChanges("input", this.updateGridSize.bind(this));
     }
 
-    private updateGridSize() {
+    updateGridSize() {
         const gridSize = this.gridSizeControl.value;
         const currentRowTargets = this.rowTargetsSelect.options.length;
         const currentColTargets = this.colTargetsSelect.options.length;
@@ -46,7 +46,7 @@ class EditView {
         }
     }
 
-    private clearOptions(selectElement: HTMLSelectElement) {
+    clearOptions(selectElement: HTMLSelectElement) {
         while (selectElement.options.length > 0) {
             selectElement.remove(0);
         }

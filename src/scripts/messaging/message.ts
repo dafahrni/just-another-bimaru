@@ -20,8 +20,8 @@ export class Message {
     return new ChangeCell(dto);
   }
 
-  private type: MessageType;
-  private timestamp: number;
+  type: MessageType;
+  timestamp: number;
 
   constructor(type: MessageType) {
     this.type = type;
@@ -34,7 +34,7 @@ export class Message {
 
 export class NewGame extends Message {
 
-  public dto: GameDto;
+  dto: GameDto;
 
   constructor(dto: GameDto) {
     super(MessageType.NewGame);
@@ -44,7 +44,7 @@ export class NewGame extends Message {
 
 export class ChangeCell extends Message {
 
-  public dto!: CellDto;
+  dto!: CellDto;
 
   constructor(dto: CellDto) {
     super(MessageType.ChangeCell);

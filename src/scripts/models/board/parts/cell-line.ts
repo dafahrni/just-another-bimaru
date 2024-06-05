@@ -11,8 +11,8 @@ export enum LineState {
 
 export class CellLine {
 
-  private targetAmount: number;
-  private cells: Cell[];
+  targetAmount: number;
+  cells: Cell[];
   
   static from(targetAmount: number, cellCount: number) {
     let emptyCells: Cell[] = Array(cellCount);

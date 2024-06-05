@@ -8,10 +8,10 @@ import { Slot } from "../board/parts/slot.js";
 
 export class Solver {
 
-  private cells: Cell[];
-  private field: Field;
-  private game: Game;
-  private restorePoints: RestorePoint[];
+  cells: Cell[];
+  field: Field;
+  game: Game;
+  restorePoints: RestorePoint[];
 
   static default() {
     return new Solver(GameDefinition.default());

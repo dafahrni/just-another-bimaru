@@ -2,7 +2,7 @@ import { Message } from "./message.js";
 
 export class MessageQueue {
     
-    private messages: Message[] = [];
+    messages: Message[] = [];
 
     publish(message: Message): void {
         this.messages.push(message);

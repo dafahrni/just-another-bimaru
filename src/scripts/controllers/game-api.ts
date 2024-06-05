@@ -10,9 +10,9 @@ import { IRepo } from "../models/repos/repo.js";
 
 export class GameApi {
 
-    private model: GameModel;
-    private configs: IRepo<GameDefinition>;
-    private repoFactory: IRepoFactory;
+    model: GameModel;
+    configs: IRepo<GameDefinition>;
+    repoFactory: IRepoFactory;
 
     constructor(model?: GameModel, repoFactory?: IRepoFactory) {
         this.model = model ? model : new GameModel();
