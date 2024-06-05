@@ -1,7 +1,7 @@
 import { IRepo, IDict } from "../models/repos/repo.js";
 import { LocalStore } from "./local-store.js";
 
-export class StoreBase<M, E> implements IRepo<M> {
+export abstract class StoreBase<M, E> implements IRepo<M> {
   store: LocalStore<E>;
 
   constructor(storageKey: string) {
@@ -50,11 +50,7 @@ export class StoreBase<M, E> implements IRepo<M> {
     this.store.clearAllItems();
   }
 
-  mapToEntity(model: M): E {
-    throw new Error("Method not implemented.");
-  }
+  abstract mapToEntity(model: M): E
 
-  mapFromEntity(entity: E): M {
-    throw new Error("Method not implemented.");
-  }
+  abstract mapFromEntity(entity: E): M
 }
