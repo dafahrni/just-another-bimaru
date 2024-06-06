@@ -5,7 +5,7 @@ import { Position } from "../parts/position.js";
 import { ShipSet } from "../parts/ship-set.js";
 import { Field } from "./field.js";
 
-export class GameDefinition {
+export class Configuration {
 
   labels: Labels;
   predefinedCells: Cell[];
@@ -13,7 +13,7 @@ export class GameDefinition {
 
   static default(index = 0) {
     const definitions = [
-      new GameDefinition(
+      new Configuration(
         new Labels(
           [2, 3, 2, 3, 4, 2, 2, 2], 
           [5, 1, 3, 1, 4, 1, 2, 3]),
@@ -22,7 +22,7 @@ export class GameDefinition {
           new Cell(new Position(4, 3), CellValue.center),
         ]
       ),
-      new GameDefinition(
+      new Configuration(
         new Labels(
           [1, 6, 1, 1, 2, 0, 3, 1, 3, 2],
           [1, 2, 3, 3, 0, 4, 1, 3, 2, 1]
@@ -33,7 +33,7 @@ export class GameDefinition {
           new Cell(new Position(8, 8), CellValue.south),
         ]
       ),
-      new GameDefinition(
+      new Configuration(
         new Labels([1, 2, 1], [0, 3, 0, 1]),
         [
           new Cell(new Position(0, 2), CellValue.water),
@@ -47,17 +47,17 @@ export class GameDefinition {
   }
 
   static create() {
-    return new GameDefinition(new Labels(Array(10), Array(10)), []);
+    return new Configuration(new Labels(Array(10), Array(10)), []);
   }
 
   static extract(field: Field, basedOnNoneEmptyCells = true) {
-    return new GameDefinition(field.getLabels(), basedOnNoneEmptyCells
+    return new Configuration(field.getLabels(), basedOnNoneEmptyCells
       ? field.getNoneEmptyCells()
       : field.getCellsWithFixedValue());
   }
 
   static from(labels: Labels, predefinedCells: Cell[]) {
-    return new GameDefinition(
+    return new Configuration(
       labels,
       predefinedCells
     );

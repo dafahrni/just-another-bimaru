@@ -1,4 +1,4 @@
-import { GameDefinition } from "../models/board/game-definition.js";
+import { Configuration } from "../models/board/configuration.js";
 import { Cell } from "../models/parts/cell.js";
 import { CellValue } from "../models/parts/cell-value.js";
 import { Labels } from "../models/parts/labels.js";
@@ -49,14 +49,14 @@ class ShipSetImpl implements IShipSet {
 }
 
 export class ConfigStore
-  extends StoreBase<GameDefinition, IConfig>
-  implements IRepo<GameDefinition>
+  extends StoreBase<Configuration, IConfig>
+  implements IRepo<Configuration>
 {
   constructor() {
     super("config");
   }
 
-  mapToEntity(config: GameDefinition): IConfig {
+  mapToEntity(config: Configuration): IConfig {
     const labels = config.getLabels();
     const cells = config
       .getPredefinedCells()
@@ -74,10 +74,10 @@ export class ConfigStore
     };
   }
 
-  mapFromEntity(config: IConfig): GameDefinition {
+  mapFromEntity(config: IConfig): Configuration {
     const labels = config?.labels;
     const cols = labels?.colLabels.length;
-    return new GameDefinition(
+    return new Configuration(
       new Labels(labels.colLabels, labels.rowLabels),
       config.predefinedCells.map(
         (c) =>

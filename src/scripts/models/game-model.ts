@@ -1,7 +1,7 @@
 import { FieldFactory } from "./board/field-factory.js";
 import { Field } from "./board/field.js";
 import { Game } from "./board/game.js";
-import { GameDefinition } from "./board/game-definition.js";
+import { Configuration } from "./board/configuration.js";
 import { ShipSet } from "./parts/ship-set.js";
 import { Cell } from "./parts/cell.js";
 import { Labels } from "./parts/labels.js";
@@ -13,13 +13,13 @@ export class GameModel {
   labels: Labels;
   cells: Cell[];
   game: Game;
-  config: GameDefinition;
+  config: Configuration;
   configIndex: number;
   
-  constructor(config?: GameDefinition, index?: number | null) {
+  constructor(config?: Configuration, index?: number | null) {
     this.config = config 
       ? config 
-      : GameDefinition.default(2);
+      : Configuration.default(2);
     this.configIndex = config && index != null && index >= 0 
       ? index
       : -1;
@@ -31,7 +31,7 @@ export class GameModel {
   }
 
   extractConfig() {
-    const config = GameDefinition.extract(this.field);
+    const config = Configuration.extract(this.field);
     return config;
   }
 

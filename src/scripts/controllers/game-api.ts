@@ -4,14 +4,14 @@ import { GameDto } from "./dtos/game-dto.js";
 import { GameModel } from "../models/game-model.js";
 import { DtoFactory } from "./dtos/dto-factory.js";
 import { FieldFactory } from "../models/board/field-factory.js";
-import { GameDefinition } from "../models/board/game-definition.js";
+import { Configuration } from "../models/board/configuration.js";
 import { IRepoFactory, RepoFactory } from "../models/repos/repo-factory.js";
 import { IRepo } from "../models/repos/repo.js";
 
 export class GameApi {
 
     model: GameModel;
-    configs: IRepo<GameDefinition>;
+    configs: IRepo<Configuration>;
     repoFactory: IRepoFactory;
 
     constructor(model?: GameModel, repoFactory?: IRepoFactory) {
@@ -36,7 +36,7 @@ export class GameApi {
 
     editConfig(size: number) {
         const field = FieldFactory.from(size, size);
-        const config = GameDefinition.extract(field, false);
+        const config = Configuration.extract(field, false);
         this.model = new GameModel(config, -1);
     }
 

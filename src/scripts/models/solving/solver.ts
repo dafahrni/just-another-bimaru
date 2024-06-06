@@ -1,4 +1,4 @@
-import { GameDefinition } from "../board/game-definition.js";
+import { Configuration } from "../board/configuration.js";
 import { RestorePoint } from "./restore-point.js";
 import { SolverResult } from "./solver-result.js";
 import { Game } from "../board/game.js";
@@ -14,10 +14,10 @@ export class Solver {
   restorePoints: RestorePoint[];
 
   static default() {
-    return new Solver(GameDefinition.default());
+    return new Solver(Configuration.default());
   }
 
-  constructor(definition: GameDefinition) {
+  constructor(definition: Configuration) {
     this.cells = [];
     this.field = new Field(definition.getLabels());
     this.field.setPredefinedCells(definition.getPredefinedCells());

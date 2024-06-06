@@ -2,14 +2,14 @@ import { expect } from "chai";
 import { FieldFactory } from "../../../src/scripts/models/board/field-factory.js";
 import { ShipSet } from "../../../src/scripts/models/parts/ship-set.js";
 import { GameModel } from "../../../src/scripts/models/game-model.js";
-import { GameDefinition } from "../../../src/scripts/models/board/game-definition.js";
+import { Configuration } from "../../../src/scripts/models/board/configuration.js";
 
 describe("GameModel", () => {
   describe("#rows", () => {
     it("should return expected value", () => {
       const cols = 3;
       const rows = 4;
-      const config = GameDefinition.extract(FieldFactory.from(cols, rows));
+      const config = Configuration.extract(FieldFactory.from(cols, rows));
       let testee = new GameModel(config);
 
       expect(testee.rows).to.be.equal(rows);
@@ -34,6 +34,6 @@ describe("GameModel", () => {
 });
 
 function createTestee(text: string) {
-  const config = GameDefinition.extract(FieldFactory.parse(text));
+  const config = Configuration.extract(FieldFactory.parse(text));
   return new GameModel(config);
 }

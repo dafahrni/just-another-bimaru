@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { FieldFactory } from "../../../src/scripts/models/board/field-factory.js";
 import { GameModel } from "../../../src/scripts/models/game-model.js";
 import { GameApi } from "../../../src/scripts/controllers/game-api.js";
-import { GameDefinition } from "../../../src/scripts/models/board/game-definition.js";
+import { Configuration } from "../../../src/scripts/models/board/configuration.js";
 
 describe("GameApi", () => {
   describe("#changeCell()", () => {
@@ -155,6 +155,6 @@ describe("GameApi", () => {
 });
 
 function createTestee(text: string) {
-  const config = GameDefinition.extract(FieldFactory.parse(text));
+  const config = Configuration.extract(FieldFactory.parse(text));
   return new GameApi(new GameModel(config));
 }

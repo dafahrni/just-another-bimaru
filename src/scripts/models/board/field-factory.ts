@@ -1,7 +1,7 @@
 import { Field } from "./field.js";
 import { CellValue } from "../parts/cell-value.js";
 import { Labels } from "../parts/labels.js";
-import { GameDefinition } from "./game-definition.js";
+import { Configuration } from "./configuration.js";
 
 export class FieldFactory {
 
@@ -31,14 +31,14 @@ export class FieldFactory {
   }
 
   static default(index = 0) {
-    const definition = GameDefinition.default(index)
+    const definition = Configuration.default(index)
     return FieldFactory.createWith(definition);
   }
 
-  static createWith(definition?: GameDefinition) {
+  static createWith(definition?: Configuration) {
     definition = definition
       ? definition
-      : GameDefinition.default();
+      : Configuration.default();
     const field = new Field(definition.getLabels());
     field.setPredefinedCells(definition.getPredefinedCells());
     return field;
