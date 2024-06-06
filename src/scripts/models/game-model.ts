@@ -8,21 +8,16 @@ import { Labels } from "./parts/labels.js";
 import { CellValue } from "./parts/cell-value.js";
 
 export class GameModel {
-
   field: Field;
   labels: Labels;
   cells: Cell[];
   game: Game;
   config: Configuration;
   configIndex: number;
-  
+
   constructor(config?: Configuration, index?: number | null) {
-    this.config = config 
-      ? config 
-      : Configuration.default(2);
-    this.configIndex = config && index != null && index >= 0 
-      ? index
-      : -1;
+    this.config = config ? config : Configuration.default(2);
+    this.configIndex = config && index != null && index >= 0 ? index : -1;
     this.field = FieldFactory.createWith(this.config);
     this.labels = this.field.getLabels();
     this.cells = this.field.getCells();
@@ -80,58 +75,49 @@ export class GameModel {
   }
 
   getCell(index: number) {
-    if (this.isValid(index))
-      return this.cells[index];
+    if (this.isValid(index)) return this.cells[index];
     else throw new Error(`No cell with index ${index} available.`);
   }
 
   fillLineWithWater(labelIndex: number) {
     // index depends on label creation in Bimaru.setupHtml
-    const index = labelIndex; 
+    const index = labelIndex;
     const sizeX = this.labels.cols;
     const sizeY = this.labels.rows;
-    if (index < 0 || index >= sizeX+sizeY) 
-      return;
+    if (index < 0 || index >= sizeX + sizeY) return;
 
-    const line = index < sizeY
-      ? this.field.getRow(index)
-      : this.field.getCol(index - sizeY);
+    const line =
+      index < sizeY
+        ? this.field.getRow(index)
+        : this.field.getCol(index - sizeY);
     line.changeEmptyToWater();
   }
 
   increaseTargetValue(labelIndex: number) {
     // index depends on label creation in Bimaru.setupHtml
-    const index = labelIndex; 
+    const index = labelIndex;
     const sizeX = this.labels.cols;
     const sizeY = this.labels.rows;
-    if (index < 0 || index >= sizeX+sizeY) 
-      return;
+    if (index < 0 || index >= sizeX + sizeY) return;
 
-    if (index < sizeY)
-      this.labels.increaseRowTarget(index)
-    else
-      this.labels.increaseColTarget(index - sizeY);
+    if (index < sizeY) this.labels.increaseRowTarget(index);
+    else this.labels.increaseColTarget(index - sizeY);
   }
 
   setCell(index: number, symbol: string | null = null) {
-    if (!this.isValid(index))
-      return;
+    if (!this.isValid(index)) return;
 
     const cell = this.cells[index];
-    const nextValue = symbol 
-      ? CellValue.from(symbol)
-      : cell.getNextValue();
+    const nextValue = symbol ? CellValue.from(symbol) : cell.getNextValue();
 
     cell.setValue(nextValue);
   }
 
   changeCell(index: number) {
-    if (!this.isValid(index))
-      return false;
+    if (!this.isValid(index)) return false;
 
     const cell = this.cells[index];
-    if (!cell.tryChangeValue())
-      return false;
+    if (!cell.tryChangeValue()) return false;
 
     console.info(this.field.asTextWithCheckMarks());
     return true;
@@ -141,7 +127,7 @@ export class GameModel {
     this.cells.forEach((c: Cell) => c.reset());
     console.info(this.asText);
   }
-  
+
   checkForWinner() {
     this.game.updateStatistics();
     const solutionFound = this.game.solutionFound();

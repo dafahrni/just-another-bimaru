@@ -5,17 +5,20 @@ import { GameView } from "../views/game-view.js";
 import { CellRelations } from "./cell-relations.js";
 
 export class GameController {
-
   api: GameApi;
   view: GameView;
   cells: CellRelations;
   broker: Broker = Broker.get();
-  
+
   constructor(api: GameApi, view: GameView) {
     this.api = api;
     this.view = view;
-    this.view.bindSelectionChanged((i: number, m: boolean) => this.nextMove(i, m));
-    this.view.bindLabelClick((i: number, m: boolean) => this.fillLineWithWater(i, m));
+    this.view.bindSelectionChanged((i: number, m: boolean) =>
+      this.nextMove(i, m)
+    );
+    this.view.bindLabelClick((i: number, m: boolean) =>
+      this.fillLineWithWater(i, m)
+    );
     this.view.bindRestartGameClick(() => this.restartGame());
     this.view.bindEditGameClick((m: boolean) => this.editConfig(m));
 
@@ -57,11 +60,9 @@ export class GameController {
   }
 
   fillLineWithWater(index: number, editMode: boolean) {
-    if (editMode)
-      this.api.increaseTargetValue(index);
-    else
-      this.api.fillLineWithWater(index);
-    
+    if (editMode) this.api.increaseTargetValue(index);
+    else this.api.fillLineWithWater(index);
+
     this.cells.updateAll(editMode);
     this.view.lineWasUpdated();
   }
@@ -71,10 +72,8 @@ export class GameController {
   }
 
   editConfig(editMode: boolean) {
-    if (!editMode)
-      this.view.stopGame(() => this.executeGrizSizeRequest());
-    else 
-      this.view.safeConfig(() => this.executeSaveConfig());
+    if (!editMode) this.view.stopGame(() => this.executeGrizSizeRequest());
+    else this.view.safeConfig(() => this.executeSaveConfig());
   }
 
   executeSelectConfig() {

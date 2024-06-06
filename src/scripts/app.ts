@@ -1,35 +1,32 @@
 import { GameView } from "./views/game-view.js";
 import { GameApi } from "./controllers/game-api.js";
-import { GameController} from "./controllers/game-controller.js";
+import { GameController } from "./controllers/game-controller.js";
 import { GameModel } from "./models/game-model.js";
 import { RepoFactory } from "./models/repos/repo-factory.js";
 import { ConfigStore } from "./db/config-store.js";
 import { FieldStore } from "./db/field-store.js";
 
 export class App {
-    
-    controller: GameController;
+  controller: GameController;
 
-    constructor() {
-        const repoFactory = new RepoFactory(
-            new ConfigStore(),
-            new FieldStore());
-        repoFactory.initWithDefaultData();
+  constructor() {
+    const repoFactory = new RepoFactory(new ConfigStore(), new FieldStore());
+    repoFactory.initWithDefaultData();
 
-        const api = new GameApi(new GameModel(), repoFactory);
-        api.applySomeMoves(); // TODO: remove this line
+    const api = new GameApi(new GameModel(), repoFactory);
+    api.applySomeMoves(); // TODO: remove this line
 
-        const view = new GameView();
-        this.controller = new GameController(api, view);
-    }
+    const view = new GameView();
+    this.controller = new GameController(api, view);
+  }
 
-    init(): void {
-        this.controller.init();
-    }
+  init(): void {
+    this.controller.init();
+  }
 
-    run(): void {
-        this.controller.run();
-    }
+  run(): void {
+    this.controller.run();
+  }
 }
 
 new App().init();
@@ -70,9 +67,9 @@ new App().init();
 // V I E W - C O N C E P T
 // -----------------------
 // The game-view containes all view elements, such as menu, options, board, edit-view etc.
-// To enter e new GameDefinition, the edit-view requires some input forms and the board to 
-// display the user's inputs in order to provide some sort of feedback to the user. 
-// Those forms could be placed in a configuration-view on the right side of the screen 
+// To enter e new GameDefinition, the edit-view requires some input forms and the board to
+// display the user's inputs in order to provide some sort of feedback to the user.
+// Those forms could be placed in a configuration-view on the right side of the screen
 // (similar to the menu-view on the left side).
 // The board, therefore, must distinguish between game-mode and edit-mode.
 

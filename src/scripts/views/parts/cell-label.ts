@@ -1,14 +1,13 @@
 import { CellBase } from "./cell-base.js";
 
 export class CellLabel extends CellBase {
-
   text: any;
-  
+
   constructor(size: number, shipCount: number) {
     super(size);
 
     this.tile.setAttribute("class", "label");
-    
+
     // SVG-text erstellen
     this.text = document.createElementNS(this.svgNamespace, "text");
     const text = this.text;

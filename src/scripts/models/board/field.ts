@@ -4,11 +4,10 @@ import { Slot } from "../parts/slot.js";
 import { Cell } from "../parts/cell.js";
 
 export class Field extends FieldBase {
-
   constructor(labels: Labels) {
     super(labels);
   }
-  
+
   setEmptyCellsOfAllFullLinesToWater() {
     // iterate rows
     for (let y = 0; y < this.rows; y++) {
@@ -73,13 +72,11 @@ export class Field extends FieldBase {
     let slots: Slot[] = [];
     for (let y = 0; y < this.rows; y++) {
       let row = this.getRow(y);
-      if (row.getAmountLeft() >= size) 
-        slots = [...slots, ...row.findSlots()];
+      if (row.getAmountLeft() >= size) slots = [...slots, ...row.findSlots()];
     }
     for (let x = 0; x < this.cols; x++) {
       let col = this.getCol(x);
-      if (col.getAmountLeft() >= size)
-        slots = [...slots, ...col.findSlots()];
+      if (col.getAmountLeft() >= size) slots = [...slots, ...col.findSlots()];
     }
     return slots;
   }

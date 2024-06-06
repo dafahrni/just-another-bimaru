@@ -1,5 +1,4 @@
 export class ConfigView {
-  
   constructor() {
     this.init();
   }

@@ -1,5 +1,4 @@
 export class CellBase {
-
   protected svgNamespace: string;
   protected factor: number;
   protected size: number;
@@ -9,7 +8,7 @@ export class CellBase {
     this.svgNamespace = "http://www.w3.org/2000/svg";
     this.factor = size / 100;
     this.size = size;
-    
+
     this.tile = document.createElementNS(this.svgNamespace, "svg");
     this.tile.setAttribute("class", "tile");
     this.tile.setAttribute("width", `${this.size}`);

@@ -7,13 +7,12 @@ export enum LineState {
   hasShipsToPlace,
   isFull,
   isCrowded,
-};
+}
 
 export class CellLine {
-
   targetAmount: number;
   cells: Cell[];
-  
+
   static from(targetAmount: number, cellCount: number) {
     let emptyCells: Cell[] = Array(cellCount);
     for (let x = 0; x < cellCount; x++) {
@@ -67,16 +66,13 @@ export class CellLine {
   isFull() {
     return this.targetAmount == this.getCurrentAmount();
   }
-  
+
   get state() {
     const amount = this.getCurrentAmount();
-    
-    if (amount < this.targetAmount)
-      return LineState.hasShipsToPlace;
-    else if (amount === this.targetAmount)
-      return LineState.isFull;
-    else 
-      return LineState.isCrowded;
+
+    if (amount < this.targetAmount) return LineState.hasShipsToPlace;
+    else if (amount === this.targetAmount) return LineState.isFull;
+    else return LineState.isCrowded;
   }
 
   hasEmptyCells() {
@@ -118,9 +114,9 @@ export class CellLine {
 
     slots = CellLine.addToSlots(slots, tempCells);
 
-    return minShipSize 
-        ? slots.filter((s: Slot) => s.size >= minShipSize) 
-        : slots;
+    return minShipSize
+      ? slots.filter((s: Slot) => s.size >= minShipSize)
+      : slots;
   }
 
   static addToSlots(slots: Slot[], tempCells: Cell[]): Slot[] {

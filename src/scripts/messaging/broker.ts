@@ -2,20 +2,22 @@ import { MessageType, MessageCallback, Message } from "./message.js";
 import { MessageQueue } from "./message-queue.js";
 
 export class Broker {
-
   subscribers: Map<MessageType, MessageCallback<any>[]> = new Map();
   queues: Map<MessageType, MessageQueue> = new Map();
 
   static instance: Broker;
 
   static get(): Broker {
-      if (!Broker.instance) {
-        Broker.instance = new Broker();
-      }
-      return Broker.instance;
+    if (!Broker.instance) {
+      Broker.instance = new Broker();
+    }
+    return Broker.instance;
   }
 
-  subscribe<T extends Message>(messageType: MessageType, callback: MessageCallback<T>) {
+  subscribe<T extends Message>(
+    messageType: MessageType,
+    callback: MessageCallback<T>
+  ) {
     if (!this.subscribers.has(messageType)) {
       this.subscribers.set(messageType, []);
     }
@@ -36,7 +38,7 @@ export class Broker {
 
   consume(type: MessageType): Message | undefined {
     if (this.queues.has(type)) {
-        return this.queues.get(type)?.consume();
+      return this.queues.get(type)?.consume();
     }
     return undefined;
   }

@@ -17,7 +17,7 @@ export class Repo<T> implements IRepo<T> {
 
   constructor(prefix: string, items?: IDict<T>) {
     this.allItems = items ? items : {};
-    this.prefix = prefix; 
+    this.prefix = prefix;
   }
 
   add(item: T): void {

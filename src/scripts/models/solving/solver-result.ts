@@ -1,18 +1,17 @@
 import { Field } from "../board/field.js";
 
 export class SolverResult {
+  solutions: Field[];
 
-    solutions: Field[];
+  constructor() {
+    this.solutions = [];
+  }
 
-    constructor() {
-        this.solutions = [];
-    }
+  add(solution: Field) {
+    this.solutions.push(solution);
+  }
 
-    add(solution: Field) {
-        this.solutions.push(solution);
-    }
-
-    getSolutions() {
-        return this.solutions;
-    }
+  getSolutions() {
+    return this.solutions;
+  }
 }

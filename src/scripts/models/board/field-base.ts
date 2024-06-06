@@ -6,7 +6,6 @@ import { Labels } from "../parts/labels.js";
 import { CellValue } from "../parts/cell-value.js";
 
 export class FieldBase {
-
   protected cols: number;
   protected rows: number;
   protected labels: Labels;
@@ -49,7 +48,7 @@ export class FieldBase {
     predefinedCells = predefinedCells
       ? predefinedCells
       : this.cells.filter((cell) => cell.isPredefinedCellCandidate());
-    
+
     predefinedCells.forEach((predefinedCell) => {
       const pos = predefinedCell.getPos();
       this.setCellValueFix(pos.getX(), pos.getY(), predefinedCell.getValue());
@@ -85,11 +84,11 @@ export class FieldBase {
   }
 
   getCellsWithFixedValue() {
-    return this.cells.filter(cell => cell.getIsFix());
+    return this.cells.filter((cell) => cell.getIsFix());
   }
 
   getNoneEmptyCells() {
-    return this.cells.filter(cell => !cell.isEmpty());
+    return this.cells.filter((cell) => !cell.isEmpty());
   }
 
   getRow(y: number) {

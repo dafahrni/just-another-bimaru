@@ -1,7 +1,4 @@
-
 export class LabelsDto {
-
-    rowLabels!: number[];
-    colLabels!: number[];
-
+  rowLabels!: number[];
+  colLabels!: number[];
 }

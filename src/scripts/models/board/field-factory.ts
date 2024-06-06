@@ -4,7 +4,6 @@ import { Labels } from "../parts/labels.js";
 import { Configuration } from "./configuration.js";
 
 export class FieldFactory {
-
   static parse(text: string) {
     let lines = text.replace(/ /g, "").split("\n");
     let sizeY = lines.length - 1;
@@ -31,14 +30,12 @@ export class FieldFactory {
   }
 
   static default(index = 0) {
-    const definition = Configuration.default(index)
+    const definition = Configuration.default(index);
     return FieldFactory.createWith(definition);
   }
 
   static createWith(definition?: Configuration) {
-    definition = definition
-      ? definition
-      : Configuration.default();
+    definition = definition ? definition : Configuration.default();
     const field = new Field(definition.getLabels());
     field.setPredefinedCells(definition.getPredefinedCells());
     return field;

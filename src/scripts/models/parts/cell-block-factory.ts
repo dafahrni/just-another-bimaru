@@ -5,7 +5,6 @@ import { Position } from "./position.js";
 import { FieldBase } from "../board/field-base.js";
 
 export class CellBlockFactory {
-
   static parse(text: string) {
     const lines = text.replace(/ /g, "").split("\n");
     const sizeY = lines.length;
@@ -20,7 +19,16 @@ export class CellBlockFactory {
       }
     }
     const c = cells;
-    return new CellBlock(c[4], [ c[0], c[1], c[2], c[5], c[8], c[7], c[6], c[3] ]);
+    return new CellBlock(c[4], [
+      c[0],
+      c[1],
+      c[2],
+      c[5],
+      c[8],
+      c[7],
+      c[6],
+      c[3],
+    ]);
   }
 
   static from(centerCell: Cell, field: FieldBase) {
@@ -29,13 +37,13 @@ export class CellBlockFactory {
     // g f e
     const neighborCoordinates = [
       { x: (x: number) => x - 1, y: (y: number) => y - 1 }, // a
-      { x: (x: number) => x    , y: (y: number) => y - 1 }, // north
+      { x: (x: number) => x, y: (y: number) => y - 1 }, // north
       { x: (x: number) => x + 1, y: (y: number) => y - 1 }, // c
-      { x: (x: number) => x + 1, y: (y: number) => y     }, // east
+      { x: (x: number) => x + 1, y: (y: number) => y }, // east
       { x: (x: number) => x + 1, y: (y: number) => y + 1 }, // e
-      { x: (x: number) => x    , y: (y: number) => y + 1 }, // south
+      { x: (x: number) => x, y: (y: number) => y + 1 }, // south
       { x: (x: number) => x - 1, y: (y: number) => y + 1 }, // g
-      { x: (x: number) => x - 1, y: (y: number) => y     }, // west
+      { x: (x: number) => x - 1, y: (y: number) => y }, // west
     ];
 
     const cx = centerCell.getX();

@@ -1,5 +1,4 @@
 export class ShipSet {
-
   size: number;
   targetAmount: number;
   currentAmount: number;
@@ -21,7 +20,7 @@ export class ShipSet {
     this.targetAmount = shipAmount;
     this.currentAmount = 0;
   }
-  
+
   getSize() {
     return this.size;
   }

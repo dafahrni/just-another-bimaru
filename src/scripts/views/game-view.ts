@@ -5,9 +5,8 @@ import { ModalDialog } from "./forms/modal-dialog.js";
 import { SideView } from "./forms/side-view.js";
 
 export class GameView {
-  
   menu: MenuView;
-  config: ConfigView; 
+  config: ConfigView;
   sides: SideView;
   board: Bimaru;
   dialog: ModalDialog;
@@ -33,8 +32,7 @@ export class GameView {
     this.board.init(editMode);
   }
 
-  main() {
-  }
+  main() {}
 
   bindLabelClick(handler: any) {
     this.board.bindLabelClick(handler);

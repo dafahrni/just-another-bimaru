@@ -1,7 +1,4 @@
-
 export class ValueDto {
-
-    index!: number;
-    symbol!: string;
-
+  index!: number;
+  symbol!: string;
 }

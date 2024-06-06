@@ -1,5 +1,4 @@
 export class Labels {
-
   colLabels: number[];
   rowLabels: number[];
 
@@ -39,22 +38,16 @@ export class Labels {
   }
 
   increaseRowTarget(index: number) {
-    if (index < 0 || index >= this.rows)
-      return;
+    if (index < 0 || index >= this.rows) return;
 
     let target = this.rowLabels[index];
-    this.rowLabels[index] = target < 9 
-      ? target + 1
-      : 0;
+    this.rowLabels[index] = target < 9 ? target + 1 : 0;
   }
 
   increaseColTarget(index: number) {
-    if (index < 0 || index >= this.cols)
-      return;
+    if (index < 0 || index >= this.cols) return;
 
     let target = this.colLabels[index];
-    this.colLabels[index] = target < 9 
-      ? target + 1
-      : 0;
+    this.colLabels[index] = target < 9 ? target + 1 : 0;
   }
 }

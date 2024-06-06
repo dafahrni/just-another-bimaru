@@ -1,13 +1,12 @@
 import { CellBase } from "./cell-base.js";
 
 export class ShipCell extends CellBase {
-
   cell: Element;
   symbol: string;
 
   constructor(size: number) {
     super(size);
-    
+
     this.symbol = "";
     this.cell = document.createElementNS(this.svgNamespace, "rect");
     this.cell.setAttribute("class", "cell");
@@ -19,8 +18,7 @@ export class ShipCell extends CellBase {
   }
 
   selectCellType(newSymbol: string) {
-    if (newSymbol === this.symbol)
-      return;
+    if (newSymbol === this.symbol) return;
 
     // alles löschen ausser den Hintergrund
     Array.from(this.tile.children)
@@ -29,14 +27,30 @@ export class ShipCell extends CellBase {
 
     this.symbol = newSymbol;
     switch (newSymbol) {
-      case "^": this.appendShip(0); break;
-      case ">": this.appendShip(1); break;
-      case "v": this.appendShip(2); break;
-      case "<": this.appendShip(3); break;
-      case "□": this.appendMidPiece(); break;
-      case "o": this.appendSubmarine(); break;
-      case "s": this.appendDot(); break;
-      case "~": this.appendWater(); break;
+      case "^":
+        this.appendShip(0);
+        break;
+      case ">":
+        this.appendShip(1);
+        break;
+      case "v":
+        this.appendShip(2);
+        break;
+      case "<":
+        this.appendShip(3);
+        break;
+      case "□":
+        this.appendMidPiece();
+        break;
+      case "o":
+        this.appendSubmarine();
+        break;
+      case "s":
+        this.appendDot();
+        break;
+      case "~":
+        this.appendWater();
+        break;
       case ".":
       default:
         break;
@@ -49,10 +63,8 @@ export class ShipCell extends CellBase {
   }
 
   setFix(fix: boolean) {
-    if (fix)
-      this.tile.classList.add("semi-transparent");
-    else
-      this.tile.classList.remove("semi-transparent");
+    if (fix) this.tile.classList.add("semi-transparent");
+    else this.tile.classList.remove("semi-transparent");
   }
 
   createShipPart(type: string) {
@@ -125,7 +137,7 @@ export class ShipCell extends CellBase {
     h2o.setAttribute("width", "80");
     h2o.setAttribute("height", "80");
     this.tile.appendChild(h2o);
-    
+
     // upper wave line
     h2o = document.createElementNS(this.svgNamespace, "path");
     h2o.setAttribute("class", "wave");

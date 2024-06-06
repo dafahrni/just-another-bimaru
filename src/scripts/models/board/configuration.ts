@@ -6,7 +6,6 @@ import { ShipSet } from "../parts/ship-set.js";
 import { Field } from "./field.js";
 
 export class Configuration {
-
   labels: Labels;
   predefinedCells: Cell[];
   shipSets: ShipSet[];
@@ -14,9 +13,7 @@ export class Configuration {
   static default(index = 0) {
     const definitions = [
       new Configuration(
-        new Labels(
-          [2, 3, 2, 3, 4, 2, 2, 2], 
-          [5, 1, 3, 1, 4, 1, 2, 3]),
+        new Labels([2, 3, 2, 3, 4, 2, 2, 2], [5, 1, 3, 1, 4, 1, 2, 3]),
         [
           new Cell(new Position(7, 1), CellValue.single),
           new Cell(new Position(4, 3), CellValue.center),
@@ -35,9 +32,7 @@ export class Configuration {
       ),
       new Configuration(
         new Labels([1, 2, 1], [0, 3, 0, 1]),
-        [
-          new Cell(new Position(0, 2), CellValue.water),
-        ],
+        [new Cell(new Position(0, 2), CellValue.water)],
         ShipSet.parse("1|1,2|0,3|1,4|0")
       ),
     ];
@@ -51,27 +46,26 @@ export class Configuration {
   }
 
   static extract(field: Field, basedOnNoneEmptyCells = true) {
-    return new Configuration(field.getLabels(), basedOnNoneEmptyCells
-      ? field.getNoneEmptyCells()
-      : field.getCellsWithFixedValue());
-  }
-
-  static from(labels: Labels, predefinedCells: Cell[]) {
     return new Configuration(
-      labels,
-      predefinedCells
+      field.getLabels(),
+      basedOnNoneEmptyCells
+        ? field.getNoneEmptyCells()
+        : field.getCellsWithFixedValue()
     );
   }
 
+  static from(labels: Labels, predefinedCells: Cell[]) {
+    return new Configuration(labels, predefinedCells);
+  }
+
   constructor(
-    labels: Labels, 
-    predefinedCells: Cell[], 
-    shipSets: ShipSet[] | null = null) {
+    labels: Labels,
+    predefinedCells: Cell[],
+    shipSets: ShipSet[] | null = null
+  ) {
     this.labels = labels;
     this.predefinedCells = predefinedCells;
-    this.shipSets = shipSets
-      ? shipSets
-      : ShipSet.parse("1|4,2|3,3|2,4|1");
+    this.shipSets = shipSets ? shipSets : ShipSet.parse("1|4,2|3,3|2,4|1");
   }
 
   getLabels() {

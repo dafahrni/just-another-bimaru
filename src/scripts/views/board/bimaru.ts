@@ -6,7 +6,6 @@ import { LabelsDto } from "../../controllers/dtos/labels-dto.js";
 import { MessageType, NewGame } from "../../messaging/message.js";
 
 export class Bimaru {
-
   cells: ShipCell[];
   notifySelectionChanged: any;
   labels: CellLabel[];
@@ -15,7 +14,7 @@ export class Bimaru {
   editMode: boolean;
   boundLabelSelected: any = null;
   boundTileSelected: any = null;
-  
+
   constructor() {
     this.cells = [];
     this.notifySelectionChanged = null;
@@ -42,8 +41,8 @@ export class Bimaru {
     this.notifySelectionChanged = handler;
   }
 
-  setupHtml(label: LabelsDto) {
-    const { colLabels, rowLabels } = label;
+  setupHtml(labels: LabelsDto) {
+    const { colLabels, rowLabels } = labels;
     const cols = colLabels.length;
     const rows = rowLabels.length;
     const size = this.calculateCellSize(rows);
@@ -53,13 +52,11 @@ export class Bimaru {
     // reset data and remove all tiles and labels
     this.cells.length = 0;
     this.labels.length = 0;
-    const childrenToRemove = Array
-      .from(grid.children)
-      .filter(child =>
-        child.classList.contains("tile") || 
-        child.classList.contains("label")
-      );
-    childrenToRemove.forEach(child => grid.removeChild(child));
+    const childrenToRemove = Array.from(grid.children).filter(
+      (child) =>
+        child.classList.contains("tile") || child.classList.contains("label")
+    );
+    childrenToRemove.forEach((child) => grid.removeChild(child));
 
     const templateColumns = `repeat(${cols + 1}, 1fr)`;
     grid.style.gridTemplateColumns = templateColumns;
@@ -103,7 +100,7 @@ export class Bimaru {
     }
 
     const index = this.labels
-      .map(label => label.getTile())
+      .map((label) => label.getTile())
       .indexOf(selectedLabel);
 
     if (this.notifyLabelClick) {
@@ -120,7 +117,7 @@ export class Bimaru {
     }
 
     const index = this.cells
-      .map(cell => cell.getTile())
+      .map((cell) => cell.getTile())
       .indexOf(selectedTile);
 
     if (this.notifySelectionChanged) {
@@ -138,7 +135,7 @@ export class Bimaru {
 
   calculateCellSize(rows: number) {
     const vmin = Math.min(window.innerWidth, window.innerHeight);
-    const cellSize = 0.9 * vmin / (rows + 2);
+    const cellSize = (0.9 * vmin) / (rows + 2);
     return Math.round(cellSize);
   }
 }

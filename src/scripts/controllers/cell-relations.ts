@@ -7,7 +7,6 @@ import { ShipCell } from "../views/parts/ship-cell.js";
 import { CellLabel } from "../views/parts/cell-label.js";
 
 export class CellRelations {
-
   model: GameApi;
   cells: ShipCell[];
   labels: CellLabel[];
@@ -21,20 +20,17 @@ export class CellRelations {
 
   updateAll(editMode: boolean) {
     this.editMode = editMode;
-    if (this.editMode)
-      this.updateLabels();
+    if (this.editMode) this.updateLabels();
 
-    for (let i = 0; i < this.cells.length; i++)
-        this.updateCell(i);
+    for (let i = 0; i < this.cells.length; i++) this.updateCell(i);
   }
 
   updateLabels() {
     const dto = this.model.getLabels();
     const rows = dto.rowLabels.length;
     for (let i = 0; i < this.labels.length; i++) {
-      const targetAmount = i < rows
-        ? dto.rowLabels[i]
-        : dto.colLabels[i - rows];
+      const targetAmount =
+        i < rows ? dto.rowLabels[i] : dto.colLabels[i - rows];
       this.labels[i].changeText(`${targetAmount}`);
     }
   }
@@ -60,10 +56,12 @@ export class CellRelations {
       const ch = value.symbol;
       const i = value.index;
       if (i < 0) {
-        console.warn(`Neighbor with symbol '${ch}' and index '${i}' was ignorred`);
+        console.warn(
+          `Neighbor with symbol '${ch}' and index '${i}' was ignorred`
+        );
       } else {
         const cell: ShipCell = this.cells[i];
-        cell.selectCellType(ch);  
+        cell.selectCellType(ch);
       }
     });
 
@@ -71,8 +69,7 @@ export class CellRelations {
   }
 
   updateLabelsOfCell(dto: CellDto) {
-    if (this.editMode)
-      return;
+    if (this.editMode) return;
 
     const x = dto.posX;
     const y = dto.posY;

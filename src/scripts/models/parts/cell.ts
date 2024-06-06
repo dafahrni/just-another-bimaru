@@ -4,7 +4,6 @@ import { CellBlock } from "./cell-block.js";
 import { CellLine } from "./cell-line.js";
 
 export class Cell {
-
   pos: Position;
   value: CellValue;
   isFix: boolean;
@@ -33,7 +32,7 @@ export class Cell {
 
     return true;
   }
-  
+
   static outer() {
     return new Cell(new Position(-1, -1), CellValue.outer);
   }
@@ -58,14 +57,14 @@ export class Cell {
   getIndex() {
     return this.index;
   }
-  
+
   setBlock(block: CellBlock) {
     this.block = block;
   }
 
   getBlock(): CellBlock {
     const block = this.block;
-    if (block) return block; 
+    if (block) return block;
     throw new Error("Block is expected to be defined here!");
   }
 
@@ -75,17 +74,17 @@ export class Cell {
 
   getRow() {
     const row = this.row;
-    if (row) return row; 
+    if (row) return row;
     throw new Error("Row is expected to be defined here!");
   }
-  
+
   setCol(col: CellLine) {
     this.col = col;
   }
 
   getCol() {
     const col = this.col;
-    if (col) return col; 
+    if (col) return col;
     throw new Error("Col is expected to be defined here!");
   }
 
@@ -106,7 +105,7 @@ export class Cell {
     if (this.isFix) return;
     if (this.value.isSameAs(CellValue.outer)) return;
     if (this.value.isSameAs(value)) return;
-    
+
     this.value = value;
     this.isDirty = true;
   }

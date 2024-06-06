@@ -11,6 +11,8 @@ export enum MessageType {
 export type MessageCallback<T extends Message> = (message: T) => void;
 
 export class Message {
+  type: MessageType;
+  timestamp: number;
 
   static newGame(dto: GameDto) {
     return new NewGame(dto);
@@ -20,20 +22,21 @@ export class Message {
     return new ChangeCell(dto);
   }
 
-  type: MessageType;
-  timestamp: number;
-
   constructor(type: MessageType) {
     this.type = type;
     this.timestamp = Date.now();
   }
 
-  getType() { return this.type; }
-  getTimestamp() { return this.timestamp; }
+  getType() {
+    return this.type;
+  }
+
+  getTimestamp() {
+    return this.timestamp;
+  }
 }
 
 export class NewGame extends Message {
-
   dto: GameDto;
 
   constructor(dto: GameDto) {
@@ -43,7 +46,6 @@ export class NewGame extends Message {
 }
 
 export class ChangeCell extends Message {
-
   dto!: CellDto;
 
   constructor(dto: CellDto) {
@@ -51,4 +53,3 @@ export class ChangeCell extends Message {
     this.dto = dto;
   }
 }
-

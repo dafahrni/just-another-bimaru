@@ -7,7 +7,6 @@ import { Cell } from "../parts/cell.js";
 import { Slot } from "../parts/slot.js";
 
 export class Solver {
-
   cells: Cell[];
   field: Field;
   game: Game;

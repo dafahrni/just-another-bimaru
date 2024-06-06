@@ -5,11 +5,10 @@ import { Cell } from "../parts/cell.js";
 import { ShipSet } from "../parts/ship-set.js";
 
 export class Game {
-
   field: Field;
   cells: Cell[];
   statistics: ShipStatistics;
-  
+
   constructor(field: Field | null = null) {
     this.field = field ? field : FieldFactory.default();
     this.cells = this.field.getCells();
@@ -34,7 +33,7 @@ export class Game {
 
     // place ship on first suitable slot
     slots[0].placeShip();
-    
+
     // set determined cells
     this.setDeterminedCells();
   }

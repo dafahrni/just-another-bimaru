@@ -1,6 +1,4 @@
-
 export class SizeDto {
-
-    cols!: number;
-    rows!: number;
+  cols!: number;
+  rows!: number;
 }

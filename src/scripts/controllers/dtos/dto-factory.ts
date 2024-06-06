@@ -12,7 +12,6 @@ import { SizeDto } from "./size-dto.js";
 import { GameModel } from "../../models/game-model.js";
 
 export class DtoFactory {
-
   static mapGame(model: GameModel) {
     const labels = model.getLabels();
 
@@ -34,7 +33,7 @@ export class DtoFactory {
     const dto = new LabelsDto();
     dto.rowLabels = labels.ofRows();
     dto.colLabels = labels.ofCols();
-    return dto; 
+    return dto;
   }
 
   static mapCell(cell: Cell) {

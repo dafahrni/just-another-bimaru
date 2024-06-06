@@ -2,9 +2,8 @@ import { CellValue } from "./cell-value.js";
 import { Cell } from "./cell.js";
 
 export class Slot {
-  
   cells: Cell[];
-  
+
   constructor(cells: Cell[]) {
     this.cells = cells;
   }
