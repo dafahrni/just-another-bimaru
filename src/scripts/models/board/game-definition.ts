@@ -1,8 +1,8 @@
-import { Cell } from "./parts/cell.js";
-import { CellValue } from "./parts/cell-value.js";
-import { Labels } from "./parts/labels.js";
-import { Position } from "./parts/position.js";
-import { ShipSet } from "./parts/ship-set.js";
+import { Cell } from "../parts/cell.js";
+import { CellValue } from "../parts/cell-value.js";
+import { Labels } from "../parts/labels.js";
+import { Position } from "../parts/position.js";
+import { ShipSet } from "../parts/ship-set.js";
 import { Field } from "./field.js";
 
 export class GameDefinition {

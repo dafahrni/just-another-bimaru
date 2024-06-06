@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { FieldFactory } from "../../../src/scripts/models/board/field-factory.js";
-import { ShipSet } from "../../../src/scripts/models/board/parts/ship-set.js";
+import { ShipSet } from "../../../src/scripts/models/parts/ship-set.js";
 import { GameModel } from "../../../src/scripts/models/game-model.js";
 import { GameDefinition } from "../../../src/scripts/models/board/game-definition.js";
 

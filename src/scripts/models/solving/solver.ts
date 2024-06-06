@@ -3,8 +3,8 @@ import { RestorePoint } from "./restore-point.js";
 import { SolverResult } from "./solver-result.js";
 import { Game } from "../board/game.js";
 import { Field } from "../board/field.js";
-import { Cell } from "../board/parts/cell.js";
-import { Slot } from "../board/parts/slot.js";
+import { Cell } from "../parts/cell.js";
+import { Slot } from "../parts/slot.js";
 
 export class Solver {
 

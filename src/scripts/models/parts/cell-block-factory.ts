@@ -2,7 +2,7 @@ import { CellBlock } from "./cell-block.js";
 import { CellValue } from "./cell-value.js";
 import { Cell } from "./cell.js";
 import { Position } from "./position.js";
-import { FieldBase } from "../field-base.js";
+import { FieldBase } from "../board/field-base.js";
 
 export class CellBlockFactory {
 

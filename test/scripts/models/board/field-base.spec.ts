@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { FieldFactory } from "../../../../src/scripts/models/board/field-factory.js";
-import { CellValue } from "../../../../src/scripts/models/board/parts/cell-value.js";
+import { CellValue } from "../../../../src/scripts/models/parts/cell-value.js";
 
 describe("FieldBase", () => {
 

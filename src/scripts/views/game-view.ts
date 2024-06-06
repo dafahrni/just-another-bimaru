@@ -1,8 +1,8 @@
-import { MenuView } from "./menu-view.js";
-import { ConfigView } from "./config-view.js";
-import { Bimaru } from "./bimaru.js";
-import { ModalDialog } from "./modal-dialog.js";
-import { SideView } from "./side-view.js";
+import { MenuView } from "./forms/menu-view.js";
+import { ConfigView } from "./forms/config-view.js";
+import { Bimaru } from "./board/bimaru.js";
+import { ModalDialog } from "./forms/modal-dialog.js";
+import { SideView } from "./forms/side-view.js";
 
 export class GameView {
   

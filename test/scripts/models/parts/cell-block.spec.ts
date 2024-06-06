@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { CellBlockFactory } from "../../../../../src/scripts/models/board/parts/cell-block-factory.js";
+import { CellBlockFactory } from "../../../../src/scripts/models/parts/cell-block-factory.js";
 
 describe("CellBlock", () => {
   describe("#getCenterCell()", () => {

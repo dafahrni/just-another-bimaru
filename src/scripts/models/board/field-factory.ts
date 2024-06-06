@@ -1,6 +1,6 @@
 import { Field } from "./field.js";
-import { CellValue } from "./parts/cell-value.js";
-import { Labels } from "./parts/labels.js";
+import { CellValue } from "../parts/cell-value.js";
+import { Labels } from "../parts/labels.js";
 import { GameDefinition } from "./game-definition.js";
 
 export class FieldFactory {

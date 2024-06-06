@@ -1,4 +1,4 @@
-import { Slot } from "../board/parts/slot.js";
+import { Slot } from "../parts/slot.js";
 
 export class RestorePoint {
 

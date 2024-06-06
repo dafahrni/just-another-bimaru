@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { Cell } from "../../../../../src/scripts/models/board/parts/cell.js";
-import { CellLine } from "../../../../../src/scripts/models/board/parts/cell-line.js";
+import { Cell } from "../../../../src/scripts/models/parts/cell.js";
+import { CellLine } from "../../../../src/scripts/models/parts/cell-line.js";
 
 describe("Cell", () => {
   describe("#isHorizontalReturnsTrue()", () => {

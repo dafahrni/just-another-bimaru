@@ -1,13 +1,13 @@
-import { Cell } from "../../models/board/parts/cell.js";
-import { CellBlock } from "../../models/board/parts/cell-block.js";
-import { CellLine } from "../../models/board/parts/cell-line.js";
+import { Cell } from "../../models/parts/cell.js";
+import { CellBlock } from "../../models/parts/cell-block.js";
+import { CellLine } from "../../models/parts/cell-line.js";
 import { BlockDto } from "./block-dto.js";
 import { LineDto } from "./line-dto.js";
 import { ValueDto } from "./value-dto.js";
 import { CellDto } from "./cell-dto.js";
 import { GameDto } from "./game-dto.js";
 import { LabelsDto } from "./labels-dto.js";
-import { Labels } from "../../models/board/parts/labels.js";
+import { Labels } from "../../models/parts/labels.js";
 import { SizeDto } from "./size-dto.js";
 import { GameModel } from "../../models/game-model.js";
 

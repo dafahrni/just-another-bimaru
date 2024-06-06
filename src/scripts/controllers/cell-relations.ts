@@ -1,10 +1,10 @@
-import { LineState } from "../models/board/parts/cell-line.js";
+import { LineState } from "../models/parts/cell-line.js";
 import { LineDto } from "./dtos/line-dto.js";
 import { CellDto } from "./dtos/cell-dto.js";
 import { GameApi } from "./game-api.js";
 import { GameView } from "../views/game-view.js";
-import { ShipCell } from "../views/ship-cell.js";
-import { CellLabel } from "../views/cell-label.js";
+import { ShipCell } from "../views/parts/ship-cell.js";
+import { CellLabel } from "../views/parts/cell-label.js";
 
 export class CellRelations {
 

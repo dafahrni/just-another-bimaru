@@ -1,7 +1,7 @@
 import { FieldBase } from "./field-base.js";
-import { Labels } from "./parts/labels.js";
-import { Slot } from "./parts/slot.js";
-import { Cell } from "./parts/cell.js";
+import { Labels } from "../parts/labels.js";
+import { Slot } from "../parts/slot.js";
+import { Cell } from "../parts/cell.js";
 
 export class Field extends FieldBase {
 

@@ -1,9 +1,9 @@
 import { GameDefinition } from "../models/board/game-definition.js";
-import { Cell } from "../models/board/parts/cell.js";
-import { CellValue } from "../models/board/parts/cell-value.js";
-import { Labels } from "../models/board/parts/labels.js";
-import { Position } from "../models/board/parts/position.js";
-import { ShipSet } from "../models/board/parts/ship-set.js";
+import { Cell } from "../models/parts/cell.js";
+import { CellValue } from "../models/parts/cell-value.js";
+import { Labels } from "../models/parts/labels.js";
+import { Position } from "../models/parts/position.js";
+import { ShipSet } from "../models/parts/ship-set.js";
 import { IRepo } from "../models/repos/repo.js";
 import { StoreBase } from "./store-base.js";
 

@@ -2,10 +2,10 @@ import { FieldFactory } from "./board/field-factory.js";
 import { Field } from "./board/field.js";
 import { Game } from "./board/game.js";
 import { GameDefinition } from "./board/game-definition.js";
-import { ShipSet } from "./board/parts/ship-set.js";
-import { Cell } from "./board/parts/cell.js";
-import { Labels } from "./board/parts/labels.js";
-import { CellValue } from "./board/parts/cell-value.js";
+import { ShipSet } from "./parts/ship-set.js";
+import { Cell } from "./parts/cell.js";
+import { Labels } from "./parts/labels.js";
+import { CellValue } from "./parts/cell-value.js";
 
 export class GameModel {
 
