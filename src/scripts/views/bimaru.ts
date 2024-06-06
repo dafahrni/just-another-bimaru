@@ -46,6 +46,7 @@ export class Bimaru {
     const { colLabels, rowLabels } = label;
     const cols = colLabels.length;
     const rows = rowLabels.length;
+    const size = this.calculateCellSize(rows);
     const grid: HTMLElement | null = document.getElementById("root");
     if (!grid) throw new Error("Root node is missing in HTML.");
 
@@ -77,19 +78,19 @@ export class Bimaru {
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        const cell = new ShipCell();
+        const cell = new ShipCell(size);
         grid.appendChild(cell.getTile());
         this.cells.push(cell);
       }
       const shipCount = rowLabels[row];
-      const label = new CellLabel(shipCount);
+      const label = new CellLabel(size, shipCount);
       grid.appendChild(label.getTile());
       this.labels.push(label); // defines index of row labels
     }
 
     for (let col = 0; col < cols; col++) {
       const shipCount = colLabels[col];
-      const label = new CellLabel(shipCount);
+      const label = new CellLabel(size, shipCount);
       grid.appendChild(label.getTile());
       this.labels.push(label); // defines index of col labels
     }
@@ -133,5 +134,11 @@ export class Bimaru {
 
   getLabels() {
     return this.labels;
+  }
+
+  calculateCellSize(rows: number) {
+    const vmin = Math.min(window.innerWidth, window.innerHeight);
+    const cellSize = 0.9 * vmin / (rows + 2);
+    return cellSize;
   }
 }

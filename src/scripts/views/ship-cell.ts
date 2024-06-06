@@ -5,8 +5,8 @@ export class ShipCell extends CellBase {
   cell: Element;
   symbol: string;
 
-  constructor() {
-    super();
+  constructor(size: number) {
+    super(size);
     
     this.symbol = "";
     this.cell = document.createElementNS(this.svgNamespace, "rect");

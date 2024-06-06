@@ -4,8 +4,8 @@ export class CellLabel extends CellBase {
 
   text: any;
   
-  constructor(shipCount: number) {
-    super();
+  constructor(size: number, shipCount: number) {
+    super(size);
 
     this.tile.setAttribute("class", "label");
     

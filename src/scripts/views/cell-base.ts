@@ -5,10 +5,10 @@ export class CellBase {
   protected size: number;
   protected tile: any;
 
-  constructor(factor = 0.4) {
+  constructor(size: number) {
     this.svgNamespace = "http://www.w3.org/2000/svg";
-    this.factor = factor;
-    this.size = factor * 100;
+    this.factor = size / 100;
+    this.size = size;
     
     this.tile = document.createElementNS(this.svgNamespace, "svg");
     this.tile.setAttribute("class", "tile");
