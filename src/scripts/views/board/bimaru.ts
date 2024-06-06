@@ -139,6 +139,6 @@ export class Bimaru {
   calculateCellSize(rows: number) {
     const vmin = Math.min(window.innerWidth, window.innerHeight);
     const cellSize = 0.9 * vmin / (rows + 2);
-    return cellSize;
+    return Math.round(cellSize);
   }
 }
