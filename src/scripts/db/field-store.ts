@@ -1,11 +1,8 @@
 import { FieldBase } from "../models/board/field-base.js";
 import { FieldFactory } from "../models/board/field-factory.js";
 import { IRepo } from "../models/repos/repo.js";
+import { IField } from "./entities/IField.js";
 import { StoreBase } from "./store-base.js";
-
-interface IField {
-  text: string;
-}
 
 export class FieldStore
   extends StoreBase<FieldBase, IField>

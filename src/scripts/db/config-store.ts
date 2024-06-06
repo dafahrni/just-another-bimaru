@@ -6,47 +6,9 @@ import { Position } from "../models/parts/position.js";
 import { ShipSet } from "../models/parts/ship-set.js";
 import { IRepo } from "../models/repos/repo.js";
 import { StoreBase } from "./store-base.js";
-
-interface ILabels {
-  colLabels: number[];
-  rowLabels: number[];
-}
-
-interface ICell {
-  index: number;
-  symbol: string;
-}
-
-interface IShipSet {
-  size: number;
-  targetAmount: number;
-}
-
-interface IConfig {
-  labels: ILabels;
-  predefinedCells: ICell[];
-  shipSets: IShipSet[];
-}
-
-class CellImpl implements ICell {
-  index: number;
-  symbol: string;
-
-  constructor(index: number, symbol: string) {
-    this.index = index;
-    this.symbol = symbol;
-  }
-}
-
-class ShipSetImpl implements IShipSet {
-  size: number;
-  targetAmount: number;
-
-  constructor(size: number, targetAmount: number) {
-    this.size = size;
-    this.targetAmount = targetAmount;
-  }
-}
+import { ShipSetEntity } from "./entities/IShipSet.js";
+import { CellEntity } from "./entities/ICell.js";
+import { IConfig } from "./entities/IConfig.js";
 
 export class ConfigStore
   extends StoreBase<Configuration, IConfig>
@@ -60,10 +22,10 @@ export class ConfigStore
     const labels = config.getLabels();
     const cells = config
       .getPredefinedCells()
-      .map((c) => new CellImpl(c.getIndex(), c.asSymbol()));
+      .map((c) => new CellEntity(c.getIndex(), c.asSymbol()));
     const shipSets = config
       .getShipSets()
-      .map((s) => new ShipSetImpl(s.getSize(), s.getTargetAmount()));
+      .map((s) => new ShipSetEntity(s.getSize(), s.getTargetAmount()));
     return {
       labels: {
         colLabels: labels.ofCols(),
