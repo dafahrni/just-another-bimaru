@@ -10,15 +10,19 @@ import { LabelsDto } from "./labels-dto.js";
 import { Labels } from "../../models/parts/labels.js";
 import { SizeDto } from "./size-dto.js";
 import { GameModel } from "../../models/game-model.js";
+import { ShipSetDto } from "./ship-set-dto.js";
+import { ShipSet } from "../../models/parts/ship-set.js";
 
 export class DtoFactory {
   static mapGame(model: GameModel) {
     const labels = model.getLabels();
+    const statistics = model.getUpdatedStatistics();
 
     const dto = new GameDto();
     dto.size = DtoFactory.mapSize(labels);
     dto.labels = DtoFactory.mapLabels(labels);
     dto.values = DtoFactory.mapCellsToValue(model.getCells());
+    dto.statistics = DtoFactory.mapShips(statistics.getShipSets());
     return dto;
   }
 
@@ -83,5 +87,13 @@ export class DtoFactory {
     dto.symbol = symbol;
     dto.index = index != null ? index : -1;
     return dto;
+  }
+
+  static mapShips(sets: ShipSet[]) {
+    return sets.map((s) => new ShipSetDto(
+      s.getSize(), 
+      s.getTargetAmount(), 
+      s.getCurrentAmount())
+    );
   }
 }

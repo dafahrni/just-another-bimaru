@@ -14,7 +14,7 @@ export class Broker {
     return Broker.instance;
   }
 
-  subscribe<T extends Message>(
+  register<T extends Message>(
     messageType: MessageType,
     callback: MessageCallback<T>
   ) {

@@ -10,7 +10,7 @@ describe("Broker", () => {
     it("should place message into queue", () => {
       const model = new GameModel();
       const dto = DtoFactory.mapGame(model);
-      const msg = Message.newGame(dto);
+      const msg = Message.newGame(dto, false);
       const testee = Broker.get();
 
       testee.publish(msg);

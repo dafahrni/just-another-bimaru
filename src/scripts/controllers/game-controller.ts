@@ -27,9 +27,7 @@ export class GameController {
 
   init(editMode: boolean = false) {
     const dto = this.api.getGame();
-    this.broker.publish(Message.newGame(dto));
-
-    this.view.init(editMode);
+    this.broker.publish(Message.newGame(dto, editMode));
     this.cells.updateAll(editMode);
   }
 
@@ -48,6 +46,8 @@ export class GameController {
 
     if (this.api.changeCell(index)) {
       this.cells.updateCell(index);
+      const sets = this.api.getShips().filter(s => s.targetAmount > 0);
+      sets.forEach(set => this.broker.publish(Message.shipChanged(set)));
       this.view.cellWasUpdated();
     } else {
       this.view.wrongMove();

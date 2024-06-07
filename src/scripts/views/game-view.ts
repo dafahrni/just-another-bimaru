@@ -3,17 +3,20 @@ import { ConfigView } from "./forms/config-view.js";
 import { Bimaru } from "./board/bimaru.js";
 import { ModalDialog } from "./forms/modal-dialog.js";
 import { SideView } from "./forms/side-view.js";
+import { Ships } from "./board/ships.js";
 
 export class GameView {
   menu: MenuView;
   config: ConfigView;
   sides: SideView;
   board: Bimaru;
+  ships: Ships;
   dialog: ModalDialog;
   ressources: any;
 
   constructor() {
     this.board = new Bimaru();
+    this.ships = new Ships();
     this.dialog = new ModalDialog();
     this.ressources = {
       click: new Audio("assets/click.mp3"),
@@ -26,10 +29,6 @@ export class GameView {
     this.menu = new MenuView(this.ressources["music"]);
     this.config = new ConfigView();
     this.sides = new SideView();
-  }
-
-  init(editMode: boolean) {
-    this.board.init(editMode);
   }
 
   main() {}

@@ -42,8 +42,9 @@ export class GameModel {
     this.game.initStatistics(shipSets);
   }
 
-  updateStatistics() {
+  getUpdatedStatistics() {
     this.game.updateStatistics();
+    return this.game.getStatistics();
   }
 
   get rows() {

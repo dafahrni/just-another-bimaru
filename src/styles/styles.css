@@ -108,9 +108,22 @@ html {
 
 /* bimaru board */ 
 
-.grid {
+.board {
+  display: flex;
+}
+
+.field {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+}
+
+.ships {
+  display: flex;
+  flex-direction: column;
+}
+
+.set {
+  display: flex;
 }
 
 .tile {

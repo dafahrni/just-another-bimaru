@@ -3,7 +3,7 @@ import { CellBase } from "./cell-base.js";
 export class CellLabel extends CellBase {
   text: any;
 
-  constructor(size: number, shipCount: number) {
+  constructor(size: number, value: string) {
     super(size);
 
     this.tile.setAttribute("class", "label");
@@ -14,7 +14,7 @@ export class CellLabel extends CellBase {
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("class", "label");
 
-    this.changeText(`${shipCount}`);
+    this.changeText(`${value}`);
 
     // Text Positionierung
     var textWidth = text.getComputedTextLength();

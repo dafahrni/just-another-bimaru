@@ -87,7 +87,7 @@ export class Game {
   }
 
   updateStatistics() {
-    return this.statistics.update(this.field);
+    this.statistics.update(this.field);
   }
 
   isDirty() {

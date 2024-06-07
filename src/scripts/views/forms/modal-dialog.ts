@@ -119,16 +119,16 @@ export class ModalDialog {
   }
 
   setupHtml() {
-    const root = document.getElementById("root");
+    const board = document.getElementById("board");
     this.overlay = new ElementBuilder("div")
       .setId("overlay")
       .setClass("overlay")
-      .appendTo(root)
+      .appendTo(board)
       .getResult();
     this.notification = new ElementBuilder("div")
       .setId("notification")
       .setClass("modal")
-      .appendTo(root)
+      .appendTo(board)
       .getResult();
     this.text = new ElementBuilder("p")
       .setId("message")

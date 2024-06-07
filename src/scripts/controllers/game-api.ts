@@ -1,5 +1,6 @@
 import { CellDto } from "./dtos/cell-dto.js";
 import { LabelsDto } from "./dtos/labels-dto.js";
+import { ShipSetDto } from "./dtos/ship-set-dto.js";
 import { GameDto } from "./dtos/game-dto.js";
 import { GameModel } from "../models/game-model.js";
 import { DtoFactory } from "./dtos/dto-factory.js";
@@ -62,6 +63,11 @@ export class GameApi {
   getLabels(): LabelsDto {
     const labels = this.model.getLabels();
     return DtoFactory.mapLabels(labels);
+  }
+
+  getShips(): ShipSetDto[] {
+    const statistics = this.model.getUpdatedStatistics();
+    return DtoFactory.mapShips(statistics.getShipSets());
   }
 
   getCell(index: number): CellDto {

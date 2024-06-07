@@ -26,7 +26,6 @@ describe("GameModel", () => {
         "    1 2 1"
       );
       testee.initStatistics(ShipSet.parse("1|1,2|0,3|1,4|0"));
-      testee.updateStatistics();
 
       expect(testee.checkForWinner()).to.be.true;
     });
