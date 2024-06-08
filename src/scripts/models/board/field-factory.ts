@@ -34,10 +34,10 @@ export class FieldFactory {
     return FieldFactory.createWith(definition);
   }
 
-  static createWith(definition?: Configuration) {
-    definition = definition ? definition : Configuration.default();
-    const field = new Field(definition.getLabels());
-    field.setPredefinedCells(definition.getPredefinedCells());
+  static createWith(config?: Configuration) {
+    config = config ? config : Configuration.default();
+    const field = new Field(config.getLabels());
+    field.setPredefinedCells(config.getPredefinedCells());
     return field;
   }
 

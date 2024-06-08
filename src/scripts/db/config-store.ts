@@ -7,8 +7,9 @@ import { ShipSet } from "../models/parts/ship-set.js";
 import { IRepo } from "../models/repos/repo.js";
 import { StoreBase } from "./store-base.js";
 import { ShipSetEntity } from "./entities/IShipSet.js";
-import { CellEntity } from "./entities/ICell.js";
+import { CellEntity, ICell } from "./entities/ICell.js";
 import { IConfig } from "./entities/IConfig.js";
+import { FieldFactory } from "../models/board/field-factory.js";
 
 export class ConfigStore
   extends StoreBase<Configuration, IConfig>
@@ -20,8 +21,9 @@ export class ConfigStore
 
   mapToEntity(config: Configuration): IConfig {
     const labels = config.getLabels();
-    const cells = config
-      .getPredefinedCells()
+    const field = FieldFactory.createWith(config);
+    const cells = field
+      .getCellsWithFixedValue()
       .map((c) => new CellEntity(c.getIndex(), c.asSymbol()));
     const shipSets = config
       .getShipSets()
@@ -41,14 +43,19 @@ export class ConfigStore
     const cols = labels?.colLabels.length;
     return new Configuration(
       new Labels(labels.colLabels, labels.rowLabels),
-      config.predefinedCells.map(
-        (c) =>
-          new Cell(
-            new Position(c.index % cols, c.index / cols),
-            CellValue.from(c.symbol)
-          )
-      ),
+      config.predefinedCells.map((c) => this.mapFromCell(c, cols)),
       config.shipSets.map((s) => new ShipSet(s.size, s.targetAmount))
     );
+  }
+
+  mapFromCell(c: ICell, cols: number) {
+    const x = c.index % cols;
+    const y = Math.floor(c.index / cols);
+    const cell = new Cell(
+      new Position(x, y),
+      CellValue.from(c.symbol)
+    );
+    cell.setIndex(c.index);
+    return cell;
   }
 }
