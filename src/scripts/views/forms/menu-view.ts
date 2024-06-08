@@ -28,12 +28,12 @@ export class MenuView {
   setupHtml() {
     this.menu.innerHTML = `
       <ul>
-          <li>Restart Game</li>
-          <li>Edit Game</li>
-          <li class="disabled">Sound off</li>
-          <li>Music on</li>
-          <li class="disabled">Further Options</li>
-        </ul>
+        <li>Restart Game</li>
+        <li>Edit Game</li>
+        <li class="disabled">Sound off</li>
+        <li>Music on</li>
+        <li class="disabled">Further Options</li>
+      </ul>
     `;
   }
 

@@ -1,4 +1,4 @@
-export class ElementBuilder {
+export class ModalBuilder {
   child: HTMLElement;
 
   constructor(elementType: string) {

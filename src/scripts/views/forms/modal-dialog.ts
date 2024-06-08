@@ -1,4 +1,4 @@
-import { ElementBuilder } from "./element-builder.js";
+import { ModalBuilder } from "./modal-builder.js";
 import { ModalConfig } from "./modal-config.js";
 
 export class ModalDialog {
@@ -120,48 +120,48 @@ export class ModalDialog {
 
   setupHtml() {
     const board = document.getElementById("board");
-    this.overlay = new ElementBuilder("div")
+    this.overlay = new ModalBuilder("div")
       .setId("overlay")
       .setClass("overlay")
       .appendTo(board)
       .getResult();
-    this.notification = new ElementBuilder("div")
+    this.notification = new ModalBuilder("div")
       .setId("notification")
       .setClass("modal")
       .appendTo(board)
       .getResult();
-    this.text = new ElementBuilder("p")
+    this.text = new ModalBuilder("p")
       .setId("message")
       .appendTo(this.notification)
       .getResult();
-    const ac = new ElementBuilder("div")
+    const ac = new ModalBuilder("div")
       .setClass("amount-control")
       .appendTo(this.notification)
       .getResult();
-    new ElementBuilder("button")
+    new ModalBuilder("button")
       .setText("-")
       .appendTo(ac)
       .addListener("click", this.decreaseValue.bind(this))
       .getResult();
-    this.field = new ElementBuilder("input")
+    this.field = new ModalBuilder("input")
       .setAttribut("readonly", true)
       .appendTo(ac)
       .getResult();
-    new ElementBuilder("button")
+    new ModalBuilder("button")
       .setText("+")
       .appendTo(ac)
       .addListener("click", this.increaseValue.bind(this))
       .getResult();
-    const bc = new ElementBuilder("div")
+    const bc = new ModalBuilder("div")
       .setClass("button-container")
       .appendTo(this.notification)
       .getResult();
-    this.ok = new ElementBuilder("button")
+    this.ok = new ModalBuilder("button")
       .setText("OK")
       .appendTo(bc)
       .addListener("click", this.confirmAndHide.bind(this))
       .getResult();
-    this.cancel = new ElementBuilder("button")
+    this.cancel = new ModalBuilder("button")
       .setText("Cancel")
       .appendTo(bc)
       .addListener("click", this.rejectAndHide.bind(this))
