@@ -138,14 +138,17 @@ html {
 }
 
 .label {
-  font-weight: lighter;
-  font-size: 18;
+  font-weight: normal;
   user-select: none;
 }
 
 .cell {
   fill: #fff;
   stroke: #000;
+}
+
+.cell-borderless {
+  stroke-width: 0;
 }
 
 .water {

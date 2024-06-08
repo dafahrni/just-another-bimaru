@@ -8,17 +8,14 @@ export class CellLabel extends CellBase {
 
     this.tile.setAttribute("class", "label");
 
-    // SVG-text erstellen
     this.text = document.createElementNS(this.svgNamespace, "text");
     const text = this.text;
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("class", "label");
-
     this.changeText(`${value}`);
 
-    // Text Positionierung
     var textWidth = text.getComputedTextLength();
-    var textHeight = this.factor * 32;
+    var textHeight = Math.round(size * 0.5);
     var centerX = this.tile.getAttribute("width") / 2 - textWidth / 2;
     var centerY = this.tile.getAttribute("height") / 2 + textHeight / 2;
     text.setAttribute("x", centerX - 2);

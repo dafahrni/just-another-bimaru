@@ -45,7 +45,7 @@ export class Ships {
     } 
   }
 
-  setupHtml(dto: ShipSetDto[], size: number) {
+  setupHtml(dto: ShipSetDto[], cellSize: number) {
     const ships: HTMLElement | null = document.getElementById("ships");
     if (!ships) throw new Error("Ships node is missing in HTML.");
 
@@ -59,35 +59,36 @@ export class Ships {
     for (let row = dto.length - 1; row >= 0; row--) {
       const ship = dto[row];
       if (ship.targetAmount < 1) continue;
+
       const set = document.createElement("div");
       set.classList.add("set");
-      const value = `${ship.currentAmount}/${ship.targetAmount}`;
-      const label = new CellLabel(size, value);
-      set.appendChild(label.getTile());
-      const key = `${ship.size}`;
-      this.labels[key] = label;
+
+      this.appendLabel(ship, cellSize, set);
+
       if (ship.size == 1) {
-        const cell = new ShipCell(size);
-        cell.selectCellType('o');
-        set.appendChild(cell.getTile());
+        this.appendShip('o', cellSize, set);
       } else  {
-        let cell = new ShipCell(size);
-        cell.selectCellType('<');
-        set.appendChild(cell.getTile());
+        this.appendShip('<', cellSize, set);
         for (let col = 2; col < ship.size; col++) {
-          cell = new ShipCell(size);
-          cell.selectCellType('□');        
-          set.appendChild(cell.getTile());
+          this.appendShip('□', cellSize, set);
         }
-        cell = new ShipCell(size);
-        cell.selectCellType('>');
-        set.appendChild(cell.getTile());
+        this.appendShip('>', cellSize, set);
       }
       ships.append(set);
     }
   }
 
-  createShip(dto: ShipSetDto) {
+  appendLabel(ship: ShipSetDto, cellSize: number, set: HTMLElement) {
+    const value = `${ship.currentAmount}/${ship.targetAmount}`;
+    const label = new CellLabel(cellSize, value);
+    set.appendChild(label.getTile());
+    const key = `${ship.size}`;
+    this.labels[key] = label;
+  }
 
+  appendShip(symbol: string, cellSize: number, set: HTMLElement) {
+    const cell = new ShipCell(cellSize, false);
+    cell.selectCellType(symbol);
+    set.appendChild(cell.getTile());
   }
 }

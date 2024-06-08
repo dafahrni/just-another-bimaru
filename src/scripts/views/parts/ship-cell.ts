@@ -4,12 +4,12 @@ export class ShipCell extends CellBase {
   cell: Element;
   symbol: string;
 
-  constructor(size: number) {
+  constructor(size: number,hasBorder: boolean = true) {
     super(size);
 
     this.symbol = "";
     this.cell = document.createElementNS(this.svgNamespace, "rect");
-    this.cell.setAttribute("class", "cell");
+    this.cell.setAttribute("class", hasBorder ? "cell" : "cell-borderless");
     this.cell.setAttribute("width", `${this.size}`);
     this.cell.setAttribute("height", `${this.size}`);
     this.tile.appendChild(this.cell);
