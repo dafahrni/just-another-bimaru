@@ -1,5 +1,13 @@
 export class ConfigView {
+  config: HTMLElement;
+
   constructor() {
+    const config = document.getElementById("config");
+    if (!config) throw new Error("Config node is missing in HTML.");
+
+    this.config = config;
+
+    this.setupHtml();
     this.init();
   }
 
@@ -44,5 +52,42 @@ export class ConfigView {
         //alert("Further Options clicked!");
         break;
     }
+  }
+
+  setupHtml() {
+    this.config.innerHTML = `
+      <ul>
+        <li>
+          <div>
+            <label for="gridSize">Grid Size:</label>
+            <button id="decreaseButton">-</button>
+            <input type="number" id="gridSize" min="8" max="12" value="10" readonly />
+            <button id="increaseButton">+</button><br />
+          </div>
+        </li>
+        <li class="disabled">
+          <div>
+            <label for="rowTargets">Row Targets:</label>
+            <button id="decreaseButton">-</button>
+            <input type="number" id="rowTargets" min="0" max="8" value="0" readonly />
+            <button id="increaseButton">+</button><br />
+          </div>
+        </li>
+        <li class="disabled">
+          <div>
+            <label for="colTargets">Col Targets:</label>
+            <button id="decreaseButton">-</button>
+            <input type="number" id="colTargets" min="0" max="8" value="0" readonly />
+            <button id="increaseButton">+</button><br />
+          </div>
+        </li>
+        <li class="disabled">
+          <div>
+            <label>Ship Amount:</label>
+            <span id="shipAmount">Default value</span>
+          </div>
+        </li>
+      </ul>
+    `;
   }
 }

@@ -8,9 +8,7 @@ export class MenuView {
   
   constructor(music: HTMLAudioElement) {
     const menu = document.getElementById("menu");
-    if (menu == null) {
-      throw new Error("The element 'menu' could not be found.");
-    }
+    if (!menu) throw new Error("Menu node is missing in HTML.");
 
     this.menu = menu;
     this.notifyRestartGame = null;
@@ -19,11 +17,24 @@ export class MenuView {
     this.music = music;
     this.musicPlaying = false;
 
+    this.setupHtml();
     this.init();
   }
 
   init() {
     this.addEventListeners();
+  }
+
+  setupHtml() {
+    this.menu.innerHTML = `
+      <ul>
+          <li>Restart Game</li>
+          <li>Edit Game</li>
+          <li class="disabled">Sound off</li>
+          <li>Music on</li>
+          <li class="disabled">Further Options</li>
+        </ul>
+    `;
   }
 
   bindRestartGameClick(handler: any) {
