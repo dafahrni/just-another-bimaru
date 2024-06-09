@@ -2,7 +2,10 @@ import { Broker } from "../../messaging/broker.js";
 import { ShipSetDto } from "../../controllers/dtos/ship-set-dto.js";
 import { CellLabel } from "../parts/cell-label.js";
 import { ShipCell } from "../parts/ship-cell.js";
-import { Message, MessageType, ShipChanged, SizeChanged } from "../../messaging/message.js";
+import { Message } from "../../messaging/message.js";
+import { MessageType } from "../../messaging/message-type.js";
+import { ShipChanged } from "../../messaging/events/ship-changed.js";
+import { SizeChanged } from "../../messaging/events/size-changed.js";
 
 export class Ships {
   broker: Broker = Broker.get();

@@ -1,9 +1,11 @@
 import { ShipCell } from "../parts/ship-cell.js";
 import { CellLabel } from "../parts/cell-label.js";
-
 import { Broker } from "../../messaging/broker.js";
 import { LabelsDto } from "../../controllers/dtos/labels-dto.js";
-import { Message, MessageType, NewGame } from "../../messaging/message.js";
+import { Message } from "../../messaging/message.js";
+import { MessageFactory } from "../../messaging/message-factory.js";
+import { MessageType } from "../../messaging/message-type.js";
+import { NewGame } from "../../messaging/cmds/new-game.js";
 
 export class Bimaru {
   cells: ShipCell[];
@@ -31,7 +33,7 @@ export class Bimaru {
     this.editMode = newGame.editMode;
 
     const size = this.setupHtml(newGame.dto.labels);
-    this.broker.publish(Message.sizeChanged(
+    this.broker.publish(MessageFactory.sizeChanged(
       newGame.dto, 
       newGame.editMode, 
       size));

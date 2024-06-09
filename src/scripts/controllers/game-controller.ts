@@ -1,8 +1,8 @@
 import { GameApi } from "./game-api.js";
 import { Broker } from "../messaging/broker.js";
-import { Message } from "../messaging/message.js";
 import { GameView } from "../views/game-view.js";
 import { CellRelations } from "./cell-relations.js";
+import { MessageFactory } from "../messaging/message-factory.js";
 
 export class GameController {
   api: GameApi;
@@ -27,7 +27,7 @@ export class GameController {
 
   init(editMode: boolean = false) {
     const dto = this.api.getGame();
-    this.broker.publish(Message.newGame(dto, editMode));
+    this.broker.publish(MessageFactory.newGame(dto, editMode));
     this.cells.updateAll(editMode);
   }
 
@@ -47,7 +47,7 @@ export class GameController {
     if (this.api.changeCell(index)) {
       this.cells.updateCell(index);
       const sets = this.api.getShips().filter(s => s.targetAmount > 0);
-      sets.forEach(set => this.broker.publish(Message.shipChanged(set)));
+      sets.forEach(set => this.broker.publish(MessageFactory.shipChanged(set)));
       this.view.cellWasUpdated();
     } else {
       this.view.wrongMove();

@@ -1,5 +1,7 @@
-import { MessageType, MessageCallback, Message } from "./message.js";
+import { Message } from "./message.js";
+import { MessageType } from "./message-type.js";
 import { MessageQueue } from "./message-queue.js";
+import { MessageCallback } from "./message-callback.js";
 
 export class Broker {
   subscribers: Map<MessageType, MessageCallback<any>[]> = new Map();
