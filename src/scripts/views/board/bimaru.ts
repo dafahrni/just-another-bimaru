@@ -2,16 +2,13 @@ import { ShipCell } from "../parts/ship-cell.js";
 import { CellLabel } from "../parts/cell-label.js";
 import { Broker } from "../../messaging/broker.js";
 import { LabelsDto } from "../../controllers/dtos/labels-dto.js";
-import { Message } from "../../messaging/message.js";
 import { MessageFactory } from "../../messaging/message-factory.js";
 import { MessageType } from "../../messaging/message-type.js";
 import { NewGame } from "../../messaging/cmds/new-game.js";
 
 export class Bimaru {
   cells: ShipCell[];
-  notifySelectionChanged: any;
   labels: CellLabel[];
-  notifyLabelClick: any;
   broker: Broker = Broker.get();
   editMode: boolean;
   boundLabelSelected: any = null;
@@ -19,32 +16,19 @@ export class Bimaru {
 
   constructor() {
     this.cells = [];
-    this.notifySelectionChanged = null;
     this.labels = [];
-    this.notifyLabelClick = null;
     this.editMode = false;
-    this.broker.register(MessageType.NewGame, (m) => this.init(m));
+    this.broker.register(MessageType.NewGame, (msg: NewGame) => this.init(msg));
   }
 
-  init(message: Message) {
-    const newGame = message as NewGame;
-    if (!newGame) return;
+  init(msg: NewGame) {
+    this.editMode = msg.editMode;
 
-    this.editMode = newGame.editMode;
-
-    const size = this.setupHtml(newGame.dto.labels);
+    const size = this.setupHtml(msg.dto.labels);
     this.broker.publish(MessageFactory.sizeChanged(
-      newGame.dto, 
-      newGame.editMode, 
+      msg.dto, 
+      msg.editMode, 
       size));
-  }
-
-  bindLabelClick(handler: any) {
-    this.notifyLabelClick = handler;
-  }
-
-  bindSelectionChanged(handler: any) {
-    this.notifySelectionChanged = handler;
   }
 
   setupHtml(labels: LabelsDto) {
@@ -111,11 +95,9 @@ export class Bimaru {
       .map((label) => label.getTile())
       .indexOf(selectedLabel);
 
-    if (this.notifyLabelClick) {
-      // index consists of row labels first and col label second
-      // important for code used in GameModel.fillLineWithWater
-      this.notifyLabelClick(index, this.editMode);
-    }
+    // index consists of row labels first and col label second
+    // important for code used in GameModel.fillLineWithWater
+    this.broker.publish(MessageFactory.labelChanged(index, this.editMode));
   }
 
   tileSelected(event: any) {
@@ -128,9 +110,7 @@ export class Bimaru {
       .map((cell) => cell.getTile())
       .indexOf(selectedTile);
 
-    if (this.notifySelectionChanged) {
-      this.notifySelectionChanged(index, this.editMode);
-    }
+    this.broker.publish(MessageFactory.tileChanged(index, this.editMode));
   }
 
   getCells() {

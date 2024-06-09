@@ -35,4 +35,12 @@ export class MessageFactory {
   static shipChanged(dto: ShipSetDto) {
     return new ShipChanged(dto);
   }
+
+  static tileChanged(index: number, editMode: boolean) {
+    return new TileChanged(index, editMode);
+  }
+
+  static labelChanged(index: number, editMode: boolean) {
+    return new LabelChanged(index, editMode);
+  }
 }

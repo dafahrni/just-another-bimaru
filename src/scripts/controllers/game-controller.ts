@@ -3,6 +3,9 @@ import { Broker } from "../messaging/broker.js";
 import { GameView } from "../views/game-view.js";
 import { CellRelations } from "./cell-relations.js";
 import { MessageFactory } from "../messaging/message-factory.js";
+import { MessageType } from "../messaging/message-type.js";
+import { TileChanged } from "../messaging/events/tile-changed.js";
+import { LabelChanged } from "../messaging/events/label-changed.js";
 
 export class GameController {
   api: GameApi;
@@ -13,12 +16,8 @@ export class GameController {
   constructor(api: GameApi, view: GameView) {
     this.api = api;
     this.view = view;
-    this.view.bindSelectionChanged((i: number, m: boolean) =>
-      this.nextMove(i, m)
-    );
-    this.view.bindLabelClick((i: number, m: boolean) =>
-      this.fillLineWithWater(i, m)
-    );
+    this.broker.register(MessageType.TileChanged, (msg: TileChanged) => this.nextMove(msg));
+    this.broker.register(MessageType.LabelChanged, (msg: LabelChanged) => this.fillLineWithWater(msg));
     this.view.bindRestartGameClick(() => this.restartGame());
     this.view.bindEditGameClick((m: boolean) => this.editConfig(m));
 
@@ -36,7 +35,9 @@ export class GameController {
     setInterval(() => this.view.main(), 100);
   }
 
-  nextMove(index: number, editMode: boolean) {
+  nextMove(msg: TileChanged) {
+    const index = msg.index;
+    const editMode = msg.editMode;
     if (editMode) {
       this.api.setCell(index);
       this.cells.updateCell(index);
@@ -59,7 +60,9 @@ export class GameController {
     }
   }
 
-  fillLineWithWater(index: number, editMode: boolean) {
+  fillLineWithWater(msg: LabelChanged) {
+    const index = msg.index
+    const editMode = msg.editMode;
     if (editMode) this.api.increaseTargetValue(index);
     else this.api.fillLineWithWater(index);
 

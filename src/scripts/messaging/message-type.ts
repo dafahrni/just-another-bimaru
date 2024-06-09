@@ -4,4 +4,6 @@ export enum MessageType {
   ChangeValue,
   SizeChanged,
   ShipChanged,
+  TileChanged,
+  LabelChanged
 }

@@ -41,14 +41,6 @@ export class GameView {
 
   main() {}
 
-  bindLabelClick(handler: any) {
-    this.board.bindLabelClick(handler);
-  }
-
-  bindSelectionChanged(handler: any) {
-    this.board.bindSelectionChanged(handler);
-  }
-
   bindRestartGameClick(handler: any) {
     this.menu.bindRestartGameClick(handler);
   }
