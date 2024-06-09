@@ -1,10 +1,13 @@
-import { ValueConfig } from "./value-config";
+import { ValueConfig } from "./value-config.js";
+import { Broker } from "../../messaging/broker.js";
 
 export class ValueView {
+  broker: Broker = Broker.get();
   valueControl: Element;
   input: HTMLInputElement;
   decBtn: Element;
   incBtn: Element;
+  notifyValueChanged: any;
 
   constructor(cfg: ValueConfig) {
     const value = document.getElementById(`${cfg.id}`);
@@ -28,19 +31,16 @@ export class ValueView {
     this.incBtn.addEventListener("click", this.increaseValue.bind(this));
   }
 
-  get value(): number {
+  get selectedValue(): number {
     return parseInt(this.input.value);
   }
 
-  set value(value: string) {
+  set selectedValue(value: number) {
     this.input.value = `${value}`;
   }
 
-  registerForInputChanges(
-    type: string,
-    listener: EventListenerOrEventListenerObject
-  ) {
-    this.input.addEventListener(type, listener);
+  registerForValueChanges(handler: any) {
+    this.notifyValueChanged = handler;
   }
 
   decreaseValue() {
@@ -62,18 +62,17 @@ export class ValueView {
   }
 
   dispatchEvent() {
-    const event = new Event("input", { bubbles: true });
-    this.input.dispatchEvent(event);
+    if (this.notifyValueChanged) {
+      this.notifyValueChanged(this.input.value);
+    }
   }
 
   setupHtml(cfg: ValueConfig) {
     this.valueControl.innerHTML = `
-      <div>
-        <label for="${cfg.id}-value">${cfg.labelText}</label>
-        <button class="dec-btn">-</button>
-        <input type="number" id="${cfg.id}-value" min="${cfg.min}" max="${cfg.max}" value="${cfg.val}" readonly />
-        <button class="inc-btn">+</button><br />
-      </div>
+      <label for="${cfg.id}-value">${cfg.labelText}</label>
+      <button class="dec-btn">-</button>
+      <input type="number" id="${cfg.id}-value" min="${cfg.min}" max="${cfg.max}" value="${cfg.val}" readonly />
+      <button class="inc-btn">+</button><br />
     `;
   }
 }

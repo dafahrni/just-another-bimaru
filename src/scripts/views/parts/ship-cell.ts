@@ -3,11 +3,14 @@ import { CellBase } from "./cell-base.js";
 export class ShipCell extends CellBase {
   cell: Element;
   symbol: string;
+  isSelected: boolean;
 
-  constructor(size: number,hasBorder: boolean = true) {
+  constructor(size: number, hasBorder: boolean = true) {
     super(size);
 
     this.symbol = "";
+    this.isSelected = false;
+
     this.cell = document.createElementNS(this.svgNamespace, "rect");
     this.cell.setAttribute("class", hasBorder ? "cell" : "cell-borderless");
     this.cell.setAttribute("width", `${this.size}`);
@@ -15,6 +18,18 @@ export class ShipCell extends CellBase {
     this.tile.appendChild(this.cell);
 
     this.selectCellType(".");
+  }
+
+  get selectedCellType(): string {
+    return this.symbol;
+  }
+
+  selectCell(isSelected: boolean) {
+    this.isSelected = isSelected;
+    if (isSelected)
+      this.cell.classList.add("selected");
+    else
+      this.cell.classList.remove("selected");
   }
 
   selectCellType(newSymbol: string) {

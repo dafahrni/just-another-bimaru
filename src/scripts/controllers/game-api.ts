@@ -75,8 +75,8 @@ export class GameApi {
     return DtoFactory.mapCell(cell);
   }
 
-  setCell(index: number) {
-    this.model.setCell(index);
+  setCell(index: number, symbol?: string) {
+    this.model.setCell(index, symbol);
   }
 
   changeCell(index: number) {
@@ -93,5 +93,9 @@ export class GameApi {
 
   increaseTargetValue(index: number) {
     this.model.increaseTargetValue(index);
+  }
+
+  setTargetValue(index: number, value: number) {
+    this.model.setTargetValue(index, value);
   }
 }

@@ -90,7 +90,7 @@ export class Ships {
   }
 
   appendShip(symbol: string, cellSize: number, set: HTMLElement) {
-    const cell = new ShipCell(cellSize, false);
+    const cell = new ShipCell(cellSize, true);
     cell.selectCellType(symbol);
     set.appendChild(cell.getTile());
   }

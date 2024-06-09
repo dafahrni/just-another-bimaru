@@ -50,4 +50,18 @@ export class Labels {
     let target = this.colLabels[index];
     this.colLabels[index] = target < 9 ? target + 1 : 0;
   }
+  
+  setRowTarget(index: number, target: number) {
+    if (index < 0 || index >= this.rows) return;
+    if (target < 0 || target > 9) return;
+
+    this.rowLabels[index] = target;
+  }
+
+  setColTarget(index: number, target: number) {
+    if (index < 0 || index >= this.cols) return;
+    if (target < 0 || target > 9) return;
+
+    this.colLabels[index] = target;
+  }
 }

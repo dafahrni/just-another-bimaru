@@ -13,13 +13,13 @@ export class ConfigView {
   setupHtml() {
     this.config.innerHTML = `
       <ul>
-        <li>
+        <li class="disabled">
           <div id="grid-size"></div>
         </li>
-        <li class="disabled">
+        <li>
           <div id="target-value"></div>
         </li>
-        <li class="disabled">
+        <li>
           <div id="ship-selection"></div>
         </li>
       </ul>

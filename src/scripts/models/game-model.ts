@@ -105,7 +105,18 @@ export class GameModel {
     else this.labels.increaseColTarget(index - sizeY);
   }
 
-  setCell(index: number, symbol: string | null = null) {
+  setTargetValue(labelIndex: number, value: number) {
+    // index depends on label creation in Bimaru.setupHtml
+    const index = labelIndex;
+    const sizeX = this.labels.cols;
+    const sizeY = this.labels.rows;
+    if (index < 0 || index >= sizeX + sizeY) return;
+
+    if (index < sizeY) this.labels.setRowTarget(index, value);
+    else this.labels.setColTarget(index - sizeY, value);
+  }
+
+  setCell(index: number, symbol?: string) {
     if (!this.isValid(index)) return;
 
     const cell = this.cells[index];

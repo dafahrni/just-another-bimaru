@@ -29,7 +29,7 @@ export class MenuView {
     this.menu.innerHTML = `
       <ul>
         <li>Restart Game</li>
-        <li>Edit Game</li>
+        <li>Edit Configurations</li>
         <li class="disabled">Sound off</li>
         <li>Music on</li>
         <li class="disabled">Further Options</li>
@@ -104,8 +104,8 @@ export class MenuView {
 
     const menuItems = this.menu.querySelectorAll("li");
     menuItems[1].innerText = this.editMode
-        ? "Save Game"
-        : "Edit Game";
+        ? "Save Configuration"
+        : "Edit Configuration";
   }
 
   startMusic() {

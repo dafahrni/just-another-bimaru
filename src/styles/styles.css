@@ -167,6 +167,10 @@ html {
   stroke-width: 2;
 }
 
+.selected {
+  fill: #ffcc00;
+}
+
 /* modal dialog */
 
 .modal {

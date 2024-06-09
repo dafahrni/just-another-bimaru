@@ -6,6 +6,7 @@ import { MenuView } from "./forms/menu-view.js";
 import { ConfigView } from "./forms/config-view.js";
 import { ValueView } from "./forms/value-view.js";
 import { ValueConfig } from "./forms/value-config.js";
+import { ShipSelection } from "./forms/ship-selection.js";
 
 export class GameView {
   board: Bimaru;
@@ -17,7 +18,7 @@ export class GameView {
   config: ConfigView;
   gridSize: ValueView;
   targetValue: ValueView;
-  shipSelection: ValueView;
+  shipSelection: ShipSelection;
   
   constructor() {
     this.board = new Bimaru();
@@ -36,7 +37,7 @@ export class GameView {
     this.config = new ConfigView();
     this.gridSize = new ValueView(new ValueConfig("grid-size", "Grid Size", 6, 12));
     this.targetValue = new ValueView(new ValueConfig("target-value", "Target Value", 0, 9));
-    this.shipSelection = new ValueView(new ValueConfig("ship-selection", "Ship Selection", 0, 9));
+    this.shipSelection = new ShipSelection(new ValueConfig("ship-selection", "Ship Selection", 0, 7));
   }
 
   main() {}
@@ -63,31 +64,31 @@ export class GameView {
 
   gameIsWon(action: () => void) {
     this.playSound("bell");
-    this.dialog.showInfo(`Alle Schiffe gefunden!`, action);
+    this.dialog.showInfo(`All ships found!`, action);
   }
 
   stopGame(action: () => void) {
-    this.dialog.confirmAction(`Laufendes Spiel beenden?`, action);
+    this.dialog.confirmAction(`End running game?`, action);
   }
 
-  changeMenu() {
+  changeToEditMode() {
     this.menu.changeEditMode();
   }
 
   requestGridSize(action: () => void) {
-    this.dialog.requestAmount(`Bitte Grösse festlegen`, action);
+    this.dialog.requestAmount(`Define grid size`, action);
   }
 
-  getGridSize() {
+  getRequestedGridSize() {
     return this.dialog.getValue();
   }
 
   safeConfig(action: () => void) {
-    this.dialog.confirmAction(`Konfiguration übernehmen?`, action);
+    this.dialog.confirmAction(`Confirm safe of configuration?`, action);
   }
 
   nextConfig(action: () => void) {
-    this.dialog.confirmAction(`Nächste Konfiguration anzeigen?`, action);
+    this.dialog.confirmAction(`Display next configuration?`, action);
   }
 
   playSound(key: string) {
@@ -102,5 +103,18 @@ export class GameView {
 
   getLabels() {
     return this.board.getLabels();
+  }
+
+  getSelectedSymbol(): string {
+    return this.shipSelection.selectedSymbol;
+  }
+
+  getSelectedTargetValue(): number {
+    return this.targetValue.selectedValue;
+  }
+
+  showConfigView() {
+    this.sides.moveLeft();
+    this.sides.moveLeft();
   }
 }

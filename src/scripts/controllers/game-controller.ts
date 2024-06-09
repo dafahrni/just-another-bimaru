@@ -39,7 +39,10 @@ export class GameController {
     const index = msg.index;
     const editMode = msg.editMode;
     if (editMode) {
-      this.api.setCell(index);
+      const symbol = this.view.getSelectedSymbol();
+      this.api.setCell(index, symbol);
+      // TODO: remove the 'old' way
+      //this.api.setCell(index);
       this.cells.updateCell(index);
       this.view.cellWasUpdated();
       return;
@@ -63,8 +66,12 @@ export class GameController {
   fillLineWithWater(msg: LabelChanged) {
     const index = msg.index
     const editMode = msg.editMode;
-    if (editMode) this.api.increaseTargetValue(index);
-    else this.api.fillLineWithWater(index);
+    if (editMode) {
+      const value = this.view.getSelectedTargetValue();
+      this.api.setTargetValue(index, value);
+      // TODO: remove the 'old' way
+      //this.api.increaseTargetValue(index);
+    } else this.api.fillLineWithWater(index);
 
     this.cells.updateAll(editMode);
     this.view.lineWasUpdated();
@@ -86,18 +93,19 @@ export class GameController {
   }
 
   executeGrizSizeRequest() {
-    this.view.changeMenu();
+    this.view.changeToEditMode();
+    this.view.showConfigView();
     this.view.requestGridSize(() => this.executeEditConfig());
   }
 
   executeEditConfig() {
-    const size = this.view.getGridSize();
+    const size = this.view.getRequestedGridSize();
     this.api.editConfig(size);
     this.init(true);
   }
 
   executeSaveConfig() {
-    this.view.changeMenu();
+    this.view.changeToEditMode();
     this.api.saveConfig();
     this.api.selectConfig();
     this.init(false);
