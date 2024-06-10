@@ -1,0 +1,147 @@
+import { ModalBuilder } from "./modal-builder.js";
+import { ModalConfig } from "./modal-config.js";
+export class ModalDialog {
+    constructor() {
+        this.notification = null;
+        this.overlay = null;
+        this.text = null;
+        this.amount = null;
+        this.field = null;
+        this.ok = null;
+        this.cancel = null;
+        this.hasCancel = false;
+        this.confirmed = false;
+        this.minValue = 6;
+        this.maxValue = 12;
+        this.choosenValue = this.minValue;
+        this.timeout = null;
+        this.action = null;
+        this.setupHtml();
+    }
+    showInfo(message, action) {
+        const config = new ModalConfig();
+        config.message = message;
+        config.action = action;
+        this.show(config);
+    }
+    confirmAction(message, action) {
+        const config = new ModalConfig();
+        config.message = message;
+        config.action = action;
+        config.hasCancel = true;
+        this.show(config);
+    }
+    requestAmount(message, action) {
+        const config = new ModalConfig();
+        config.message = message;
+        config.action = action;
+        config.hasAmount = true;
+        this.setValue(this.minValue);
+        this.show(config);
+    }
+    getValue() {
+        return this.choosenValue;
+    }
+    show(config) {
+        // reset
+        this.text.textContent = config.message;
+        this.action = config === null || config === void 0 ? void 0 : config.action;
+        this.hasCancel = config.hasCancel;
+        this.confirmed = false;
+        // display of modal box
+        this.notification.style.display = "block";
+        this.overlay.style.display = "block";
+        this.amount.style.display = config.hasAmount ? "flex" : "none";
+        this.cancel.style.display = this.hasCancel ? "block" : "none";
+        this.ok.focus();
+        if (!this.action || !config.hasTimeout)
+            return;
+        this.timeout = setTimeout(() => this.hideNotification(), 5000);
+    }
+    setValue(value) {
+        this.choosenValue =
+            value < this.minValue || value > this.maxValue ? this.minValue : value;
+        this.field.value = `${this.choosenValue}`;
+    }
+    increaseValue() {
+        this.setValue(this.choosenValue + 1);
+    }
+    decreaseValue() {
+        this.setValue(this.choosenValue - 1);
+    }
+    confirmAndHide() {
+        this.setConfirmed(true);
+        this.hideNotification();
+    }
+    rejectAndHide() {
+        this.setConfirmed(false);
+        this.hideNotification();
+    }
+    setConfirmed(confirmed) {
+        this.confirmed = confirmed;
+    }
+    hideNotification() {
+        this.notification.style.display = "none";
+        this.overlay.style.display = "none";
+        // perform action after hiding of notification
+        if (this.action &&
+            (!this.hasCancel || (this.hasCancel && this.confirmed))) {
+            this.action();
+        }
+        else {
+            console.info("As action is undefined, nothing is performed.");
+        }
+        clearTimeout(this.timeout);
+    }
+    setupHtml() {
+        const board = document.getElementById("board");
+        this.overlay = new ModalBuilder("div")
+            .setId("overlay")
+            .setClass("overlay")
+            .appendTo(board)
+            .getResult();
+        this.notification = new ModalBuilder("div")
+            .setId("notification")
+            .setClass("modal")
+            .appendTo(board)
+            .getResult();
+        this.text = new ModalBuilder("p")
+            .setId("message")
+            .appendTo(this.notification)
+            .getResult();
+        const ac = new ModalBuilder("div")
+            .setClass("amount-control")
+            .appendTo(this.notification)
+            .getResult();
+        new ModalBuilder("button")
+            .setText("-")
+            .appendTo(ac)
+            .addListener("click", this.decreaseValue.bind(this))
+            .getResult();
+        this.field = new ModalBuilder("input")
+            .setAttribut("readonly", true)
+            .appendTo(ac)
+            .getResult();
+        new ModalBuilder("button")
+            .setText("+")
+            .appendTo(ac)
+            .addListener("click", this.increaseValue.bind(this))
+            .getResult();
+        const bc = new ModalBuilder("div")
+            .setClass("button-container")
+            .appendTo(this.notification)
+            .getResult();
+        this.ok = new ModalBuilder("button")
+            .setText("OK")
+            .appendTo(bc)
+            .addListener("click", this.confirmAndHide.bind(this))
+            .getResult();
+        this.cancel = new ModalBuilder("button")
+            .setText("Cancel")
+            .appendTo(bc)
+            .addListener("click", this.rejectAndHide.bind(this))
+            .getResult();
+        this.amount = ac;
+    }
+}
+//# sourceMappingURL=modal-dialog.js.map

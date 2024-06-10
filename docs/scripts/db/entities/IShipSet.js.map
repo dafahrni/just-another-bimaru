@@ -1,0 +1,1 @@
+{"version":3,"file":"IShipSet.js","sourceRoot":"","sources":["../../../../../src/scripts/db/entities/IShipSet.ts"],"names":[],"mappings":"AAMA,MAAM,OAAO,aAAa;IAIxB,YAAY,IAAY,EAAE,YAAoB;QAC5C,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,CAAC,YAAY,GAAG,YAAY,CAAC;IACnC,CAAC;CACF"}

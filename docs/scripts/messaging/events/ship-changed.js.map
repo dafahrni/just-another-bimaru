@@ -1,0 +1,1 @@
+{"version":3,"file":"ship-changed.js","sourceRoot":"","sources":["../../../../../src/scripts/messaging/events/ship-changed.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,OAAO,EAAE,MAAM,eAAe,CAAC;AACxC,OAAO,EAAE,WAAW,EAAE,MAAM,oBAAoB,CAAC;AAEjD,MAAM,OAAO,WAAY,SAAQ,OAAO;IAGtC,YAAY,GAAe;QACzB,KAAK,CAAC,WAAW,CAAC,WAAW,CAAC,CAAC;QAC/B,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;IACjB,CAAC;CACF"}

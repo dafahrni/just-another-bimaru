@@ -1,0 +1,1 @@
+{"version":3,"file":"solver-result.js","sourceRoot":"","sources":["../../../../../src/scripts/models/solving/solver-result.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,YAAY;IAGvB;QACE,IAAI,CAAC,SAAS,GAAG,EAAE,CAAC;IACtB,CAAC;IAED,GAAG,CAAC,QAAe;QACjB,IAAI,CAAC,SAAS,CAAC,IAAI,CAAC,QAAQ,CAAC,CAAC;IAChC,CAAC;IAED,YAAY;QACV,OAAO,IAAI,CAAC,SAAS,CAAC;IACxB,CAAC;CACF"}

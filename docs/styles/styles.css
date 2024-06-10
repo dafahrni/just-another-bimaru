@@ -1,0 +1,253 @@
+body,
+html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+
+  font-family: Arial;
+}
+
+.content {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.content-with-menu {
+  transition: margin-left 0.3s ease; /* Smooth transition for content movement */
+  margin-left: 250px; /* Move the content to make space for the menu view */
+}
+
+.content-with-config {
+  transition: margin-right 0.3s ease; /* Smooth transition for content movement */
+  margin-right: 350px; /* Move the content to make space for the config view */
+}
+
+/* main menu */
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Initially hide the menu off-screen */
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  transition: left 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+.menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menu .disabled {
+  color: #555; /* gray color for inactive menu items */
+  pointer-events: none; /* avoid actions after mouse klicks on inactive menu items */
+}
+
+/* config editing */
+
+.config {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Initially hide the config off-screen */
+  width: 350px;
+  height: 100%;
+  background-color: #333;
+  transition: right 0.3s ease; /* Smooth transition for sliding effect */
+}
+
+.config ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.config li {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.config .disabled {
+  color: #555; /* gray color for inactive menu items */
+  pointer-events: none; /* avoid actions after mouse klicks on inactive menu items */
+}
+
+.config label {
+  display: inline-block;
+  width: 120px;
+}
+
+.config input[type="number"] {
+  padding-top: 2px;
+  width: 50px;
+  height: 20px;
+}
+
+.config button {
+  background-color: darkorange;
+  width: 26px;
+  height: 26px;
+  font-size: 15px;
+  border: none;
+  border-radius: 0.5vmin;
+  cursor: pointer;
+}
+
+/* bimaru board */ 
+
+.board {
+  display: flex;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.ships {
+  display: flex;
+  flex-direction: column;
+}
+
+.set {
+  display: flex;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.semi-transparent {
+  opacity: 0.5;
+}
+
+.label {
+  font-weight: normal;
+  user-select: none;
+}
+
+.cell {
+  fill: #fff;
+  stroke: #000;
+}
+
+.cell-borderless {
+  stroke-width: 0;
+}
+
+.water {
+  fill: #a0ceed;
+}
+
+.wave {
+  fill: transparent;
+  stroke: #3498db;
+  stroke-width: 5;
+}
+
+.ship {
+  fill: #e74c3c;
+  stroke: #c0392b;
+  stroke-width: 2;
+}
+
+.selected {
+  fill: #ffcc00;
+}
+
+/* modal dialog */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2vmin;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 80vmin;
+  text-align: center;
+  z-index: 1001;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 7vmin;
+  font-size: 5vmin;
+}
+
+.amount-control {
+  display: flex;
+  flex-direction: row;
+  bottom: 1.5vmin;
+  left: 1vmin;
+  position: absolute;
+}
+
+.amount-control button {
+  margin: 1vmin;
+  background-color: darkorange;
+  color: white;
+  border: none;
+  border-radius: 0.5vmin;
+  cursor: pointer;
+  font-size: 2vmin;
+  width: 4.5vmin;
+}
+
+.amount-control input {
+  padding: 1vmin 1vmin;
+  margin-top: 1vmin;
+  margin-bottom: 1vmin;
+  margin-left: 0vmin;
+  margin-right: 0vmin;
+  width: 6vmin;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  bottom: 1vmin;
+  right: 1vmin;
+  position: absolute;
+}
+
+.button-container button {
+  padding: 1vmin 2vmin;
+  margin: 1vmin;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 1vmin;
+  cursor: pointer;
+  font-size: 3vmin;
+}
